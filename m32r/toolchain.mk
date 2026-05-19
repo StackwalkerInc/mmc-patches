@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 CC=m32r-elf-gcc
 LD=m32r-elf-ld
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 void __attribute__((weak)) update_current_gear();
 void __attribute__((weak)) update_nlts_target_torque_limit();

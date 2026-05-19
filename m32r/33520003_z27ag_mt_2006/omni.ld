@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 INCLUDE ../m32170.ld
 INCLUDE ../math.ld
 INCLUDE description.ld

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "stdint.h"
 
 uint_fast16_t can0_slot_rx_get_data(uint_fast16_t p_slot, uint8_t *data);

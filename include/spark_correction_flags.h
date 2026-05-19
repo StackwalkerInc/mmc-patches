@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MMC_SPARK_CORRECTION_FLAGS_H
 #define MMC_SPARK_CORRECTION_FLAGS_H
 

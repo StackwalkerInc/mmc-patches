@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include <fmath.h>
 #include <maps_decl.h>
 

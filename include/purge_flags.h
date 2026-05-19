@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef PURGE_FLAGS_H
 #define PURGE_FLAGS_H
 

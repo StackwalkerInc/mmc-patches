@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 P0DATA = 0x800700;
 P10DATA = 0x80070a;
 TML0CT = 0x8003e0;

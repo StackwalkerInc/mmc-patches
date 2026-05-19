@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef ACCEL_PEDAL_FLAGS_H
 #define ACCEL_PEDAL_FLAGS_H
 

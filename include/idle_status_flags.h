@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MMC_IDLE_STATUS_FLAGS_H
 #define MMC_IDLE_STATUS_FLAGS_H
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef NLTS2_DATA_H
 #define NLTS2_DATA_H
 

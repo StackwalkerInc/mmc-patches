@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef COMMON_FLAGS_H
 #define COMMON_FLAGS_H
 

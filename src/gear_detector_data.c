@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "gear_detector_data.h"
 
 #include <maps_desc.h>

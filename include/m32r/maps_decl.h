@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MAPS_DECL_H
 #define MAPS_DECL_H
 

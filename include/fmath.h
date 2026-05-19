@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MMC_FIXED_POINT_MATH_H
 #define MMC_FIXED_POINT_MATH_H
 

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 
 "Fuel cut for nlts/launch [m32r-bl]" fuel_cut_splice_into_location : {
 	LONG(update_run_state_extended_flags_overrev)

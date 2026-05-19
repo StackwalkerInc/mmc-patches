@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include <stdint.h>
 
 extern void update_purge_control_solenoid_duty(uint_fast16_t val, uint_fast16_t tmax, uint_fast16_t valmax);

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MMC_DEFS_H
 #define MMC_DEFS_H
 

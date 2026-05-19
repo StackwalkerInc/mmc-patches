@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  # C/H formatting
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.8
+    hooks:
+      - id: clang-format
+        types_or: [c, c++]
+
+  # YAML linting (GitHub Actions workflows)
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint.yaml]
+
+  # TOML formatting
+  - repo: https://github.com/tamasfe/taplo
+    rev: release/0.9.3
+    hooks:
+      - id: taplo-format
+
+  # SPDX license header checks
+  - repo: local
+    hooks:
+      - id: spdx-c
+        name: SPDX header (C/H)
+        language: pygrep
+        entry: 'SPDX-License-Identifier: GPL-3\.0-or-later'
+        args: [--negate]
+        types_or: [c, c++]
+
+      - id: spdx-ld
+        name: SPDX header (linker scripts)
+        language: pygrep
+        entry: 'SPDX-License-Identifier: GPL-3\.0-or-later'
+        args: [--negate]
+        files: '\.ld$'
+
+      - id: spdx-make
+        name: SPDX header (Makefiles)
+        language: pygrep
+        entry: 'SPDX-License-Identifier: GPL-3\.0-or-later'
+        args: [--negate]
+        types: [makefile]

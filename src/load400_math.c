@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include <stdint.h>
 
 uint32_t ps_scale32_base512(uint32_t x, uint16_t y)

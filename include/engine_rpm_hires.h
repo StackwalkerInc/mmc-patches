@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef ENGINE_RPM_HIRES_H
 #define ENGINE_RPM_HIRES_H
 

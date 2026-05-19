@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef CAN_IDS_H
 #define CAN_IDS_H
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef OPEN_CLOSED_LOOP_FLAGS_H
 #define OPEN_CLOSED_LOOP_FLAGS_H
 

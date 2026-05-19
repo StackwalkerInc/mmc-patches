@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 mut_table_start = 0x3b4f4;
 
 P0DATA = 0x800700;

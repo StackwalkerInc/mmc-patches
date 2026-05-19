@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef BASIC_AGES_AND_DECAYS_H
 #define BASIC_AGES_AND_DECAYS_H
 

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 pushi = 0x04ef00;
 popi = 0x04ef18;
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "colt_mt_cvt_dash_control_data.h"
 
 #include <maps_desc.h>

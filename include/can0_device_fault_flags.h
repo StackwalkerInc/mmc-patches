@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 rx11 - meter related dash ecu
 rx7 - speed source
 rx10 - maybe a/c control?

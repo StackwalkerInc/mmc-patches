@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef TPS_VARIABLES_H
 #define TPS_VARIABLES_H
 

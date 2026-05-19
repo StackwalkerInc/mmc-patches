@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "nlts_data.h"
 #include "stdint.h"
 #include "fmath.h"

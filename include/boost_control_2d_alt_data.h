@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef BOOST_CONTROL_2D_ALT_DATA_H
 #define BOOST_CONTROL_2D_ALT_DATA_H
 

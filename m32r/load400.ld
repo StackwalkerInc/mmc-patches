@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
 	"Load400_Patch#1 [m32r-bl]" calc_ipw_override_shaft_multiplication_location : { LONG(ps_scale32_base512) }
 	"Load400_Patch#2" calc_ipw_override_load_x_nominal_ipw_division_location : { SHORT(0x0400) }
 	"Load400_Patch#3" calc_engine_loads_override_lsv_to_load_multiplier1_location : { BYTE(0x0a) }

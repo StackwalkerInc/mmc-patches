@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef BASIC_SPEED_VARIABLES_H
 #define BASIC_SPEED_VARIABLES_H
 

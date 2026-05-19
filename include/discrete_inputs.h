@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef MY_DISCRETE_INPUTS_H
 #define MY_DISCRETE_INPUTS_H
 

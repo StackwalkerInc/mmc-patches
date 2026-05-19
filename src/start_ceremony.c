@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include <fmath.h>
 
 extern uint16_t age_x1_ignition;

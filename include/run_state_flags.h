@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #ifndef RUN_STATE_FLAGS_H
 #define RUN_STATE_FLAGS_H
 
