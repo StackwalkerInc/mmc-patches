@@ -227,7 +227,7 @@ DECLARE_3DMAP8_WITH_DESC(flash_new_warmup_retard_mivec_advance_min_3dmap8,
 	"Warmup Spark Retard - Intake MIVEC Advance Min",
 	"IgnitionCompensation",
 	"DDflash_new_main_spark_maps_load_axis",
-	"DXflash_main_spark_maps_rpm_axis") = 
+	"DXflash_main_spark_maps_rpm_axis") =
 {
 	TEMP_3DMAP_SRC,
 	.xsize = SPARK_RPM_AXIS_SIZE,
@@ -241,7 +241,7 @@ DECLARE_3DMAP8_WITH_DESC(flash_new_warmup_retard_mivec_advance_max_3dmap8,
 	"Warmup Spark Retard - Intake MIVEC Advance Max",
 	"IgnitionCompensation",
 	"DDflash_new_main_spark_maps_load_axis",
-	"DXflash_main_spark_maps_rpm_axis") = 
+	"DXflash_main_spark_maps_rpm_axis") =
 {
 	TEMP_3DMAP_SRC,
 	.xsize = SPARK_RPM_AXIS_SIZE,
@@ -255,7 +255,7 @@ DECLARE_3DMAP8_WITH_DESC(flash_new_warmup_retard_mivec_advance_target_3dmap8,
 	"Warmup Spark Retard - Intake MIVEC Advance at Target",
 	"IgnitionCompensation",
 	"DDflash_new_main_spark_maps_load_axis",
-	"DXflash_main_spark_maps_rpm_axis") = 
+	"DXflash_main_spark_maps_rpm_axis") =
 {
 	TEMP_3DMAP_SRC,
 	.xsize = SPARK_RPM_AXIS_SIZE,
@@ -271,7 +271,7 @@ DECLARE_3DMAP8_WITH_DESC(flash_new_mivec_target_3dmap8_main,
 	"MIVEC Intake Target Angle - Main",
 	"ValveTimingIntake",
 	"DDflash_new_mivec_map_load_axis",
-	"DXflash_mivec_target_rpm_axis") = 
+	"DXflash_mivec_target_rpm_axis") =
 {
 	TEMP_3DMAP_SRC,
 	.xsize = MIVEC_RPM_AXIS_SIZE,
@@ -285,7 +285,7 @@ DECLARE_3DMAP8_WITH_DESC(flash_new_mivec_target_3dmap8_alt,
 	"MIVEC Intake Target Angle - Alt",
 	"ValveTimingIntake",
 	"DDflash_new_mivec_map_load_axis",
-	"DXflash_mivec_target_rpm_axis") = 
+	"DXflash_mivec_target_rpm_axis") =
 {
 	TEMP_3DMAP_SRC,
 	.xsize = MIVEC_RPM_AXIS_SIZE,

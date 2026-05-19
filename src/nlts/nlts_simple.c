@@ -35,7 +35,7 @@ static void update_nlts_flags()
 	BIT_SET_CONDITION(nlts_flags, NLTS_FLAGS_CURRENT_GEAR_CORRECT, 0);
 	BIT_SET_CONDITION(nlts_flags, NLTS_FLAGS_GEAR_HIGH, gear_ratio < flash_nlts_gear_ratio_high);
 	BIT_SET_CONDITION(nlts_flags, NLTS_FLAGS_CLUTCH_PARTIAL_ENGAGEMENT,
-		(nlts_state == NLTS_STATE_ON) && 
+		(nlts_state == NLTS_STATE_ON) &&
 		((nlts_flags & NLTS_FLAGS_CLUTCH_PARTIAL_ENGAGEMENT)
 		|| (decays_x1_nlts_active < s_sub16(flash_init_nlts_active_decay, flash_nlts_delta_holdoff))
 		&& (engine_rpm_delta_neg > flash_nlts_rpm_delta_threshold)));
@@ -107,4 +107,3 @@ void update_nlts_target_torque_limit()
 		}
 	}
 }
-

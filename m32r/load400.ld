@@ -7,7 +7,7 @@
 	"Load400_Patch#6" load400_math_space : { ../../src/load400_math.o(.text) }
 	"Load400_Patch#7" tomo_calc_engine_loads_override_lsv_to_load_multiplier_location : { BYTE(0x0a) }
 	"Load400_Patch#8" tomo_calc_engine_loads_override_lsv_to_flow_multiplier_location : { SHORT(0x0200) }
-	"Load400_Patch#9" divide_by2_maf_charge_max_base_vs_rpm_2dmap16_location : { 
+	"Load400_Patch#9" divide_by2_maf_charge_max_base_vs_rpm_2dmap16_location : {
 		SHORT(0x2F5C)
 		SHORT(0x328F)
 		SHORT(0x37AE)
@@ -36,4 +36,3 @@
 		SHORT(0x2fdf)
 	}
 	"Load400_Patch#14" ipw_safe_change_load_source_threshold_location : { SHORT(102) }
-

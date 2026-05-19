@@ -3,7 +3,7 @@
 
 #include <maps_desc.h>
 
-#define GEAR_THRESHOLD_DEF(target, inth, outth) { .low_in = target - inth, .low_out = target - outth, .high_in = target + inth, .high_out = target + outth, } 
+#define GEAR_THRESHOLD_DEF(target, inth, outth) { .low_in = target - inth, .low_out = target - outth, .high_in = target + inth, .high_out = target + outth, }
 
 #if MACHINE_Z27AGMT
 /**
@@ -89,4 +89,3 @@ DECLARE_ARRAY_DESC(flash_gear_thresholds,
 
 
 const uint16_t flash_init_gear_unstable = 2;
-

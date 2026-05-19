@@ -66,7 +66,7 @@ void update_mode_selector()
 		writeu16(flash_alt_mode_change_cel_flash_time, decays_x1_alt_mode_change_cel_flash_timer);
 		writeu16(l_old_mode_index * 2 + GET_ALT_MODE_INDEX, alt_mode_change_cel_flash_pattern);
 	}
-		
+
 }
 
 uint16_t alt_mode_change_cel()
@@ -113,4 +113,3 @@ void new_adc_convert_mode_input()
 	update_mode_selector();
 	new_mode_idx = GET_ALT_MODE_INDEX ? 1 : 0;
 }
-

@@ -84,4 +84,3 @@ DEFINE_ALT_3DMULTIMAPU8(wastegate_base_duty_low_gear);
 
 DEFINE_ALT_3DMULTIMAPU8(boost_target_load_high_gear);
 DEFINE_ALT_3DMULTIMAPU8(boost_target_load_low_gear);
-

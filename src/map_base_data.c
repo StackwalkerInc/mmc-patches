@@ -136,4 +136,3 @@ DECLARE_2DMAP8_WITH_DESC(flash_mat_sensor_2dmap8,
 	}
 
 };
-
