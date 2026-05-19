@@ -25,12 +25,6 @@ repos:
       - id: yamllint
         args: [-c, .yamllint.yaml]
 
-  # TOML formatting
-  - repo: https://github.com/tamasfe/taplo
-    rev: release/0.9.3
-    hooks:
-      - id: taplo-format
-
   # SPDX license header checks
   - repo: local
     hooks:
