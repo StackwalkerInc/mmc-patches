@@ -19,11 +19,9 @@ extern const uint8_t flash_nlts_proportional_divisor_multiu8a[8];
 extern const uint16_t flash_nlts_gear_ratio_high;
 extern const uint16_t flash_nlts_rpm_ratio_high;
 extern const uint16_t flash_nlts_rpm_ratio_low;
-//extern const uint16_t flash_nlts_fuelcut_holdoff;
-
+// extern const uint16_t flash_nlts_fuelcut_holdoff;
 
 #define NLTS_NEUTRAL_TORQUE 16384
-
 
 extern const uint16_t flash_nlts_gear_down_rpm_max;
 extern const uint8_t flash_nlts_gear_max;
@@ -39,20 +37,19 @@ extern uint16_t nlts_rpm_error;
 extern uint16_t nlts_torque_limit;
 extern uint16_t nlts_integral_torque_correction;
 
-#define NLTS_FLAGS_APPS_HIGH			0x01
-#define NLTS_FLAGS_CLUTCH_DEPRESSED		0x02
-#define NLTS_FLAGS_GEAR_DOWN_RPM		0x04
-#define NLTS_FLAGS_CURRENT_GEAR_CORRECT		0x08
-#define NLTS_FLAGS_CLUTCH_PARTIAL_ENGAGEMENT	0x10
-#define NLTS_FLAGS_FUEL_CUT			0x20
-#define NLTS_FLAGS_GEAR_HIGH			0x40
-#define NLTS_FLAGS_SPARK_CUT			0x80
-#define NLTS_FLAGS_CUTS				(NLTS_FLAGS_FUEL_CUT | NLTS_FLAGS_SPARK_CUT)
-#define NLTS_FLAGS_RPM_HIGH			0x0100
+#define NLTS_FLAGS_APPS_HIGH 0x01
+#define NLTS_FLAGS_CLUTCH_DEPRESSED 0x02
+#define NLTS_FLAGS_GEAR_DOWN_RPM 0x04
+#define NLTS_FLAGS_CURRENT_GEAR_CORRECT 0x08
+#define NLTS_FLAGS_CLUTCH_PARTIAL_ENGAGEMENT 0x10
+#define NLTS_FLAGS_FUEL_CUT 0x20
+#define NLTS_FLAGS_GEAR_HIGH 0x40
+#define NLTS_FLAGS_SPARK_CUT 0x80
+#define NLTS_FLAGS_CUTS (NLTS_FLAGS_FUEL_CUT | NLTS_FLAGS_SPARK_CUT)
+#define NLTS_FLAGS_RPM_HIGH 0x0100
 
 #define NLTS_STATE_OFF 0
 #define NLTS_STATE_ON 1
 #define NLTS_STATE_UNLIMITED 2
-
 
 #endif /*NLTS2_DATA_H*/

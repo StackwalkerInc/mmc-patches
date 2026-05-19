@@ -10,3 +10,4 @@ BreakBeforeBinaryOperators: NonAssignment
 ColumnLimit: 120
 SpaceBeforeParens: ControlStatements
 IndentCaseLabels: false
+SortIncludes: Never

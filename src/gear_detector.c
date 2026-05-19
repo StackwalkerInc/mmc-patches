@@ -15,30 +15,30 @@ extern uint16_t decays_x1_gear_unstable;
 extern uint8_t calculated_gear;
 extern uint8_t current_gear;
 
+// clang-format off
 #define readu8(x) (x)
 #define writeu8(v, x) do { x = v; } while (0)
 #define readu16(x) (x)
 #define writeu16(v, x) do { x = v; } while (0)
+// clang-format on
 
 static void update_gear_flags()
 {
 #ifdef MACHINE_Z27AGMT
-	uint16_t l_gear_ratio = s16_divu32_16(readu16(can_vehicle_speed) << 14 , readu16(engine_rpm));;
+	uint16_t l_gear_ratio = s16_divu32_16(readu16(can_vehicle_speed) << 14, readu16(engine_rpm));
+	;
 #else
-	uint16_t l_gear_ratio = s16_divu32_16(readu16(can_vehicle_speed) << 16 , readu16(engine_rpm));
+	uint16_t l_gear_ratio = s16_divu32_16(readu16(can_vehicle_speed) << 16, readu16(engine_rpm));
 #endif
 	uint16_t l_cgear = readu8(calculated_gear);
-	if ((l_cgear >= 1)
-	&& (l_cgear <= 6)
-	&& (l_gear_ratio > flash_gear_thresholds[l_cgear-1].low_out)
-	&& (l_gear_ratio < flash_gear_thresholds[l_cgear-1].high_out)) {
+	if ((l_cgear >= 1) && (l_cgear <= 6) && (l_gear_ratio > flash_gear_thresholds[l_cgear - 1].low_out)
+	    && (l_gear_ratio < flash_gear_thresholds[l_cgear - 1].high_out)) {
 		return;
 	}
 	unsigned i;
 	l_cgear = 0;
 	for (i = 0; i < itemsof(flash_gear_thresholds); ++i) {
-		if ((l_gear_ratio > flash_gear_thresholds[i].low_in)
-		&& (l_gear_ratio < flash_gear_thresholds[i].high_in)) {
+		if ((l_gear_ratio > flash_gear_thresholds[i].low_in) && (l_gear_ratio < flash_gear_thresholds[i].high_in)) {
 			l_cgear = i + 1;
 			break;
 		}

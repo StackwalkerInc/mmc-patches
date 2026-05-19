@@ -23,7 +23,6 @@ extern const uint16_t flash_map_zero_offset;
 extern const void *const flash_mat_sensor_axis;
 extern const void *const flash_mat_sensor_2dmap8;
 
-
 void update_mat()
 {
 	adc_run(ADC_CHANNEL_MAT, &adc_byte_mat, &adc_full_mat);
@@ -58,7 +57,6 @@ void hijack_calc_iat()
 	calc_iat();
 	update_mat();
 }
-
 
 void hijack_800hz_adc_call()
 {

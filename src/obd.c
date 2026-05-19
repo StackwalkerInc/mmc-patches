@@ -14,16 +14,18 @@ extern uint16_t decays_x1_signature;
 extern unsigned get_ig1();
 extern void regen_crankshaft_rotation_decays();
 
+// clang-format off
 #define CHECK_G16(x) ((x & 0xff) == (((~x) >> 8) & 0xff))
 #define WRITE_G16(x, v) do { x = (v & 0xff) | (((~v) << 8) & 0xff00); } while (0)
 #define READ_G16(x) (x & 0xff)
+// clang-format on
 
 static void generate_new_vin()
 {
 	do {
 		int i = 0;
 		unsigned ct = TML0CT * 1664525 + 1013904223;
-		uint8_t *ct_ptr = (uint8_t*)&ct;
+		uint8_t *ct_ptr = (uint8_t *)&ct;
 		for (i = 0; i < VIN_SIZE; ++i) {
 			vin[i] = ct_ptr[i];
 			shadow_vin[i] = ~vin[i];
@@ -63,82 +65,82 @@ static unsigned ensure_vin_correctness()
 /*
 static unsigned bin2hex(unsigned bin)
 {
-	if (bin > 15)
-		return '?';
-	static unsigned char str[] = "0123456789ABCDEF";
-	return str[bin] & 0xff;
+    if (bin > 15)
+        return '?';
+    static unsigned char str[] = "0123456789ABCDEF";
+    return str[bin] & 0xff;
 }
 
 void obd_mode9_handler()
 {
-	switch (sio0_rx_buffer[4]) {
-	case 0://supported pids
-		sio0_tx_buffer[4] = 0xfc;
-		sio0_tx_buffer[5] = 0xc0;
-		sio0_tx_buffer[6] = 0x00;
-		sio0_tx_buffer[7] = 0x00;
-		sio0_tx_count = 9;
-		break;
-	case 1://vin message count
-		sio0_tx_buffer[4] = 1;
-		sio0_tx_count = 6;
-		break;
-	case 2: //vin
-		sio0_tx_buffer[4] = 'N';
-		if (!ensure_vin_correctness())
-			sio0_tx_buffer[4] += 1;
-		sio0_tx_buffer[5] = bin2hex((vin[0] >> 4) & 0x0f);
-		sio0_tx_buffer[6] = bin2hex(vin[0] & 0x0f);
-		sio0_tx_buffer[7] = bin2hex((vin[1] >> 4) & 0x0f);
-		sio0_tx_buffer[8] = bin2hex(vin[1] & 0x0f);
-		sio0_tx_count = 10;
-		break;
-	case 3://vin message count
-		sio0_tx_buffer[4] = 1;
-		sio0_tx_count = 6;
-		break;
-	case 4: //vin
-		sio0_tx_buffer[4] = 'V';
-		if (!ensure_vin_correctness())
-			sio0_tx_buffer[4] += 1;
-		sio0_tx_buffer[5] = bin2hex((vin[2] >> 4) & 0x0f);
-		sio0_tx_buffer[6] = bin2hex(vin[2] & 0x0f);
-		sio0_tx_buffer[7] = bin2hex((vin[3] >> 4) & 0x0f);
-		sio0_tx_buffer[8] = bin2hex(vin[3] & 0x0f);
-		sio0_tx_count = 10;
-		break;
-	case 5://vin message count
-		sio0_tx_buffer[4] = 1;
-		sio0_tx_count = 6;
-		break;
-	case 6: //vin
-		sio0_tx_buffer[4] = vin[0];
-		sio0_tx_buffer[5] = vin[1];
-		sio0_tx_buffer[6] = vin[2];
-		sio0_tx_buffer[7] = vin[3];
-		sio0_tx_count = 9;
-		break;
-	case 9: //ecu name message count
-		sio0_tx_buffer[4] = 1;
-		sio0_tx_count = 6;
-		break;
-	case 10:
-		sio0_tx_buffer[4] = 'R';
-		sio0_tx_buffer[5] = 'C';
-		sio0_tx_buffer[6] = 'm';
-		sio0_tx_buffer[7] = 'k';
-		sio0_tx_buffer[8] = '1';
-		sio0_tx_count = 10;
-	default:
-		break;
-	}
+    switch (sio0_rx_buffer[4]) {
+    case 0://supported pids
+        sio0_tx_buffer[4] = 0xfc;
+        sio0_tx_buffer[5] = 0xc0;
+        sio0_tx_buffer[6] = 0x00;
+        sio0_tx_buffer[7] = 0x00;
+        sio0_tx_count = 9;
+        break;
+    case 1://vin message count
+        sio0_tx_buffer[4] = 1;
+        sio0_tx_count = 6;
+        break;
+    case 2: //vin
+        sio0_tx_buffer[4] = 'N';
+        if (!ensure_vin_correctness())
+            sio0_tx_buffer[4] += 1;
+        sio0_tx_buffer[5] = bin2hex((vin[0] >> 4) & 0x0f);
+        sio0_tx_buffer[6] = bin2hex(vin[0] & 0x0f);
+        sio0_tx_buffer[7] = bin2hex((vin[1] >> 4) & 0x0f);
+        sio0_tx_buffer[8] = bin2hex(vin[1] & 0x0f);
+        sio0_tx_count = 10;
+        break;
+    case 3://vin message count
+        sio0_tx_buffer[4] = 1;
+        sio0_tx_count = 6;
+        break;
+    case 4: //vin
+        sio0_tx_buffer[4] = 'V';
+        if (!ensure_vin_correctness())
+            sio0_tx_buffer[4] += 1;
+        sio0_tx_buffer[5] = bin2hex((vin[2] >> 4) & 0x0f);
+        sio0_tx_buffer[6] = bin2hex(vin[2] & 0x0f);
+        sio0_tx_buffer[7] = bin2hex((vin[3] >> 4) & 0x0f);
+        sio0_tx_buffer[8] = bin2hex(vin[3] & 0x0f);
+        sio0_tx_count = 10;
+        break;
+    case 5://vin message count
+        sio0_tx_buffer[4] = 1;
+        sio0_tx_count = 6;
+        break;
+    case 6: //vin
+        sio0_tx_buffer[4] = vin[0];
+        sio0_tx_buffer[5] = vin[1];
+        sio0_tx_buffer[6] = vin[2];
+        sio0_tx_buffer[7] = vin[3];
+        sio0_tx_count = 9;
+        break;
+    case 9: //ecu name message count
+        sio0_tx_buffer[4] = 1;
+        sio0_tx_count = 6;
+        break;
+    case 10:
+        sio0_tx_buffer[4] = 'R';
+        sio0_tx_buffer[5] = 'C';
+        sio0_tx_buffer[6] = 'm';
+        sio0_tx_buffer[7] = 'k';
+        sio0_tx_buffer[8] = '1';
+        sio0_tx_count = 10;
+    default:
+        break;
+    }
 }
 */
 
 void obd_mode_a1_handler()
 {
 	switch (sio0_rx_buffer[4]) {
-	case 1: //code status
+	case 1: // code status
 		if (ensure_vin_correctness()) {
 			sio0_tx_buffer[4] = 1;
 		} else {
@@ -146,7 +148,7 @@ void obd_mode_a1_handler()
 		}
 		sio0_tx_count = 6;
 		break;
-	case 2: //vin
+	case 2: // vin
 		if (!check_vin_correctness()) {
 			break;
 		}

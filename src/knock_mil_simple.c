@@ -5,12 +5,14 @@
 #include <tps_variables.h>
 #include <run_state_flags.h>
 
+// clang-format off
 #define readu16(x) (x)
 #define writeu16(v, x) do { x = (v); } while (0)
 
 #define KNOCK_MIL_LOW	0x01
 #define KNOCK_MIL_MED	0x02
 #define KNOCK_MIL_HIGH	0x04
+// clang-format on
 
 extern const uint16_t flash_init_knock_mil_flash_timer[4];
 extern const uint16_t flash_init_knock_mil_flash_decay;
@@ -47,14 +49,16 @@ static unsigned knock_mil_condition()
 		decays_x1_knock_mil_flash = 0;
 		decays_x1_mil_pulse_timer = 0;
 	}
-	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_LOW, knock_sum, flash_knock_mil_thresholds[0], flash_knock_mil_thresholds[1]);
-	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_MED, knock_sum, flash_knock_mil_thresholds[2], flash_knock_mil_thresholds[3]);
-	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_HIGH, knock_sum, flash_knock_mil_thresholds[4], flash_knock_mil_thresholds[5]);
+	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_LOW, knock_sum, flash_knock_mil_thresholds[0],
+	                flash_knock_mil_thresholds[1]);
+	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_MED, knock_sum, flash_knock_mil_thresholds[2],
+	                flash_knock_mil_thresholds[3]);
+	HYSTERESIS_FLAG(knock_mil_flags, KNOCK_MIL_HIGH, knock_sum, flash_knock_mil_thresholds[4],
+	                flash_knock_mil_thresholds[5]);
 	uint_fast16_t nkmf = knock_mil_flags;
 	unsigned l_reset = ((okmf ^ nkmf) & nkmf) ? 1 : 0;
 
-	if ((map_engine_load < flash_knock_mil_load_min)
-	&& (tps_main_rcord < flash_knock_mil_tps_min)) {
+	if ((map_engine_load < flash_knock_mil_load_min) && (tps_main_rcord < flash_knock_mil_tps_min)) {
 		if (flash_drop_knock_cel_on_low_tps_and_load) {
 			writeu16(0, decays_x1_knock_mil_flash);
 			writeu16(0, knock_mil_state);

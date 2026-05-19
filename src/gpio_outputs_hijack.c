@@ -9,32 +9,26 @@ void __attribute__((weak)) update_cvt_dash_data();
 
 void update_current_gear()
 {
-
 }
 
 void update_nlts_target_torque_limit()
 {
-
 }
 
 void update_revolution_limit()
 {
-
 }
 
 void update_load1byte()
 {
-
 }
 
 void update_shift_light()
 {
-
 }
 
 void update_cvt_dash_data()
 {
-
 }
 
 void new_update_gpio_outputs()

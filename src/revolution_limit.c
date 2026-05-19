@@ -40,8 +40,7 @@ extern const void *const flash_revolution_limit_spark_limit_nlts_2dmap8;
 extern const void *const flash_revolution_limit_spark_regeneration_launch_2dmap8;
 extern const void *const flash_revolution_limit_spark_regeneration_nlts_2dmap8;
 
-#define MAX(x,y) (x < y ? y : x)
-
+#define MAX(x, y) (x < y ? y : x)
 
 void update_revolution_limit()
 {
@@ -53,16 +52,17 @@ void update_revolution_limit()
 	} else {
 		temp_axis_src = engine_rpm;
 		calc_axis(&flash_revolution_limit_rpm_axis);
-		init_overrev_spark_limit = s_mul16(flash_revolution_limit_spark_decay_cycles_per_tick[vehicle_movement_decay ? 1 : 0],
-			 map8u16(vehicle_movement_decay
-				? &flash_revolution_limit_spark_limit_nlts_2dmap8
-				: &flash_revolution_limit_spark_limit_launch_2dmap8));
-		overrev_spark_limit_dec_step = map8u16(vehicle_movement_decay
-			? &flash_revolution_limit_spark_regeneration_nlts_2dmap8
-			: &flash_revolution_limit_spark_regeneration_launch_2dmap8);
+		init_overrev_spark_limit =
+		    s_mul16(flash_revolution_limit_spark_decay_cycles_per_tick[vehicle_movement_decay ? 1 : 0],
+		            map8u16(vehicle_movement_decay ? &flash_revolution_limit_spark_limit_nlts_2dmap8
+		                                           : &flash_revolution_limit_spark_limit_launch_2dmap8));
+		overrev_spark_limit_dec_step =
+		    map8u16(vehicle_movement_decay ? &flash_revolution_limit_spark_regeneration_nlts_2dmap8
+		                                   : &flash_revolution_limit_spark_regeneration_launch_2dmap8);
 	}
 
-	uint_fast16_t l_base_limit = sensor_faults & 0x08 ? flash_maf_fault_revolution_period_limit : flash_revolution_period_limit;
+	uint_fast16_t l_base_limit =
+	    sensor_faults & 0x08 ? flash_maf_fault_revolution_period_limit : flash_revolution_period_limit;
 	if (!vehicle_movement_decay && IS_CLUTCH_DEPRESSED && flash_simple_standing_revolution_limit_enabled) {
 		revolution_limit = MAX(flash_launch_control_revolution_limit, l_base_limit);
 		return;
@@ -81,7 +81,8 @@ void update_revolution_limit()
 void update_run_state_extended_flags_overrev()
 {
 #ifdef REVLIMIT_FUELCUT_DISABLED
-	if (shaft_period1_copy_dline0 < (sensor_faults & 0x08 ? flash_maf_fault_revolution_period_limit : flash_revolution_period_limit)) {
+	if (shaft_period1_copy_dline0
+	    < (sensor_faults & 0x08 ? flash_maf_fault_revolution_period_limit : flash_revolution_period_limit)) {
 		run_state_extended_flags |= 0x20;
 	} else {
 		run_state_extended_flags &= ~0x20;
@@ -111,7 +112,8 @@ uint16_t new_test_substitute_spark_advance_int(uint16_t p0)
 	if (!overrev_cycle_decay) {
 		overrev_spark_limit = s_sub16(overrev_spark_limit, overrev_spark_limit_dec_step);
 	}
-	uint_fast16_t limit = s_divu16(overrev_spark_limit, flash_revolution_limit_spark_decay_cycles_per_tick[vehicle_movement_decay ? 1 : 0]);
+	uint_fast16_t limit = s_divu16(overrev_spark_limit,
+	                               flash_revolution_limit_spark_decay_cycles_per_tick[vehicle_movement_decay ? 1 : 0]);
 	if (p0 < limit) {
 		return limit;
 	}
@@ -124,14 +126,16 @@ uint16_t new_test_substitute_spark_advance_int(uint16_t p0)
 #if defined(ARCH_M32R)
 void kill_spark()
 {
-	if (overrev_cycle_decay > s_sub16(flash_init_overrev_cycle_decay[vehicle_movement_decay ? 1 : 0], flash_overrev_kill_spark_cycles[vehicle_movement_decay ? 1 : 0])) {
+	if (overrev_cycle_decay > s_sub16(flash_init_overrev_cycle_decay[vehicle_movement_decay ? 1 : 0],
+	                                  flash_overrev_kill_spark_cycles[vehicle_movement_decay ? 1 : 0])) {
 		oneshot_crank_event_flags |= 0x1000;
 	}
 }
 #elif defined(ARCH_SH2)
-uint_fast16_t get_coil_dwell_max_substituting_s_scale_base128(uint_fast16_t p_shaft_period, uint_fast16_t p_dwell_max_ratio)
+uint_fast16_t get_coil_dwell_max_substituting_s_scale_base128(uint_fast16_t p_shaft_period,
+                                                              uint_fast16_t p_dwell_max_ratio)
 {
-	//if (
+	// if (
 }
 #else
 #error "Unknown ARCH_"
@@ -149,7 +153,6 @@ void new_tacho_reset()
 #warning "disabled fuel enrichment - disabling enrichment"
 #else
 
-
 void update_post_fuel_cut_enrichment()
 {
 	extern uint16_t post_fuel_cut_enrichment;
@@ -160,9 +163,9 @@ void update_post_fuel_cut_enrichment()
 		calc_axis(&flash_revolution_limit_rpm_axis);
 		temp_axis_src = map_engine_load;
 		calc_axis(&flash_revolution_limit_load_axis);
-		post_fuel_cut_enrichment = s_add16(128, map8u16(vehicle_movement_decay
-			? &flash_post_fuel_cut_enrichment_nlts_3dmap8
-			: &flash_post_fuel_cut_enrichment_launch_3dmap8));
+		post_fuel_cut_enrichment =
+		    s_add16(128, map8u16(vehicle_movement_decay ? &flash_post_fuel_cut_enrichment_nlts_3dmap8
+		                                                : &flash_post_fuel_cut_enrichment_launch_3dmap8));
 	}
 }
 

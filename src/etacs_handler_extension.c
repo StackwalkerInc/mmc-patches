@@ -23,7 +23,8 @@ void can_etacs_rx_update()
 		/*ok*/
 	}
 
-	if (!(ret & 0x0400)) return;//no new message
+	if (!(ret & 0x0400))
+		return; // no new message
 
 	position_lights = can_rx_buffer_main[2] & ETACS_DATA2_FOG_LIGHTS ? 1 : 0;
 }

@@ -2,8 +2,8 @@
 #include <stdint.h>
 
 #include "gpio.h"
-//#include "memaccess.h"
-//#include "memory_map.h"
+// #include "memaccess.h"
+// #include "memory_map.h"
 #include "basic_ages_and_decays.h"
 #include "fmath.h"
 #include "mode_selector.h"
@@ -11,8 +11,10 @@
 #include <tps_variables.h>
 #include <defs.h>
 
+// clang-format off
 #define readu16(x) (x)
 #define writeu16(v, x) do { x = (v); } while (0)
+// clang-format on
 
 extern uint16_t adc_byte_ac_pressure;
 extern uint16_t mode_switch_delay;
@@ -22,7 +24,6 @@ extern uint16_t mode_selector_flags;
 extern uint16_t alt_mode_change_cel_flash_pattern;
 
 extern uint16_t new_mode_idx;
-
 
 extern void adc_convert_mode_input();
 
@@ -48,14 +49,12 @@ void update_mode_selector()
 	}
 	if (flash_reset_alt_mode_on_ignition_cycle && (readu16(age_x1_ignition) < 20)) {
 		SET_ALT_MODE_INDEX(0);
-	} else if ((readu16(age_x1_ignition) < 40)
-	&& (readu16(tps_main_rcord) > flash_tps_alt_threshold)) {
+	} else if ((readu16(age_x1_ignition) < 40) && (readu16(tps_main_rcord) > flash_tps_alt_threshold)) {
 		if (!l_old_mode_index) {
 			SET_ALT_MODE_INDEX(1);
 			l_mode_changed = 1;
 		}
-	}
-	else if (IS_CLUTCH_DEPRESSED && !position_lights_prev && position_lights) {
+	} else if (IS_CLUTCH_DEPRESSED && !position_lights_prev && position_lights) {
 		uint16_t new_index = l_old_mode_index ? 0 : 1;
 		SET_ALT_MODE_INDEX(new_index);
 		l_mode_changed = 1;
@@ -66,7 +65,6 @@ void update_mode_selector()
 		writeu16(flash_alt_mode_change_cel_flash_time, decays_x1_alt_mode_change_cel_flash_timer);
 		writeu16(l_old_mode_index * 2 + GET_ALT_MODE_INDEX, alt_mode_change_cel_flash_pattern);
 	}
-
 }
 
 uint16_t alt_mode_change_cel()
@@ -82,21 +80,24 @@ uint16_t alt_mode_change_cel()
 uint_fast16_t altmap8u16(const void *const *desc)
 {
 	unsigned idx = GET_ALT_MODE_INDEX;
-	if (idx >= MODE_COUNT) idx = 0;
+	if (idx >= MODE_COUNT)
+		idx = 0;
 	return map8u16(desc[idx]);
 }
 
-uint_fast16_t altmapu16(const void * const *desc)
+uint_fast16_t altmapu16(const void *const *desc)
 {
 	unsigned idx = GET_ALT_MODE_INDEX;
-	if (idx >= MODE_COUNT) idx = 0;
+	if (idx >= MODE_COUNT)
+		idx = 0;
 	return mapu16(desc[idx]);
 }
 
 uint_fast16_t multiptru16a_dereferenced(const uint16_t *const *arr)
 {
 	unsigned idx = GET_ALT_MODE_INDEX;
-	if (idx >= MODE_COUNT) idx = 0;
+	if (idx >= MODE_COUNT)
+		idx = 0;
 	return *arr[idx];
 }
 
