@@ -16,14 +16,12 @@ repos:
     rev: v18.1.8
     hooks:
       - id: clang-format
-        types_or: [c, c++]
 
   # YAML linting (GitHub Actions workflows)
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
       - id: yamllint
-        args: [-c, .yamllint.yaml]
 
   # SPDX license header checks
   - repo: local
