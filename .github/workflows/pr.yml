@@ -1,0 +1,24 @@
+name: pr
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile all ROM targets
+        run: make compile
+
+      - name: Upload ELF artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: elf-pr-${{ github.event.pull_request.number }}
+          path: '**/*.elf'
+          if-no-files-found: error

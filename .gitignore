@@ -2,4 +2,3 @@ roms/
 out/
 *.o
 *.elf
-tools/codeinjector/codeinjector

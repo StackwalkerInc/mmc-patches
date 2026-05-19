@@ -1,28 +1,36 @@
-# Top-level Makefile — builds the codeinjector tool then runs all ROM targets.
-# Use ROM_DIR to point at the directory containing your stock ROM files.
-# Example: make ROM_DIR=/path/to/roms z27ag
+DOCKER_IMAGE = ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
 
 export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out
 
-CODEINJECTOR_BIN = tools/codeinjector/codeinjector
+ROM_DIRS = m32r/33520003_z27ag_mt_2006
 
-.PHONY: all z27ag codeinjector clean
+.PHONY: all compile clean docker docker-compile $(ROM_DIRS) $(ROM_DIRS:%=%-compile)
 
-all: z27ag
+# Build patched ROM + XML for all targets (requires ROMs in roms/).
+all: $(ROM_DIRS)
 
-codeinjector: $(CODEINJECTOR_BIN)
+# Compile to ELF for all targets (no ROM needed — used by CI).
+compile: $(ROM_DIRS:%=%-compile)
 
-$(CODEINJECTOR_BIN):
-	$(MAKE) -C tools/codeinjector
+$(ROM_DIRS):
+	$(MAKE) -C $@ ROM_DIR=$(ROM_DIR) OUT_DIR=$(OUT_DIR)
 
-z27ag: $(CODEINJECTOR_BIN) $(OUT_DIR)
-	$(MAKE) -C m32r/33520003_z27ag_mt_2006 ROM_DIR=$(ROM_DIR) OUT_DIR=$(OUT_DIR)
+$(ROM_DIRS:%=%-compile):
+	$(MAKE) -C $(@:%-compile=%) compile
 
 $(OUT_DIR):
 	mkdir -p $(OUT_DIR)
 
+# Build the patched ROM inside the canonical Docker image.
+docker:
+	docker run --rm -v "$(CURDIR):/work" -w /work $(DOCKER_IMAGE) \
+		make ROM_DIR=/work/roms OUT_DIR=/work/out
+
+# Compile only (no ROM) inside the canonical Docker image.
+docker-compile:
+	docker run --rm -v "$(CURDIR):/work" -w /work $(DOCKER_IMAGE) make compile
+
 clean:
-	$(MAKE) -C tools/codeinjector clean
 	$(MAKE) -C m32r/33520003_z27ag_mt_2006 clean
 	rm -rf $(OUT_DIR)
