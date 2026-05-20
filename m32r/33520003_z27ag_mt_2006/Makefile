@@ -63,11 +63,11 @@ XML_OUT_FILE    = $(OUT_DIR)/3352a403.xml
 
 .PHONY: all compile verify clean
 
-# compile: build the ELF only (no ROM required — used by CI).
-compile: $(ELF_OUT_FILE)
-
 # all: compile + verify ROM + run codeinjector.
 all: verify $(BIN_OUT_FILE) $(XML_OUT_FILE)
+
+# compile: build the ELF only (no ROM required — used by CI).
+compile: $(ELF_OUT_FILE)
 
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
@@ -75,7 +75,8 @@ verify:
 		echo "Place Z27AG_JDM_5MT_1860B104.bin in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
-	@actual=$$(shasum -a 256 "$(ORIGINAL_ROM)" | cut -d' ' -f1); \
+	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \
+	actual=$$(echo "$$actual" | cut -d' ' -f1); \
 	if [ "$$actual" != "$(ROM_SHA256)" ]; then \
 		echo "ERROR: ROM SHA-256 mismatch"; \
 		echo "  expected: $(ROM_SHA256)"; \
