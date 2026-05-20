@@ -75,7 +75,7 @@ description = "Flashes the MIL (check-engine light) in coded patterns indicating
 id          = "mode_selector"
 name        = "Multi-Map Mode Selector"
 category    = "multimap"
-description = "Toggle between up to four distinct tuning profiles (boost maps, rev limits) using a dashboard switch or paddle input."
+description = "Toggles between two tuning profiles (main and alt boost maps, rev limits) by pressing the clutch while flicking the fog light switch. Fog light state is read from the ETACS CAN bus. Mode resets to main on every ignition cycle; a TPS blip above threshold within ~2 s of ignition-on also activates alt mode."
 
 [[rom.patches]]
 id          = "start_ceremony"
@@ -111,7 +111,7 @@ description = "Relays CAN messages from the ASC module to the dash CAN slot requ
 id          = "etacs_extension"
 name        = "ETACS Handler Extension"
 category    = "infrastructure"
-description = "Extends the ETACS CAN receive handler to expose additional body-control inputs (e.g. door/switch states) to other patches."
+description = "Hooks the ETACS CAN receive handler to extract body-control signals from the bus. Currently exposes the fog light switch state (byte 2, bit 4 of the ETACS message) used by the mode selector."
 
 [[rom.patches]]
 id          = "gpio_outputs"
