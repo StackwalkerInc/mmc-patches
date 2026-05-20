@@ -75,13 +75,13 @@ description = "Flashes the MIL (check-engine light) in coded patterns indicating
 id          = "mode_selector"
 name        = "Multi-Map Mode Selector"
 category    = "multimap"
-description = "Toggles between two tuning profiles (main and alt boost maps, rev limits) by pressing the clutch while flicking the fog light switch. Fog light state is read from the ETACS CAN bus. Mode resets to main on every ignition cycle; a TPS blip above threshold within ~2 s of ignition-on also activates alt mode."
+description = "Toggles between two tuning profiles (main and alt boost maps, rev limits) by pressing the clutch while flicking a lighting switch (position or fog lights — exact CAN bit TBD). Mode change is confirmed by a CEL flash pattern and the tachometer needle parking at 2500 RPM (main) or 5000 RPM (alt) while the engine is off. Mode resets to main on every ignition cycle; a TPS blip above threshold within ~2 s of ignition-on also activates alt mode."
 
 [[rom.patches]]
 id          = "start_ceremony"
 name        = "Start Ceremony"
 category    = "qol"
-description = "Sweeps the rev counter and flashes the CEL on engine start as a visual confirmation that the patched firmware is active."
+description = "Sweeps the tachometer needle through an animation on engine start as a visual confirmation that the patched firmware is active. The same hook also parks the needle at 2500 RPM (main) or 5000 RPM (alt) after a mode switch to confirm the active profile."
 
 [[rom.patches]]
 id          = "gear_detector"
@@ -111,7 +111,7 @@ description = "Relays CAN messages from the ASC module to the dash CAN slot requ
 id          = "etacs_extension"
 name        = "ETACS Handler Extension"
 category    = "infrastructure"
-description = "Hooks the ETACS CAN receive handler to extract body-control signals from the bus. Currently exposes the fog light switch state (byte 2, bit 4 of the ETACS message) used by the mode selector."
+description = "Hooks the ETACS CAN receive handler to extract body-control signals from the bus. Currently exposes a lighting switch state (byte 2, bit 4 of the ETACS message — exact signal TBD) used by the mode selector."
 
 [[rom.patches]]
 id          = "gpio_outputs"
