@@ -8,6 +8,8 @@
 
 #include "nlts/nlts_data.h"
 
+extern void tacho_reset(void);
+
 extern uint16_t map_engine_load;
 
 extern const uint16_t flash_maf_fault_revolution_period_limit;

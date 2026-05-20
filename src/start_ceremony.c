@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <fmath.h>
 
+extern void reset_engine_rpm_state(void);
+
 extern uint16_t age_x1_ignition;
 extern uint16_t engine_rpm_hires;
 

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+extern void update_gpio_outputs(void);
+
 void __attribute__((weak)) update_current_gear();
 void __attribute__((weak)) update_nlts_target_torque_limit();
 void __attribute__((weak)) update_revolution_limit();

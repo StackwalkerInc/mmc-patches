@@ -13,6 +13,7 @@ extern uint16_t decays_x1_signature;
 
 extern unsigned get_ig1();
 extern void regen_crankshaft_rotation_decays();
+extern void cruise_control(void);
 
 // clang-format off
 #define CHECK_G16(x) ((x & 0xff) == (((~x) >> 8) & 0xff))

@@ -33,6 +33,11 @@ extern uint16_t decays_x1_alt_mode_change_cel_flash_timer;
 
 extern uint16_t knock_sum;
 
+extern void update_mil(void);
+#ifdef KNOCK_CEL_MODE_CHANGE_INDICATION
+extern uint16_t alt_mode_change_cel(void);
+#endif
+
 extern uint16_t map_engine_load;
 
 extern uint16_t gpio1;

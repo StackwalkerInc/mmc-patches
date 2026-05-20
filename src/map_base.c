@@ -2,6 +2,11 @@
 #include <adc.h>
 #include <fmath.h>
 
+extern void pushi(void);
+extern void popi(void);
+extern void calc_iat(void);
+extern void adc_convert_maf(void);
+
 #define ADC_CHANNEL_MAP (ADC1_CH_FLAG | 4)
 #define ADC_CHANNEL_MAT (ADC1_CH_FLAG | 5)
 
