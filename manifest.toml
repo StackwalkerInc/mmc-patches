@@ -25,15 +25,15 @@ description = "Removes the 200% master load clamp, enabling tuning above ~17 psi
 
 [[rom.patches]]
 id          = "map_base"
-name        = "MAP Sensor Load"
+name        = "MAP + MAT Sensor Acquisition"
 category    = "engine"
-description = "Reads the MAP sensor and IAT for load calculation, supplementing the stock MAF-only path and extending the tunable load range."
+description = "Samples the MAP (manifold absolute pressure) and MAT (manifold air temperature) sensors at 800 Hz and averages the readings into RAM variables. The MAF-based load calculation is unchanged; values are available for OBD logging and other patches."
 
 [[rom.patches]]
 id          = "load_extender"
-name        = "Extended Load Map"
+name        = "Extended Load Maps"
 category    = "engine"
-description = "Alternate fuel map axes with a wider load range for use with the MAP sensor load input."
+description = "Replaces stock fuel, spark, and MIVEC map load axes with a wider range (up to 320% load) to support tuning at higher boost. Uses the stock MAF-derived engine load, not the MAP sensor."
 
 [[rom.patches]]
 id          = "injectors_alt"
