@@ -7,9 +7,12 @@ applies the patches and produces a ready-to-flash `.bin` and an EcuFlash `.xml` 
 
 ## Supported ROMs
 
-| ROM ID     | Vehicle                             | Arch  |
-|------------|-------------------------------------|-------|
-| `3352a403` | Colt Ralliart Z27AG JDM 5MT 2006–08 | M32R  |
+| Stock ROM ID | Patched ROM ID | Vehicle                             | Arch  |
+|--------------|----------------|-------------------------------------|-------|
+| `33520003`   | `3352a403`     | Colt Ralliart Z27AG JDM 5MT 2006–08 | M32R  |
+
+**Stock ROM ID** is the ID embedded in the factory ROM (at offset 0xE2).
+**Patched ROM ID** is the new ID written by the patch via `ReplaceROMID`, so EcuFlash loads the patched XML definition only against the patched ROM and never against a stock ROM.
 
 ## Build environment
 

@@ -6,7 +6,8 @@
 [[rom]]
 id          = "z27ag_jdm_5mt_2006"
 name        = "Colt Ralliart Version-R Z27AG JDM 5MT (2006–2008)"
-rom_id_hex  = "3352a403"
+stock_rom_id_hex   = "33520003"
+patched_rom_id_hex = "3352a403"
 filename    = "Z27AG_JDM_5MT_1860B104.bin"
 sha256      = "47f9a77bae32cc3bc818f949c5a8037d66a6b0e22091f8a9bc051283b91a384c"
 target_dir  = "m32r/33520003_z27ag_mt_2006"
@@ -15,3 +16,105 @@ output_xml  = "3352a403.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
 flash_kb    = 768
+
+[[rom.patches]]
+id          = "load400"
+name        = "400% Load"
+category    = "engine"
+description = "Removes the 200% master load clamp, enabling tuning above ~17 psi (stock firmware caps master load at 200%)."
+
+[[rom.patches]]
+id          = "map_base"
+name        = "MAP Sensor Load"
+category    = "engine"
+description = "Reads the MAP sensor and IAT for load calculation, supplementing the stock MAF-only path and extending the tunable load range."
+
+[[rom.patches]]
+id          = "load_extender"
+name        = "Extended Load Map"
+category    = "engine"
+description = "Alternate fuel map axes with a wider load range for use with the MAP sensor load input."
+
+[[rom.patches]]
+id          = "injectors_alt"
+name        = "Alternate Injector Scaling"
+category    = "engine"
+description = "Alternate injector dead-time and flow scaling tables for larger injectors."
+
+[[rom.patches]]
+id          = "boost_alt"
+name        = "Alternate Boost Maps"
+category    = "boost"
+description = "Alternate wastegate base-duty and boost target-load maps (high gear and low gear variants) selectable via the multi-map switch."
+
+[[rom.patches]]
+id          = "precision_boost"
+name        = "Precision Boost (PWM via Purge Solenoid)"
+category    = "boost"
+description = "Routes wastegate duty through the purge control solenoid output for finer PWM resolution on this ROM variant."
+
+[[rom.patches]]
+id          = "nlts"
+name        = "No-Lift-To-Shift (NLTS)"
+category    = "boost"
+description = "Sustains boost pressure during clutch-in upshifts by suppressing throttle-based boost decay, reducing turbo lag between gears."
+
+[[rom.patches]]
+id          = "revolution_limit"
+name        = "Configurable Rev Limit"
+category    = "rev-limit"
+description = "Per-gear rev limits with a separate launch control cut, replacing the single stock limiter."
+
+[[rom.patches]]
+id          = "knock_mil"
+name        = "Knock MIL Indicator"
+category    = "knock"
+description = "Flashes the MIL (check-engine light) in coded patterns indicating knock intensity, with configurable thresholds and flash timers."
+
+[[rom.patches]]
+id          = "mode_selector"
+name        = "Multi-Map Mode Selector"
+category    = "multimap"
+description = "Toggle between up to four distinct tuning profiles (boost maps, rev limits) using a dashboard switch or paddle input."
+
+[[rom.patches]]
+id          = "start_ceremony"
+name        = "Start Ceremony"
+category    = "qol"
+description = "Sweeps the rev counter and flashes the CEL on engine start as a visual confirmation that the patched firmware is active."
+
+[[rom.patches]]
+id          = "gear_detector"
+name        = "Gear Detection"
+category    = "qol"
+description = "Infers current gear from clutch switch, TPS, and RPM signals; used by rev-limit and NLTS patches for gear-aware behaviour."
+
+[[rom.patches]]
+id          = "obd"
+name        = "Extended OBD PIDs"
+category    = "obd"
+description = "Adds custom OBD PIDs exposing internal tuning variables (boost, load, mode index) for real-time logging over K-Line MUT."
+
+[[rom.patches]]
+id          = "colt_mt_cvt_dash"
+name        = "MT→CVT Dash Control"
+category    = "dash"
+description = "Drives the CVT-type instrument cluster gear indicator from a 5MT gearbox using synthesised shift signals."
+
+[[rom.patches]]
+id          = "asc_to_dash_rx"
+name        = "ASC→Dash CAN Relay"
+category    = "dash"
+description = "Relays CAN messages from the ASC module to the dash CAN slot required by the MT→CVT dash control patch."
+
+[[rom.patches]]
+id          = "etacs_extension"
+name        = "ETACS Handler Extension"
+category    = "infrastructure"
+description = "Extends the ETACS CAN receive handler to expose additional body-control inputs (e.g. door/switch states) to other patches."
+
+[[rom.patches]]
+id          = "gpio_outputs"
+name        = "GPIO Output Hook"
+category    = "infrastructure"
+description = "Inserts a hook into the stock GPIO output update routine, providing a call point for patches that drive external outputs."
