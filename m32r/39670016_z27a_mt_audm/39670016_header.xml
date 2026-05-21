@@ -1,0 +1,16 @@
+<romid>
+	<xmlid>3967a016</xmlid>
+	<internalidaddress>222</internalidaddress>
+	<internalidhex>3967a016</internalidhex>
+	<make>Mitsubishi</make>
+	<market>AUS/SA</market>
+	<model>Colt</model>
+	<submodel>Ralliart</submodel>
+	<transmission>5MT</transmission>
+	<year>2008</year>
+	<flashmethod>mitsubootloader</flashmethod>
+	<memmodel>M32176F6</memmodel>
+	<checksummodule>mitsucan</checksummodule>
+</romid>
+
+<include>39670016</include>

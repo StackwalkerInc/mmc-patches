@@ -202,6 +202,27 @@ description = "Inserts a hook into the stock GPIO output update routine."
 
 
 [[rom]]
+id          = "z27a_audm_5mt_2008"
+name        = "Colt Ralliart Z27A AUDM 5MT (2008)"
+stock_rom_id_hex   = "39670016"
+patched_rom_id_hex = "3967a016"
+filename    = "39670016.bin"
+sha256      = "6f0a5ac721a575eb8e248a1a28befe22b0ef61f56010a0eb39b63863ddafa5c2"
+target_dir  = "m32r/39670016_z27a_mt_audm"
+output_bin  = "3967a016_patched.bin"
+output_xml  = "3967a016.xml"
+arch        = "m32r"
+mcu         = "M32176F6"
+flash_kb    = 768
+
+[[rom.patches]]
+id          = "load400"
+name        = "400% Load"
+category    = "engine"
+description = "Removes the 200% master load clamp, enabling tuning above ~17 psi. This is the AUDM variant; only load400 is ported in this initial revision (mmc-research's source carries the load400 patch alone for this ROM)."
+
+
+[[rom]]
 id          = "z27a_jdm_cvt_2005"
 name        = "Colt Ralliart Version-R Z27A JDM CVT 1.5T (2005)"
 stock_rom_id_hex   = "35740031"
