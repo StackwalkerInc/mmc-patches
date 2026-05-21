@@ -274,6 +274,51 @@ description = "Inserts a hook into the stock GPIO output update routine."
 
 
 [[rom]]
+id          = "cz4a_sst_edm"
+name        = "Mitsubishi Lancer Evolution X CZ4A EDM SST (Kiwamaru)"
+stock_rom_id_hex   = "53050009"
+patched_rom_id_hex = "5305a009"
+filename    = "53050009.bin"
+sha256      = "5b4c22abb55822c6fc2fd1b03e130c4961dffb81e107f849437bb3f0e7504a74"
+target_dir  = "m32r/53050009_cz4a_sst_edm"
+output_bin  = "5305a009_patched.bin"
+output_xml  = "5305a009.xml"
+arch        = "m32r"
+mcu         = "M32177F8"
+flash_kb    = 1024
+
+[[rom.patches]]
+id          = "evox_sst_boost_kiwamaru"
+name        = "Kiwamaru SST Boost Control"
+category    = "boost"
+description = "Replaces stock wastegate base-duty and boost target-load lookups with the Kiwamaru SST per-mode 3D maps, with SST-mode (Normal/Sport/Super-Sport) multimap selection."
+
+[[rom.patches]]
+id          = "evox_sst_multimap"
+name        = "SST Multi-Map Mode Selection"
+category    = "multimap"
+description = "Three-way (Normal/Sport/Super-Sport) multi-map runtime selection based on the stock SST mode flags."
+
+[[rom.patches]]
+id          = "evox_sst_mivec_multimap"
+name        = "Intake MIVEC Multi-Map"
+category    = "engine"
+description = "Per-mode intake MIVEC target table selection."
+
+[[rom.patches]]
+id          = "sst_spark_vs_gear"
+name        = "Gear-Dependent Ignition Correction"
+category    = "ignition"
+description = "Adds a per-gear spark-advance offset on top of the stock mapped advance."
+
+[[rom.patches]]
+id          = "enable_kline_mut"
+name        = "K-Line MUT Protocol Enable"
+category    = "obd"
+description = "Enables the K-Line MUT diagnostic protocol on the OBD port."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"
