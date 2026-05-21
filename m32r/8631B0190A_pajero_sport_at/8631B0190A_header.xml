@@ -1,0 +1,14 @@
+<romid>
+	<xmlid>8631B0190A</xmlid>
+	<internalidaddress>0</internalidaddress>
+	<internalidhex>8631B0190A</internalidhex>
+	<make>Mitsubishi</make>
+	<market>JDM</market>
+	<model>Pajero Sport</model>
+	<submodel>Diesel AT</submodel>
+	<transmission>5AT</transmission>
+	<year>2010</year>
+	<flashmethod>mitsubootloader</flashmethod>
+	<memmodel>M32170</memmodel>
+	<checksummodule>none</checksummodule>
+</romid>

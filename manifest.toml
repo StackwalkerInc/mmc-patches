@@ -319,6 +319,33 @@ description = "Enables the K-Line MUT diagnostic protocol on the OBD port."
 
 
 [[rom]]
+id          = "pajero_sport_diesel_at"
+name        = "Mitsubishi Pajero Sport Diesel AT ECU (KMD50301)"
+stock_rom_id_hex   = "8631B019"
+patched_rom_id_hex = "8631B019"
+filename    = "8631B0190A.bin"
+sha256      = "6b7b93db288f4b06fe04de1113447b2727738b2cb327f3085abe7ac8fe42c571"
+target_dir  = "m32r/8631B0190A_pajero_sport_at"
+output_bin  = "8631B0190A_patched.bin"
+output_xml  = "8631B0190A.xml"
+arch        = "m32r"
+mcu         = "M32170"
+flash_kb    = 512
+
+[[rom.patches]]
+id          = "at_shift_tables"
+name        = "AT Shift Schedule Tables"
+category    = "transmission"
+description = "EcuFlash XML table definitions for the stock 1-2/2-3/3-4/4-5 upshift and 2-1/3-2/4-3/5-4 downshift output-shaft-speed-vs-TPS thresholds. Metadata-only patch."
+
+[[rom.patches]]
+id          = "pajero_manual_gear_indicator"
+name        = "Manual Mode Gear Indicator"
+category    = "dash"
+description = "Replaces the stock gear-indicator update routine so the cluster displays the calculated gear when the transmission is in manual mode."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"
