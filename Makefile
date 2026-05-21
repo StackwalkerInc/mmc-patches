@@ -5,6 +5,7 @@ export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out
 
 ROM_DIRS = m32r/33520003_z27ag_mt_2006 \
+	m32r/3352a3a3_z27ag_mt_2006 \
 	m32r/35740031_z27a_cvt_2005
 
 .PHONY: all compile clean docker docker-compile $(ROM_DIRS) $(ROM_DIRS:%=%-compile)

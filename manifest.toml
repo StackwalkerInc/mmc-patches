@@ -121,6 +121,87 @@ description = "Inserts a hook into the stock GPIO output update routine, providi
 
 
 [[rom]]
+id          = "z27ag_jdm_5mt_2006_alt"
+name        = "Colt Ralliart Version-R Z27AG JDM 5MT (2006–2008) — slim patch set"
+stock_rom_id_hex   = "33520003"
+patched_rom_id_hex = "3352a3a3"
+filename    = "Z27AG_JDM_5MT_1860B104.bin"
+sha256      = "47f9a77bae32cc3bc818f949c5a8037d66a6b0e22091f8a9bc051283b91a384c"
+target_dir  = "m32r/3352a3a3_z27ag_mt_2006"
+output_bin  = "3352a3a3_patched.bin"
+output_xml  = "3352a3a3.xml"
+arch        = "m32r"
+mcu         = "M32176F4"
+flash_kb    = 768
+
+[[rom.patches]]
+id          = "load400"
+name        = "400% Load"
+category    = "engine"
+description = "Removes the 200% master load clamp, enabling tuning above ~17 psi."
+
+[[rom.patches]]
+id          = "map_base"
+name        = "MAP + MAT Sensor Acquisition"
+category    = "engine"
+description = "Samples the MAP and MAT sensors at 800 Hz; values are available for OBD logging."
+
+[[rom.patches]]
+id          = "load_extender"
+name        = "Extended Load Maps"
+category    = "engine"
+description = "Replaces stock fuel, spark, and MIVEC map load axes with a wider range. Uses the MAF-derived engine load with a single-mode layout (no high/low octane alternates)."
+
+[[rom.patches]]
+id          = "nlts"
+name        = "No-Lift-To-Shift (NLTS)"
+category    = "boost"
+description = "Sustains boost pressure during clutch-in upshifts."
+
+[[rom.patches]]
+id          = "revolution_limit"
+name        = "Configurable Rev Limit"
+category    = "rev-limit"
+description = "Per-gear rev limits with a separate launch control cut."
+
+[[rom.patches]]
+id          = "knock_mil"
+name        = "Knock MIL Indicator"
+category    = "knock"
+description = "Flashes the MIL in coded patterns indicating knock intensity."
+
+[[rom.patches]]
+id          = "gear_detector"
+name        = "Gear Detection"
+category    = "qol"
+description = "Infers current gear from clutch switch, TPS, and RPM."
+
+[[rom.patches]]
+id          = "obd"
+name        = "Extended OBD PIDs"
+category    = "obd"
+description = "Adds custom OBD PIDs exposing internal tuning variables."
+
+[[rom.patches]]
+id          = "colt_mt_cvt_dash"
+name        = "MT→CVT Dash Control"
+category    = "dash"
+description = "Drives the CVT-type instrument cluster gear indicator from a 5MT gearbox."
+
+[[rom.patches]]
+id          = "asc_to_dash_rx"
+name        = "ASC→Dash CAN Relay"
+category    = "dash"
+description = "Relays CAN messages from the ASC module to the dash CAN slot."
+
+[[rom.patches]]
+id          = "gpio_outputs"
+name        = "GPIO Output Hook"
+category    = "infrastructure"
+description = "Inserts a hook into the stock GPIO output update routine."
+
+
+[[rom]]
 id          = "z27a_jdm_cvt_2005"
 name        = "Colt Ralliart Version-R Z27A JDM CVT 1.5T (2005)"
 stock_rom_id_hex   = "35740031"
