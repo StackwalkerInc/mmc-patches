@@ -15,7 +15,7 @@ output_bin  = "3352a403_patched.bin"
 output_xml  = "3352a403.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
-flash_kb    = 768
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "load400"
@@ -132,7 +132,7 @@ output_bin  = "3352a3a3_patched.bin"
 output_xml  = "3352a3a3.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
-flash_kb    = 768
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "load400"
@@ -213,7 +213,7 @@ output_bin  = "3967a016_patched.bin"
 output_xml  = "3967a016.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
-flash_kb    = 768
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "load400"
@@ -284,8 +284,8 @@ target_dir  = "m32r/53050009_cz4a_sst_edm"
 output_bin  = "5305a009_patched.bin"
 output_xml  = "5305a009.xml"
 arch        = "m32r"
-mcu         = "M32176F4"
-flash_kb    = 768
+mcu         = "M32186F8"
+flash_kb    = 1024
 
 [[rom.patches]]
 id          = "evox_sst_boost_kiwamaru"
@@ -357,7 +357,7 @@ output_bin  = "b294a007_patched.bin"
 output_xml  = "b294a007.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
-flash_kb    = 768
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "enable_mutii"
@@ -411,7 +411,7 @@ output_bin  = "c728a311_patched.bin"
 output_xml  = "c728a311.xml"
 arch        = "m32r"
 mcu         = "M32176F4"
-flash_kb    = 768
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "rom_id_change"
