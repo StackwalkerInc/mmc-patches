@@ -118,3 +118,24 @@ id          = "gpio_outputs"
 name        = "GPIO Output Hook"
 category    = "infrastructure"
 description = "Inserts a hook into the stock GPIO output update routine, providing a call point for patches that drive external outputs."
+
+
+[[rom]]
+id          = "z27a_jdm_cvt_2005"
+name        = "Colt Ralliart Version-R Z27A JDM CVT 1.5T (2005)"
+stock_rom_id_hex   = "35740031"
+patched_rom_id_hex = "35740031"
+filename    = "35740031.bin"
+sha256      = "42ec22e5ccb802bf498948dfee9679786f727b2f23c199568ec7ac8a5fe9c452"
+target_dir  = "m32r/35740031_z27a_cvt_2005"
+output_bin  = "35740031_patched.bin"
+output_xml  = "35740031.xml"
+arch        = "m32r"
+mcu         = "M32176F4"
+flash_kb    = 768
+
+[[rom.patches]]
+id          = "cvt_overboost_protection"
+name        = "CVT Overboost Protection (table definitions)"
+category    = "boost"
+description = "Adds EcuFlash XML table definitions for the stock CVT overboost-protection maps (throttle limit steps, load-on/off thresholds vs RPM, wastegate-duty cooldown). Metadata-only patch — no code or binary bytes are modified; the stock ROM already implements the logic, this exposes the tables for tuning."

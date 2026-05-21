@@ -4,7 +4,8 @@ DOCKER_IMAGE = ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
 export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out
 
-ROM_DIRS = m32r/33520003_z27ag_mt_2006
+ROM_DIRS = m32r/33520003_z27ag_mt_2006 \
+	m32r/35740031_z27a_cvt_2005
 
 .PHONY: all compile clean docker docker-compile $(ROM_DIRS) $(ROM_DIRS:%=%-compile)
 
@@ -33,5 +34,5 @@ docker-compile:
 	docker run --rm -v "$(CURDIR):/work" -w /work $(DOCKER_IMAGE) make compile
 
 clean:
-	$(MAKE) -C m32r/33520003_z27ag_mt_2006 clean
+	for d in $(ROM_DIRS); do $(MAKE) -C $$d clean; done
 	rm -rf $(OUT_DIR)

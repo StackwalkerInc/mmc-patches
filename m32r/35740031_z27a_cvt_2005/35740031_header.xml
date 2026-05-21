@@ -1,0 +1,15 @@
+  <romid>
+    <xmlid>35740031</xmlid>
+    <internalidaddress>0</internalidaddress>
+    <internalidhex>35740031</internalidhex>
+    <ecuid>35740031</ecuid>
+    <make>Mitsubishi</make>
+    <market>JDM</market>
+    <model>Colt Ralliart Version-R</model>
+    <submodel>Z27A CVT 1.5T</submodel>
+    <year>2005</year>
+    <transmission>CVT</transmission>
+    <flashmethod>M32176F4</flashmethod>
+    <memmodel>M32176F4</memmodel>
+    <checksummodule>none</checksummodule>
+  </romid>
