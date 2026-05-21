@@ -471,16 +471,76 @@ mcu         = "M32170F6"
 flash_kb    = 512
 
 [[rom.patches]]
-id          = "o2_hijacker"
-name        = "O2 Rear Channel Hijack"
-category    = "engine"
-description = "Splices the stock ADC dispatch routine to free up the O2 rear-bank ADC channel for replacement use. The freed channel can then be wired to a wideband or substitute sensor; the front O2 channel is reused with a fixed divisor as a stub."
+id          = "mode_selector"
+name        = "8-Way Mode Selector"
+category    = "multimap"
+description = "Replaces the stock single-mode lookup with an 8-position mode index (read from a switch on the mode ADC input). The mode index drives the multi-mapped boost target, launch control, NLTS, and dash display behaviour."
 
 [[rom.patches]]
-id          = "edm_colt_apps_to_ttp"
-name        = "EDM APPS->TTP Tables"
+id          = "boost_target_load_multi"
+name        = "Multi-Mapped Boost Target Load"
+category    = "boost"
+description = "Replaces the stock update_boost_target_load routine with a per-mode multi-mapped version. Each of the 8 modes can use its own boost target-load 3D map."
+
+[[rom.patches]]
+id          = "throttle_low_gear_apps_limit"
+name        = "Throttle: Low-Gear APPS Limit & No-Delay Alt Modes"
 category    = "throttle"
-description = "EcuFlash XML table definitions for the stock accelerator-pedal-position to target-throttle-position correction maps (default, low gear, torque-monitor max). Metadata-only patch."
+description = "Replaces the stock update_low_gear_flags_and_apps_limit() at 0x109f0 with an enriched version. Alternative modes bypass the stock throttle-response delay (the gradual APPS ramp the OEM applies after a sudden pedal change), giving immediate throttle in sport modes."
+
+[[rom.patches]]
+id          = "nlts_z37a"
+name        = "NLTS (No-Lift-To-Shift)"
+category    = "boost"
+description = "Full Z37A NLTS implementation (nlts3.c, nlts2_data.c): tracks gear ratio, target gear, torque limit and integral correction; hijacks the cruise-control and torque-output-limit call sites; suppresses launch ALS spark correction during NLTS engagement. Lives in MDP/EVAP-extension free space."
+
+[[rom.patches]]
+id          = "gear_detector"
+name        = "Gear Ratio Calculation"
+category    = "qol"
+description = "Computes the current gear from engine RPM, rear-axle CAN speed, and gear-ratio thresholds. Drives the dash gear indicator and the NLTS target-gear logic."
+
+[[rom.patches]]
+id          = "dash_gear_indicator"
+name        = "Dash Gear Indicator (CAN)"
+category    = "dash"
+description = "Replaces the stock CAN top-call dispatch with a routine that emits the calculated gear, mode, shift-light state, and other status onto an unused CAN slot so an external dash can display them."
+
+[[rom.patches]]
+id          = "shift_light"
+name        = "Shift Light"
+category    = "qol"
+description = "Per-gear shift-light thresholds with hysteresis."
+
+[[rom.patches]]
+id          = "launch_control"
+name        = "Launch Control"
+category    = "boost"
+description = "Multi-state launch control: spark limit, AFR enrichment, fuel-cut threshold, and a separate launch-mode rev limit. Replaces the stock anti-lag (ALS) hooks."
+
+[[rom.patches]]
+id          = "knock_mil"
+name        = "Knock MIL Indicator"
+category    = "knock"
+description = "Replaces the stock update_mil routine with a knock-conditional MIL flasher; ignition events above a configurable knock threshold blink the check-engine light."
+
+[[rom.patches]]
+id          = "etacs_handler_extension"
+name        = "ETACS Handler Extension (Position Lights)"
+category    = "infrastructure"
+description = "Extends the stock can_rx_etacs_handler1 to expose position-lights status. The mode selector reads this signal to pick a mode profile from the lighting-switch position."
+
+[[rom.patches]]
+id          = "rev_limit"
+name        = "Configurable Rev Limit"
+category    = "rev-limit"
+description = "NOPs the stock overrev routine and injects a configurable per-mode rev limit + spark-cut behaviour."
+
+[[rom.patches]]
+id          = "use_mode_idx_table"
+name        = "Mode Index Table Enable"
+category    = "multimap"
+description = "Sets the stock 'use mode index table' flag at 0x50012 and writes a default 0..7 lookup table at 0x5002a so the multi-map machinery picks up the mode selector output."
 
 
 [[rom]]

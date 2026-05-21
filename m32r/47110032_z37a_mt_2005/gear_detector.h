@@ -1,0 +1,11 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#ifndef GEAR_DETECTOR_H
+#define GEAR_DETECTOR_H
+
+#define NEUTRAL_GEAR 0
+#define CLUTCHED_INDEFINITE_GEAR 0
+/*actualy gears are 1-5*/
+
+extern void update_current_gear();
+
+#endif /*GEAR_DETECTOR_H*/
