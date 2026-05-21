@@ -4,8 +4,8 @@
 	<internalidhex>4711a032</internalidhex>
 	<make>Mitsubishi</make>
 	<market>EDM</market>
-	<model>Lancer</model>
-	<submodel>Z37A 1.6L</submodel>
+	<model>Colt CZT</model>
+	<submodel>Z37A 1.5T</submodel>
 	<transmission>5MT</transmission>
 	<year>2005</year>
 	<flashmethod>mitsubootloader</flashmethod>

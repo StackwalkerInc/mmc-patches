@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* Z37A MT 2005 (47110032) — Mitsubishi Colancer / Z37A 5MT, 512KB flash.
+/* Z37A MT 2005 (47110032) — Mitsubishi Colt CZT Z37A 1.5T 5MT, 512KB flash.
    Different chip family from Z27AG: ROM ID lives at 0x50022 (not 0x222),
    different idle/torque calibration layout. Initial port targets the
    mmc-research patch scope: o2 rear-channel hijack + EDM APPS->TTP

@@ -457,8 +457,8 @@ description = "Compiles in the load1byte helper. MUT mapping is commented out in
 
 
 [[rom]]
-id          = "z37a_edm_5mt_2005"
-name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
+id          = "colt_czt_z37a_5mt_2005"
+name        = "Mitsubishi Colt CZT Z37A 1.5T 5MT (2005)"
 stock_rom_id_hex   = "47110032"
 patched_rom_id_hex = "4711a032"
 filename    = "47110032.bin"
