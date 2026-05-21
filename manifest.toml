@@ -379,6 +379,27 @@ description = "EcuFlash XML table definitions for the stock ECU options bitfield
 
 
 [[rom]]
+id          = "pajero_io_4g94gdi"
+name        = "Mitsubishi Pajero iO 4G94 GDI (early 2000s)"
+stock_rom_id_hex   = "c6660015"
+patched_rom_id_hex = "c666a015"
+filename    = "c6660015.bin"
+sha256      = "0a188a561e30bd1462f7901a36f15e22d0604c8ebddcc592d562dffa87d519f4"
+target_dir  = "m32r/c6660015_pajero_io_4g94gdi"
+output_bin  = "c666a015_patched.bin"
+output_xml  = "c666a015.xml"
+arch        = "m32r"
+mcu         = "M32170"
+flash_kb    = 512
+
+[[rom.patches]]
+id          = "gdi_idle_tables"
+name        = "GDI Idle Control Tables"
+category    = "engine"
+description = "EcuFlash XML table definitions for the stock GDI idle-control maps: per-stage (1a/1b/2a/2b/3a/3b) idle-compensation base and target-RPM maps for both Neutral and Drive selector positions. Metadata-only patch — no binary bytes change beyond the ReplaceROMID."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"

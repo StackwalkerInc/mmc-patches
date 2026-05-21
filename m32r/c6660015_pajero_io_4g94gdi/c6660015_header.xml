@@ -1,0 +1,14 @@
+<romid>
+	<xmlid>c666a015</xmlid>
+	<internalidaddress>222</internalidaddress>
+	<internalidhex>c666a015</internalidhex>
+	<make>Mitsubishi</make>
+	<market>JDM</market>
+	<model>Pajero iO</model>
+	<submodel>4G94 GDI</submodel>
+	<transmission>AT</transmission>
+	<year>2000</year>
+	<flashmethod>mitsubootloader</flashmethod>
+	<memmodel>M32170</memmodel>
+	<checksummodule>none</checksummodule>
+</romid>
