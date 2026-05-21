@@ -474,7 +474,18 @@ flash_kb    = 512
 id          = "mode_selector"
 name        = "8-Way Mode Selector"
 category    = "multimap"
-description = "Replaces the stock single-mode lookup with an 8-position mode index (read from a switch on the mode ADC input). The mode index drives the multi-mapped boost target, launch control, NLTS, and dash display behaviour."
+description = """\
+Drives an 8-position mode index using stock controls — no extra hardware. \
+Two entry points: \
+(a) post-ignition setup window — within ~40 update cycles of IG ON, press the clutch to enter \
+"active" mode, then release the brake to step up or release the accelerator to step down by one \
+position; \
+(b) in-motion switch — depress the clutch and toggle the position-lights switch off (falling \
+edge) to advance one position, with an 80-cycle feedback timer for dash blink. \
+The mode RAM byte (named `adc_byte_mode` for legacy reasons — nothing reads an ADC switch) \
+drives the multi-mapped boost target, launch control, NLTS, and dash display behaviour. \
+Position-lights state arrives via the ETACS handler extension.\
+"""
 
 [[rom.patches]]
 id          = "boost_target_load_multi"
