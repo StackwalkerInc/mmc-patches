@@ -223,6 +223,33 @@ description = "Removes the 200% master load clamp, enabling tuning above ~17 psi
 
 
 [[rom]]
+id          = "z37a_edm_5mt_2005"
+name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
+stock_rom_id_hex   = "47110032"
+patched_rom_id_hex = "4711a032"
+filename    = "47110032.bin"
+sha256      = "c52e83d190528fc1bf63fb569d7b51b8b363688c5a708f10fb25f4432eff315b"
+target_dir  = "m32r/47110032_z37a_mt_2005"
+output_bin  = "4711a032_patched.bin"
+output_xml  = "4711a032.xml"
+arch        = "m32r"
+mcu         = "M32170F6"
+flash_kb    = 512
+
+[[rom.patches]]
+id          = "o2_hijacker"
+name        = "O2 Rear Channel Hijack"
+category    = "engine"
+description = "Splices the stock ADC dispatch routine to free up the O2 rear-bank ADC channel for replacement use. The freed channel can then be wired to a wideband or substitute sensor; the front O2 channel is reused with a fixed divisor as a stub."
+
+[[rom.patches]]
+id          = "edm_colt_apps_to_ttp"
+name        = "EDM APPS->TTP Tables"
+category    = "throttle"
+description = "EcuFlash XML table definitions for the stock accelerator-pedal-position to target-throttle-position correction maps (default, low gear, torque-monitor max). Metadata-only patch."
+
+
+[[rom]]
 id          = "z27a_jdm_cvt_2005"
 name        = "Colt Ralliart Version-R Z27A JDM CVT 1.5T (2005)"
 stock_rom_id_hex   = "35740031"
