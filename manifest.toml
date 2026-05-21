@@ -346,6 +346,39 @@ description = "Replaces the stock gear-indicator update routine so the cluster d
 
 
 [[rom]]
+id          = "eclipse_4g_usdm_5mt_2008"
+name        = "Mitsubishi Eclipse 4G USDM 4G69 5MT (2008)"
+stock_rom_id_hex   = "b2940007"
+patched_rom_id_hex = "b294a007"
+filename    = "b2940007.bin"
+sha256      = "d6d62ef0978e2ea8ca99eb506b87fc64690b55cdf5f31f356427e358e87953ec"
+target_dir  = "m32r/b2940007_eclipse_mt_2008"
+output_bin  = "b294a007_patched.bin"
+output_xml  = "b294a007.xml"
+arch        = "m32r"
+mcu         = "M32176F4"
+flash_kb    = 512
+
+[[rom.patches]]
+id          = "enable_mutii"
+name        = "Enable MUTII Protocol"
+category    = "obd"
+description = "Enables the MUTII diagnostic protocol on the OBD port."
+
+[[rom.patches]]
+id          = "fix_mdp_value"
+name        = "MDP Sensor Fix"
+category    = "engine"
+description = "Pins the manifold-differential-pressure read at 205 to suppress the stock P0108 fault. Note: causes P0106 in exchange — useful only when the MDP sensor is unreliable."
+
+[[rom.patches]]
+id          = "ecu_options"
+name        = "ECU Options Tables"
+category    = "engine"
+description = "EcuFlash XML table definitions for the stock ECU options bitfield (mode flags) and MAF/baro/IAT compensation tables."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"

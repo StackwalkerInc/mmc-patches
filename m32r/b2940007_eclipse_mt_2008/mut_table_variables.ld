@@ -1,0 +1,20 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+coolant_temp_filtered = 0x804e58;
+iat = 0x804e68;
+coolant_temp = 0x804e5a;
+map_engine_load8 = 0x804f66;
+run_state_flags = 0x805014;
+engine_rpm_2kmax = 0x804f50;
+engine_rpm_8kmax = 0x804f52;
+knock_sum = 0x805280;
+octane_level = 0x80b6ca;
+vehicle_speed_frequency = 0x804fdc;
+vehicle_speed = 0x804fde;
+sensor_faults = 0x804ff8;
+combustion_faults = 0x804ffc;
+wastegate_solenoid_duty = 0x80539c;
+tps_main_rcord = 0x804ef8;
+gpio1 = 0x804e0a;
+gpio2 = 0x804e10;
+master_load = 0x804f9c;
+temp_aixs_src = 0x804dca;

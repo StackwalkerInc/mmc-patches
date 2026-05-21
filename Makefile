@@ -11,7 +11,8 @@ ROM_DIRS = m32r/33520003_z27ag_mt_2006 \
 	m32r/47110032_z37a_mt_2005 \
 	m32r/53040110_cz4a_mt_edm_Tephra \
 	m32r/53050009_cz4a_sst_edm \
-	m32r/8631B0190A_pajero_sport_at
+	m32r/8631B0190A_pajero_sport_at \
+	m32r/b2940007_eclipse_mt_2008
 
 .PHONY: all compile clean docker docker-compile $(ROM_DIRS) $(ROM_DIRS:%=%-compile)
 
