@@ -223,6 +223,57 @@ description = "Removes the 200% master load clamp, enabling tuning above ~17 psi
 
 
 [[rom]]
+id          = "cz4a_mt_edm_tephra"
+name        = "Mitsubishi Lancer Evolution X CZ4A EDM 5MT — Tephra XMOD base patch set"
+stock_rom_id_hex   = "53040110"
+patched_rom_id_hex = "53040110"
+filename    = "53040110.bin"
+sha256      = "7b842546a7ba8c068460e97c876b5b82255c684a5c21f1f9306ee4536aeb4238"
+target_dir  = "m32r/53040110_cz4a_mt_edm_Tephra"
+output_bin  = "53040110_patched.bin"
+output_xml  = "53040110.xml"
+arch        = "m32r"
+mcu         = "M32177F8"
+flash_kb    = 1024
+
+[[rom.patches]]
+id          = "tephra_multimap_boost"
+name        = "Tephra Multi-Map Per-Gear Boost Control"
+category    = "boost"
+description = "Replaces the stock wastegate base-duty and boost-target-load lookups with Tephra-style multimap (per-gear high/low) selection, plus reactive duty correction."
+
+[[rom.patches]]
+id          = "evox_limit_accel"
+name        = "Per-Gear Accel Characteristic Limit"
+category    = "throttle"
+description = "Per-gear override of the stock APPS-to-target-throttle acceleration characteristic limit."
+
+[[rom.patches]]
+id          = "nlts_evox"
+name        = "Evo X NLTS (subset)"
+category    = "boost"
+description = "No-lift-to-shift sub-patch ported with three of four hook sites wired up (fuel-cut splice, post-fuel-cut spark limit, tacho reset). The fourth hook (post-fuel-cut enrichment) requires a `const128_nominal_ipw_multiplier_call_location` address that isn't mapped for this ROM and is intentionally omitted; the function still compiles in for completeness."
+
+[[rom.patches]]
+id          = "revolution_limit"
+name        = "Configurable Rev Limit"
+category    = "rev-limit"
+description = "Per-gear rev limits."
+
+[[rom.patches]]
+id          = "gear_detector"
+name        = "Gear Detection"
+category    = "qol"
+description = "Evo X CZ4A gear detection."
+
+[[rom.patches]]
+id          = "gpio_outputs"
+name        = "GPIO Output Hook"
+category    = "infrastructure"
+description = "Inserts a hook into the stock GPIO output update routine."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"

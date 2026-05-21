@@ -1,0 +1,14 @@
+<romid>
+	<xmlid>53040110</xmlid>
+	<internalidaddress>5002A</internalidaddress>
+	<internalidhex>53040110</internalidhex>
+	<make>Mitsubishi</make>
+	<market>EDM</market>
+	<model>Lancer Evolution X</model>
+	<submodel>GSR (Tephra XMOD base)</submodel>
+	<transmission>5MT</transmission>
+	<year>2008</year>
+	<flashmethod>mitsubootloader</flashmethod>
+	<memmodel>M32177F8</memmodel>
+	<checksummodule>mitsucan</checksummodule>
+</romid>
