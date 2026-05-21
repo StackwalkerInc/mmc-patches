@@ -400,6 +400,63 @@ description = "EcuFlash XML table definitions for the stock GDI idle-control map
 
 
 [[rom]]
+id          = "cu2w_outlander_turbo"
+name        = "Mitsubishi Outlander CU2W 4G63T (Nameless-prepped, 2007)"
+stock_rom_id_hex   = "c7280011"
+patched_rom_id_hex = "c728a311"
+filename    = "c7280011.bin"
+sha256      = "19d694e2b527d00b5c81aa5d0a3ea71f2464354c5f91bb7be35c5e62d1e82d47"
+target_dir  = "m32r/c728001x_cu2w_outlander_turbo"
+output_bin  = "c728a311_patched.bin"
+output_xml  = "c728a311.xml"
+arch        = "m32r"
+mcu         = "M32176F4"
+flash_kb    = 512
+
+[[rom.patches]]
+id          = "rom_id_change"
+name        = "ROM ID Change"
+category    = "infrastructure"
+description = "Single-byte ROM-ID change at 0x224 so EcuFlash distinguishes the patched binary from stock."
+
+[[rom.patches]]
+id          = "crc_nopout"
+name        = "CRC Check Bypass"
+category    = "infrastructure"
+description = "NOPs the stock CRC verification at 0xef20 so the ECU accepts a modified ROM. Required for any patched build to boot on this platform; the Nameless-prepped stock image still has this check enabled."
+
+[[rom.patches]]
+id          = "knock_mil_simple"
+name        = "Knock MIL Indicator"
+category    = "knock"
+description = "Compiles in the knock-MIL routine. The omni.ld hook section is commented out in this initial port (matches mmc-research's intent); the code is staged for activation once the hook address is finalised."
+
+[[rom.patches]]
+id          = "revolution_limit"
+name        = "Configurable Rev Limit"
+category    = "rev-limit"
+description = "Compiles in the per-gear rev-limit and fuel-cut routines. Hook sites are commented out in omni.ld pending validation."
+
+[[rom.patches]]
+id          = "nlts_simple"
+name        = "NLTS (deferred)"
+category    = "boost"
+description = "Compiles in the simple NLTS routine. Hook sites are commented out pending validation."
+
+[[rom.patches]]
+id          = "gpio_outputs"
+name        = "GPIO Output Hook (deferred)"
+category    = "infrastructure"
+description = "Hook code present but not wired in (the omni.ld INCLUDE for gpio_outputs_hijack.ld is commented out in this initial port)."
+
+[[rom.patches]]
+id          = "load1byte"
+name        = "Load 1-byte MUT Variable"
+category    = "obd"
+description = "Compiles in the load1byte helper. MUT mapping is commented out in this initial port."
+
+
+[[rom]]
 id          = "z37a_edm_5mt_2005"
 name        = "Mitsubishi Lancer Z37A EDM 5MT 1.6L (2005)"
 stock_rom_id_hex   = "47110032"

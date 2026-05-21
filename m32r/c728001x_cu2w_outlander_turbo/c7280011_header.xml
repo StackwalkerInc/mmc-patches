@@ -1,0 +1,14 @@
+<romid>
+	<xmlid>c728a311</xmlid>
+	<internalidaddress>222</internalidaddress>
+	<internalidhex>c728a311</internalidhex>
+	<make>Mitsubishi</make>
+	<market>JDM</market>
+	<model>Outlander</model>
+	<submodel>CU2W 4G63T (Nameless-prepped)</submodel>
+	<transmission>5MT</transmission>
+	<year>2007</year>
+	<flashmethod>mitsubootloader</flashmethod>
+	<memmodel>M32176F4</memmodel>
+	<checksummodule>none</checksummodule>
+</romid>
