@@ -3,7 +3,6 @@
 
 #include "powmod.h"
 #include "obd_data.h"
-#include "obd_mode23.h"
 
 extern uint32_t TML0CT;
 extern uint16_t sio0_rx_buffer[];
@@ -181,9 +180,6 @@ void obd_mode_a1_handler()
 unsigned obd_rest_handler()
 {
 	switch (sio0_rx_buffer[3]) {
-	case 0x23:
-		obd_mode23_kline();
-		break;
 	case 0xa1:
 		obd_mode_a1_handler();
 		break;
