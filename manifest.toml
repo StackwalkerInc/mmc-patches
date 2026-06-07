@@ -221,6 +221,12 @@ name        = "400% Load"
 category    = "engine"
 description = "Removes the 200% master load clamp, enabling tuning above ~17 psi. This is the AUDM variant; only load400 is ported in this initial revision (mmc-research's source carries the load400 patch alone for this ROM)."
 
+[[rom.patches]]
+id          = "mode23"
+name        = "OBD Mode 0x23 (ReadMemoryByAddress)"
+category    = "diagnostic"
+description = "Adds a spec-compliant UDS ReadMemoryByAddress (0x23) handler over both K-Line MUT and CAN (ISO 15765-4, single-frame, read-only). Arbitrary-address reads for diagnostic and logging hosts."
+
 
 [[rom]]
 id          = "cz4a_mt_edm_tephra"
