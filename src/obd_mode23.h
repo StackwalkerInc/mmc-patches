@@ -20,6 +20,11 @@ void obd_mode23_kline(void);
 /* CAN: trampoline that replaces the call to canrx12_15_process.
  * Handles service 0x23 itself, otherwise tail-calls the original dispatcher.
  * Returns the r5 response code (1 = positive, 3 = negative). */
-unsigned canrx12_15_process_trampoline(void);
+unsigned canrx12_15_process_trampoline(unsigned slot);
+
+/* K-Line rest-handler for mode-0x23-only ROMs (no VIN/guard suite linked):
+ * dispatches service 0x23 and returns sio0_tx_count (the value the injected
+ * `lduh sio0_tx_count` would have produced). */
+unsigned obd_mode23_rest_handler(void);
 
 #endif /* OBD_MODE23_H */

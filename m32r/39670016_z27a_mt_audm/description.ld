@@ -16,3 +16,14 @@ calc_engine_loads_override_lsv_to_flow_multiplier_location	= 0x1e60e;
 divide_by2_maf_load_high_vs_rpm_2dmap16_location		= 0x7e68;
 ipw_safe_change_load_source_threshold_location			= 0x25c32;
 load400_math_space						= 0x4f9a8;
+
+/* OBD mode 0x23 (ReadMemoryByAddress) bindings — from rom-analyzer --emit-mode23
+ * + raw-byte verification against 39670016.bin. */
+sio0_rx_buffer				= 0x8053d8;
+sio0_tx_buffer				= 0x8053ee;
+sio0_tx_count				= 0x805430;
+canrx12_data				= 0x805c0c;
+cantx5_data0				= 0x805c14;
+canrx12_15_process			= 0x4a014;
+obd_rest_handler_injection_location	= 0x60248;
+canrx12_15_process_call_location	= 0x49dc4;

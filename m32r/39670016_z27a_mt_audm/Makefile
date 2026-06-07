@@ -7,7 +7,8 @@ OUT_DIR ?= ../../../out
 # Minimal load400 port matching mmc-research's build.sh intent.
 DEFINES += -DSMALL_DATA_AREA_BASE=0x808000
 
-SOURCES = ../../src/load400_math.c
+SOURCES = ../../src/load400_math.c \
+	../../src/obd_mode23.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

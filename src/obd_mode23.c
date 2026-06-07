@@ -15,7 +15,7 @@ extern uint8_t canrx12_data[];
 extern uint16_t cantx5_data0;
 
 /* Original CAN dispatcher, bound per-ROM via description.ld PROVIDE. */
-extern unsigned canrx12_15_process(void);
+extern unsigned canrx12_15_process(unsigned slot);
 
 /* Read-only core: copy count bytes from a 24-bit address into dst.
  * No bounds check — read-only, matches the UDS spec and the Evo X reference. */
@@ -67,9 +67,16 @@ static unsigned obd_mode23_can(void)
 	return 1; /* r5 = positive */
 }
 
-unsigned canrx12_15_process_trampoline(void)
+unsigned canrx12_15_process_trampoline(unsigned slot)
 {
 	if (canrx12_data[1] == 0x23)
 		return obd_mode23_can();
-	return canrx12_15_process();
+	return canrx12_15_process(slot);
+}
+
+unsigned obd_mode23_rest_handler(void)
+{
+	if ((sio0_rx_buffer[3] & 0xff) == 0x23)
+		obd_mode23_kline();
+	return sio0_tx_count;
 }
