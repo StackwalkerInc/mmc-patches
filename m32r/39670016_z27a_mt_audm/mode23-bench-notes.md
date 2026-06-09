@@ -27,3 +27,16 @@ in CI. Static analysis fixed the addresses below; confirm these live:
 - sio0_rx_buffer = 0x8053d8, sio0_tx_buffer = 0x8053ee, sio0_tx_count = 0x805430
 - canrx12_data = 0x805c0c, cantx5_data0 = 0x805c14
 - mode23 core = 0x6b000
+
+## CAN — both diagnostic channels (dual call-site fix, 2026-06-09)
+- The trampoline is now injected at BOTH callers of canrx12_15_process:
+  - 0x49dc4 (long bl, `ldi r0,#2`) -> slot 12 / canrx12_data (physical 0x7E0)
+  - 0x49e9c (short bl `7e5ef000`, `ldi r0,#1`) -> slot 15 / canrx15_data (functional 0x7DF)
+- The slot-15 injection replaces the full 4-byte word with a long bl; return
+  address 0x49ea0 is preserved. Confirm on the bench that the slot-15 path
+  returns correctly and that 0x49e9e was inert filler (not a live parallel op).
+- Bench-qualify mode 0x23 over BOTH physical (0x7E0) and functional (0x7DF)
+  addressing. Confirm the slot-15 caller performs the same r5->slot-5 (0x7E8)
+  send as the slot-12 caller; if the functional path frames/suppresses responses
+  differently, the intercept parses but the reply path may differ.
+- canrx15_data = 0x805c04 (canrx12_data - 8) — verify on the bench ECU.
