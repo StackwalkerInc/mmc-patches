@@ -23,7 +23,9 @@ sio0_rx_buffer				= 0x8053d8;
 sio0_tx_buffer				= 0x8053ee;
 sio0_tx_count				= 0x805430;
 canrx12_data				= 0x805c0c;
+canrx15_data				= 0x805c04;	/* canrx12_data - 8; functional-addressing RX buffer */
 cantx5_data0				= 0x805c14;
 canrx12_15_process			= 0x4a014;
 obd_rest_handler_injection_location	= 0x60248;
-canrx12_15_process_call_location	= 0x49dc4;
+canrx12_15_call_location_slot12		= 0x49dc4;	/* slot arg 2 -> canrx12_data (long bl) */
+canrx12_15_call_location_slot15		= 0x49e9c;	/* slot arg 1 -> canrx15_data (short bl; word = 7e5ef000) */

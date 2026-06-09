@@ -20,8 +20,16 @@ SECTIONS {
 		LONG(obd_mode23_rest_handler)
 	}
 
-	/* CAN: replace `bl canrx12_15_process` with the trampoline (forwards r0). */
-	"OBD Mode23: CAN trampoline [m32r-bl]" canrx12_15_process_call_location : {
+	/* CAN slot 12 (physical 0x7E0): replace `bl canrx12_15_process` with the
+	   trampoline. Original is a long bl (fe000094). */
+	"OBD Mode23: CAN trampoline slot12 [m32r-bl]" canrx12_15_call_location_slot12 : {
+		LONG(canrx12_15_process_trampoline)
+	}
+
+	/* CAN slot 15 (functional 0x7DF): same trampoline. Original is a short bl +
+	   filler (7e5ef000); the long bl replaces the full word, return addr 0x49ea0
+	   preserved. */
+	"OBD Mode23: CAN trampoline slot15 [m32r-bl]" canrx12_15_call_location_slot15 : {
 		LONG(canrx12_15_process_trampoline)
 	}
 
