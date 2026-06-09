@@ -27,8 +27,9 @@ SECTIONS {
 	}
 
 	/* CAN slot 15 (functional 0x7DF): same trampoline. Original is a short bl +
-	   filler (7e5ef000); the long bl replaces the full word, return addr 0x49ea0
-	   preserved. */
+	   filler (7e5ef000); 0x49e9e (0xf000) is the inert low slot of the short-bl
+	   word, not an independent instruction, so the 4-byte long bl replaces the
+	   full word and return addr 0x49ea0 is preserved. */
 	"OBD Mode23: CAN trampoline slot15 [m32r-bl]" canrx12_15_call_location_slot15 : {
 		LONG(canrx12_15_process_trampoline)
 	}

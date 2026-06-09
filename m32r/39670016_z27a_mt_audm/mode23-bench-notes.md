@@ -33,8 +33,17 @@ in CI. Static analysis fixed the addresses below; confirm these live:
   - 0x49dc4 (long bl, `ldi r0,#2`) -> slot 12 / canrx12_data (physical 0x7E0)
   - 0x49e9c (short bl `7e5ef000`, `ldi r0,#1`) -> slot 15 / canrx15_data (functional 0x7DF)
 - The slot-15 injection replaces the full 4-byte word with a long bl; return
-  address 0x49ea0 is preserved. Confirm on the bench that the slot-15 path
-  returns correctly and that 0x49e9e was inert filler (not a live parallel op).
+  address 0x49ea0 is preserved.
+- **MUST VERIFY BEFORE FLASHING (static — no bench needed):** the low half-word
+  at 0x49e9e (0xf000) is inert slot filler, NOT a live parallel op, so the long
+  bl can consume it. Static evidence: 0xf000 appears uniformly as the low-slot
+  filler paired with every 16-bit high-slot instruction across this region
+  (0x49e92, 0x49e9a, 0x49e9e, 0x49ea6, 0x49eaa, 0x49eae all = 0xf000). The
+  high-slot short bl `7e5e` targets (0x49e9c & ~3) + 0x5e*4 = 0x4a014
+  (canrx12_15_process), confirming the decode. If a future port shows anything
+  other than 0xf000 at the +2 half-word of the slot-15 bl site, do NOT inject —
+  re-derive the site. (See description.ld: `word = 7e5ef000`.)
+- Confirm on the bench that the slot-15 path returns correctly.
 - Bench-qualify mode 0x23 over BOTH physical (0x7E0) and functional (0x7DF)
   addressing. Confirm the slot-15 caller performs the same r5->slot-5 (0x7E8)
   send as the slot-12 caller; if the functional path frames/suppresses responses
