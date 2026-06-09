@@ -10,6 +10,9 @@ extern uint16_t sio0_tx_count;
 
 /* CAN slot-12 RX payload (service byte at [1]) and slot-5 TX payload. */
 extern uint8_t canrx12_data[];
+/* CAN slot-15 RX payload (functional-addressing channel). Separate 8-byte
+ * buffer from canrx12_data; bound per-ROM via description.ld. */
+extern uint8_t canrx15_data[];
 /* Slot-5 (0x7E8) TX payload: contiguous big-endian uint16_t slots; a uint8_t
  * view yields the CAN byte sequence. */
 extern uint16_t cantx5_data0;
@@ -46,11 +49,11 @@ void obd_mode23_kline(void)
 	sio0_tx_count = 5 + count;
 }
 
-static unsigned obd_mode23_can(void)
+static unsigned mode23_can(uint8_t *rx)
 {
 	uint8_t *tx = (uint8_t *)&cantx5_data0;
-	uint32_t addr = ((uint32_t)canrx12_data[2] << 16) | ((uint32_t)canrx12_data[3] << 8) | ((uint32_t)canrx12_data[4]);
-	uint8_t count = canrx12_data[5];
+	uint32_t addr = ((uint32_t)rx[2] << 16) | ((uint32_t)rx[3] << 8) | ((uint32_t)rx[4]);
+	uint8_t count = rx[5];
 
 	if (count > MODE23_CAN_MAX_BYTES) {
 		/* NRC 0x14 responseTooLong, single frame. */
@@ -69,8 +72,12 @@ static unsigned obd_mode23_can(void)
 
 unsigned canrx12_15_process_trampoline(unsigned slot)
 {
-	if (canrx12_data[1] == 0x23)
-		return obd_mode23_can();
+	/* slot==2 -> canrx12_data (physical 0x7E0), else canrx15_data (functional
+	 * 0x7DF). Hardcoded mapping; rom-analyzer cross-checks it per ROM and flags
+	 * a VERIFY note if the slot immediates aren't {2,1}. */
+	uint8_t *rx = (slot == 2) ? canrx12_data : canrx15_data;
+	if (rx[1] == 0x23)
+		return mode23_can(rx);
 	return canrx12_15_process(slot);
 }
 
