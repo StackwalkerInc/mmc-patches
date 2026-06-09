@@ -14,7 +14,7 @@ target_dir  = "m32r/33520003_z27ag_mt_2006"
 output_bin  = "3352a403_patched.bin"
 output_xml  = "3352a403.xml"
 arch        = "m32r"
-mcu         = "M32176F4"
+mcu         = "M32170F6"
 flash_kb    = 512
 
 [[rom.patches]]
@@ -131,7 +131,7 @@ target_dir  = "m32r/3352a3a3_z27ag_mt_2006"
 output_bin  = "3352a3a3_patched.bin"
 output_xml  = "3352a3a3.xml"
 arch        = "m32r"
-mcu         = "M32176F4"
+mcu         = "M32170F6"
 flash_kb    = 512
 
 [[rom.patches]]
@@ -212,7 +212,7 @@ target_dir  = "m32r/39670016_z27a_mt_audm"
 output_bin  = "3967a016_patched.bin"
 output_xml  = "3967a016.xml"
 arch        = "m32r"
-mcu         = "M32176F4"
+mcu         = "M32170F6"
 flash_kb    = 512
 
 [[rom.patches]]
@@ -571,7 +571,7 @@ target_dir  = "m32r/35740031_z27a_cvt_2005"
 output_bin  = "35740031_patched.bin"
 output_xml  = "35740031.xml"
 arch        = "m32r"
-mcu         = "M32176F4"
+mcu         = "M32170F6"
 flash_kb    = 768
 
 [[rom.patches]]
