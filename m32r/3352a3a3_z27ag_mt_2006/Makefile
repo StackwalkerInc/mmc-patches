@@ -35,8 +35,7 @@ SOURCES = ../../src/gear_detector.c \
 	../../src/nlts/nlts_simple.c \
 	../../src/nlts/nlts_data_simple.c \
 	../../src/load_extender.c \
-	../../src/obd.c \
-	../../src/obd_data.c \
+	../../src/obd/vin_guard.c \
 	../../src/load400_math.c \
 	mode_selector_stubs.c
 

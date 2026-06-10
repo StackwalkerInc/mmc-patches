@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-	"Guards#1 [m32r-bl]" obd_rest_handler_injection_location : { LONG(obd_rest_handler) }
+	"Guards#1 [m32r-bl]" obd_rest_handler_injection_location : { LONG(obd_kline_rest_handler) }
 	"Guards#2 [m32r-bl]" regen_crankshaft_rotation_decays_call_location : { LONG(injected_regen_crankshaft_rotation_decays) }
 	"Guards#3" eeprom_start_area : {
 		LONG(vin)

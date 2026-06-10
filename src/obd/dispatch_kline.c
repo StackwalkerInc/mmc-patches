@@ -14,11 +14,6 @@ extern uint16_t sio0_tx_count;
 #ifdef FEATURE_OBD_MODE_3D
 #include "mode_3d_write_memory_by_address_kline.c"
 #endif
-#ifdef FEATURE_OBD_VIN_GUARD
-#include "vin_guard_data.c"
-#include "mode_a1_vin_guard.c"
-#endif
-
 unsigned obd_kline_rest_handler(void)
 {
 	switch (sio0_rx_buffer[3] & 0xff) {
@@ -30,11 +25,6 @@ unsigned obd_kline_rest_handler(void)
 #ifdef FEATURE_OBD_MODE_3D
 	case 0x3d:
 		mode_3d_kline();
-		break;
-#endif
-#ifdef FEATURE_OBD_VIN_GUARD
-	case 0xa1:
-		mode_a1_kline();
 		break;
 #endif
 	}

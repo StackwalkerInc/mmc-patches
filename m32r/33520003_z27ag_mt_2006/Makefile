@@ -40,8 +40,7 @@ SOURCES = ../../src/gear_detector.c \
 	../../src/load_extender_alt.c \
 	../../src/injectors_alt.c \
 	../../src/boost_alt_data.c \
-	../../src/obd.c \
-	../../src/obd_data.c \
+	../../src/obd/vin_guard.c \
 	../../src/load400_math.c \
 	../../src/etacs_handler_extension.c \
 	../../src/mode_selector_v2_data.c \
