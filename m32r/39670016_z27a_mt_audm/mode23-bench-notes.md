@@ -49,3 +49,20 @@ in CI. Static analysis fixed the addresses below; confirm these live:
   send as the slot-12 caller; if the functional path frames/suppresses responses
   differently, the intercept parses but the reply path may differ.
 - canrx15_data = 0x805c04 (canrx12_data - 8) — verify on the bench ECU.
+
+## Mode 0x3D (WriteMemoryByAddress) — added 2026-06-10
+
+Request format (K-Line): `3D <addr_hi> <addr_mid> <addr_lo> <count> <data...>`
+Response (positive): `7D` — no echoed data. Count capped at 7.
+Verify on bench: stock framing sets sio0_tx_buffer[3] = 0x7D automatically (same
+mechanism as 0x23 and 0xA1).
+
+Request format (CAN, single-frame): `[PCI] 3D <addr_hi> <addr_mid> <addr_lo> <count> <b0> <b1>`
+Response (positive): `[01] 7D`. Count capped at 2 (single-frame limit).
+If count > 2: NRC 0x13 (incorrectMessageLengthOrInvalidFormat).
+
+Bench checklist:
+- Write 1 byte to a known RAM address; read back with mode 23 to confirm.
+- Write 2 bytes (CAN max); read back with mode 23.
+- Send count=3 over CAN; confirm NRC 0x13 response.
+- Send a non-0x3D service after a 0x3D; confirm dispatch still forwards correctly.
