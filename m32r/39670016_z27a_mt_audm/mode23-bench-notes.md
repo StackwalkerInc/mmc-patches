@@ -50,6 +50,12 @@ in CI. Static analysis fixed the addresses below; confirm these live:
   differently, the intercept parses but the reply path may differ.
 - canrx15_data = 0x805c04 (canrx12_data - 8) — verify on the bench ECU.
 
+## Bench qualification status (2026-06-13)
+
+Implementation complete. Bench qualification deferred — no bench ECU available at
+time of writing. The checklists below are the gate for the first live flashing
+session; do not flash to a road car before completing them.
+
 ## Mode 0x3D (WriteMemoryByAddress) — added 2026-06-10
 
 Request format (K-Line): `3D <addr_hi> <addr_mid> <addr_lo> <count> <data...>`
