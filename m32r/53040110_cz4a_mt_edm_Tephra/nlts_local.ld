@@ -11,7 +11,7 @@
 }
 
 "Post fuel cut spark limit [m32r-bl]" test_substitute_spark_advance_int_call_localtion : {
-	LONG(new_test_substitute_spark_advance_int)
+	LONG(new_spark_advance_with_cut)
 }
 
 "Kill spark for X cycles after fuel cut [m32r-bl]" tacho_reset_call_location : {

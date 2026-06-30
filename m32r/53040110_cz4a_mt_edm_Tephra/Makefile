@@ -21,7 +21,8 @@ SOURCES = ../../src/gpio_outputs_hijack.c \
 	../../src/nlts/nlts_data.c \
 	../../src/evox_limit_accel.c \
 	../../src/boost_control_evox_mt_pergear.c \
-	../../src/tephra_multimap.c
+	../../src/tephra_multimap.c \
+	../../src/spark_cut.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

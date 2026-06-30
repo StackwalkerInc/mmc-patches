@@ -69,4 +69,15 @@ SECTIONS {
 	"data_desc" 0xb0000 : {
 		*(data_desc)
 	}
+
+	/* Spark cut tunable parameters -- placed in confirmed-free flash at 0xd5ff2.
+	   EcuFlash edits these by address. */
+	"Spark Cut Divider" 0xd5ff2 : {
+		flash_spark_cut_divider = .;
+		BYTE(105)    /* 1.05x default: spark cut at fuel_cut_period x 1.05 */
+	}
+	"Spark Cut Stationary RPM" 0xd5ffa : {
+		flash_spark_cut_stationary_rpm = .;
+		SHORT(0x09c4) /* period limit when stationary */
+	}
 }
