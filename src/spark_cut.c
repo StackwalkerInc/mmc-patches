@@ -68,8 +68,8 @@ extern uint16_t coil_dwell_optimal_rpm_x_power;
  */
 uint16_t new_coil_dwell_store(uint16_t original_dwell)
 {
-	uint_fast16_t threshold = vehicle_movement_decay ? s_mul_divu16(revolution_limit, flash_spark_cut_divider, 100)
-	                                                 : flash_spark_cut_stationary_rpm;
+	uint_fast16_t threshold =
+	    vehicle_movement_decay ? ((revolution_limit / 100) * flash_spark_cut_divider) : flash_spark_cut_stationary_rpm;
 
 	coil_dwell_optimal_rpm_x_power = threshold >= shaft_period1_copy_dline0 ? 0 : original_dwell;
 
