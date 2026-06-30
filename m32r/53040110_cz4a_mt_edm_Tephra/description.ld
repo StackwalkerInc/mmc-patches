@@ -36,6 +36,10 @@ mut_actuator_tests0 = 0x808c3a;
 
 iat = 0x808650;
 
+/* x16-scaled coil dwell cap written by update_coil_dwell_mappings at 0x217c8.
+   fp-13784 = 0x80c000 - 13784 = 0x808a28. */
+coil_dwell_optimal_rpm_x_power = 0x808a28;
+
 /* `update_post_fuel_cut_enrichment` in revolution_limit.c references this
    RAM byte but its `Post fuel cut enrichment` hook is not wired up on
    this ROM (see nlts_local.ld). PROVIDE a safe stub so the link

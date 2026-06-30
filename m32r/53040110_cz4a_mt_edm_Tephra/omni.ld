@@ -72,6 +72,12 @@ SECTIONS {
 
 	/* Spark cut tunable parameters -- placed in confirmed-free flash at 0xd5ff2.
 	   EcuFlash edits these by address. */
+	/* Replace sth r0,@(-13784,fp) inside update_coil_dwell_mappings.
+	   Zeros coil_dwell_optimal_rpm_x_power when at/above cut RPM. */
+	"Spark Cut [m32r-bl]" 0x217c8 : {
+		LONG(new_coil_dwell_store)
+	}
+
 	"Spark Cut Divider" 0xd5ff2 : {
 		flash_spark_cut_divider = .;
 		BYTE(105)    /* 1.05x default: spark cut at fuel_cut_period x 1.05 */
