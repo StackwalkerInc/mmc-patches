@@ -32,6 +32,7 @@
  */
 
 #include <stdint.h>
+#include <fmath.h>
 
 /* RPM divider x 100.  Default 105 -> spark cut at fuel_cut_period x 1.05.
  * Higher value = lower spark cut RPM relative to the fuel cut limit.
@@ -67,18 +68,10 @@ extern uint16_t coil_dwell_optimal_rpm_x_power;
  */
 uint16_t new_coil_dwell_store(uint16_t original_dwell)
 {
-	uint16_t threshold;
+	uint_fast16_t threshold = vehicle_movement_decay ? s_mul_divu16(revolution_limit, flash_spark_cut_divider, 100)
+	                                                 : flash_spark_cut_stationary_rpm;
 
-	if (vehicle_movement_decay) {
-		threshold = (revolution_limit / 100) * flash_spark_cut_divider;
-	} else {
-		threshold = flash_spark_cut_stationary_rpm;
-	}
-
-	if (threshold >= shaft_period1_copy_dline0)
-		coil_dwell_optimal_rpm_x_power = 0;
-	else
-		coil_dwell_optimal_rpm_x_power = original_dwell;
+	coil_dwell_optimal_rpm_x_power = threshold >= shaft_period1_copy_dline0 ? 0 : original_dwell;
 
 	return original_dwell;
 }
