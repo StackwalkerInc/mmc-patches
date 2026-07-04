@@ -16,6 +16,8 @@ jobs:
         run: pip install prek==0.4.0
       - name: Run prek on all files
         run: prek run --all-files
+      - name: Check manifest.toml
+        run: python3 scripts/check_manifest.py manifest.toml
 
   compile:
     runs-on: ubuntu-latest
