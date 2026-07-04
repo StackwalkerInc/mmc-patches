@@ -3,3 +3,5 @@ out/
 site/
 *.o
 *.elf
+__pycache__/
+.pytest_cache/
