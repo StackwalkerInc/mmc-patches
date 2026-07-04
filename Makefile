@@ -4,19 +4,7 @@ DOCKER_IMAGE = ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
 export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out
 
-ROM_DIRS = m32r/33520003/z27ag_mt_2006 \
-	m32r/33520003/slim \
-	m32r/33520003/rolling_spark_cut \
-	m32r/35740031/z27a_cvt_2005 \
-	m32r/39670016/z27a_mt_audm \
-	m32r/47110032/z37a_mt_2005 \
-	m32r/47110032/z37a_sparkcut \
-	m32r/53040110/cz4a_mt_edm_tephra \
-	m32r/53050009/cz4a_sst_edm \
-	m32r/8631B019/pajero_sport_at \
-	m32r/b2940007/eclipse_mt_2008 \
-	m32r/c6660015/pajero_io_4g94gdi \
-	m32r/c7280011/cu2w_outlander_turbo
+ROM_DIRS := $(patsubst %/Makefile,%,$(wildcard m32r/*/*/Makefile))
 
 .PHONY: all compile clean docker docker-compile $(ROM_DIRS) $(ROM_DIRS:%=%-compile)
 
