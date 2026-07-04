@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../m32170.ld
-INCLUDE ../math.ld
+INCLUDE ../../m32170.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 
 post_fuel_cut_enrichment = 0x805012;
@@ -218,7 +218,7 @@ SECTIONS {
 		LONG(flash_new_warmup_retard_mivec_advance_target_3dmap8)
 		LONG(flash_new_warmup_retard_mivec_advance_target_3dmap8)
 	}
-	"MainLoadAxesExtension#16" 0x49a00 : { ../../src/load_extender_alt.o(.rodata) }
+	"MainLoadAxesExtension#16" 0x49a00 : { ../../../src/load_extender_alt.o(.rodata) }
 
 	"Alt Injector Scaling [m32r-bl]" 0x236dc : { LONG(new_update_injector_scaling_to_volume_correction) }
 
@@ -259,9 +259,9 @@ SECTIONS {
 	}
 
 
-	INCLUDE ../guard_injection.ld
-	INCLUDE ../load400.ld
-	INCLUDE ../nlts.ld
+	INCLUDE ../../guard_injection.ld
+	INCLUDE ../../load400.ld
+	INCLUDE ../../nlts.ld
 
 
 	"MAP Voltage Logging - MUT B1" mut_table_start + 0xb1 * 4 : { LONG(adc_byte_map + 1) }
@@ -329,8 +329,8 @@ SECTIONS {
 	}
 
 
-	INCLUDE ../knockcel_injection.ld
-	INCLUDE ../gpio_outputs_hijack.ld
+	INCLUDE ../../knockcel_injection.ld
+	INCLUDE ../../gpio_outputs_hijack.ld
 
 	"RAM" : {
 		*(COMMON)

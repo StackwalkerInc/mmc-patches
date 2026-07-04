@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../m32170.ld
-INCLUDE ../math.ld
+INCLUDE ../../m32170.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 
 MEMORY {
@@ -26,11 +26,11 @@ SECTIONS {
 	"MainLoadAxesExtension#13" 0xcb30 : { LONG(flash_new_warmup_retard_mivec_advance_max_3dmap8) }
 	"MainLoadAxesExtension#14" 0xcb50 : { LONG(flash_new_warmup_retard_mivec_advance_min_3dmap8) }
 	"MainLoadAxesExtension#15" 0xcb70 : { LONG(flash_new_warmup_retard_mivec_advance_target_3dmap8) }
-	"MainLoadAxesExtension#16" 0x49a00 : { ../../src/load_extender.o(.rodata) }
+	"MainLoadAxesExtension#16" 0x49a00 : { ../../../src/load_extender.o(.rodata) }
 
-	INCLUDE ../guard_injection.ld
-	INCLUDE ../load400.ld
-	INCLUDE ../nlts.ld
+	INCLUDE ../../guard_injection.ld
+	INCLUDE ../../load400.ld
+	INCLUDE ../../nlts.ld
 
 
 	"Extended Load Logging - MUT B6" mut_table_start + 0xb6 * 4 : { LONG(load_source_value) }
@@ -66,8 +66,8 @@ SECTIONS {
 	"CVT Dash Control. ASC to Dash message: Reconfigure can slot#12 DLC" 0x11d50 : { BYTE(0x08) }
 	"CVT Dash Control. ASC to Dash message: Receive [m32r-bl]" can0_slot12_rx_update_call_location : { LONG(update_asc_to_dash_rx) }
 
-	INCLUDE ../knockcel_injection.ld
-	INCLUDE ../gpio_outputs_hijack.ld
+	INCLUDE ../../knockcel_injection.ld
+	INCLUDE ../../gpio_outputs_hijack.ld
 
 	"RAM" : {
 		*(COMMON)

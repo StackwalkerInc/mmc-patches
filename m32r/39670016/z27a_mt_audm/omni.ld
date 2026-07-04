@@ -1,19 +1,19 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../m32170.ld
-INCLUDE ../math.ld
+INCLUDE ../../m32170.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 
 SECTIONS {
 	"ReplaceROMID" 0x222 : { LONG(0x3967a016) }
-	INCLUDE ../load400.ld
+	INCLUDE ../../load400.ld
 
 	/* OBD service core — dispatch_kline.o and dispatch_can.o are the only
 	   compilation units; service fragment files are #included into them. */
 	"OBD Services" 0x6b000 : {
-		../../src/obd/dispatch_kline.o(.text)
-		../../src/obd/dispatch_kline.o(.rodata*)
-		../../src/obd/dispatch_can.o(.text)
-		../../src/obd/dispatch_can.o(.rodata*)
+		../../../src/obd/dispatch_kline.o(.text)
+		../../../src/obd/dispatch_kline.o(.rodata*)
+		../../../src/obd/dispatch_can.o(.text)
+		../../../src/obd/dispatch_can.o(.rodata*)
 	}
 
 	/* K-Line: replace `lduh r0,sio0_tx_count` with a call to the generic

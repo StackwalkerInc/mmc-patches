@@ -4,10 +4,11 @@ DOCKER_IMAGE = ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
 export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out
 
-ROM_DIRS = m32r/33520003_z27ag_mt_2006 \
-	m32r/3352a3a3_z27ag_mt_2006 \
+ROM_DIRS = m32r/33520003/z27ag_mt_2006 \
+	m32r/33520003/slim \
+	m32r/33520003/rolling_spark_cut \
 	m32r/35740031_z27a_cvt_2005 \
-	m32r/39670016_z27a_mt_audm \
+	m32r/39670016/z27a_mt_audm \
 	m32r/47110032_z37a_mt_2005 \
 	m32r/53040110_cz4a_mt_edm_Tephra \
 	m32r/53050009_cz4a_sst_edm \

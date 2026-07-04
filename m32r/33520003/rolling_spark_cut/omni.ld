@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../m32170.ld
-INCLUDE ../math.ld
+INCLUDE ../../m32170.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 
 post_fuel_cut_enrichment = 0x805012;
@@ -131,6 +131,8 @@ MEMORY {
 get_coil_dwell = 0x32ddc;
 
 SECTIONS {
+	"ReplaceROMID" 0x226 : { LONG(0x3352A4A3) }
+
 	"Omni#1" 0x68eac : {
 		*(.text)
 		*(.rodata)
