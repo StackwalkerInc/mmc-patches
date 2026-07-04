@@ -1,22 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-include ../toolchain.mk
+include ../../toolchain.mk
 
-ROM_DIR ?= ../../../roms
-OUT_DIR ?= ../../../out
-
-SOURCES = ../../src/templates/at_shift.c \
-	../../src/at/pajero_manual_indicator.c \
-	../../src/at/pajero_manual_indicator_data.c
+TOP := ../../..
+ROM_DIR ?= ../../../../roms
+OUT_DIR ?= ../../../../out
+ROM_HINT ?=
 
 OBJECTS = $(SOURCES:.c=.o)
 
-ORIGINAL_ROM    = $(ROM_DIR)/8631B0190A.bin
-ROM_SHA256      = 6b7b93db288f4b06fe04de1113447b2727738b2cb327f3085abe7ac8fe42c571
-ELF_OUT_FILE    = 8631B0190A.elf
-BIN_OUT_FILE    = $(OUT_DIR)/8631B0190A_patched.bin
-XML_PATCH_FILE  = $(OUT_DIR)/8631B0190A_patches.xml
-XML_HEADER_FILE = 8631B0190A_header.xml
-XML_OUT_FILE    = $(OUT_DIR)/8631B0190A.xml
+ORIGINAL_ROM = $(ROM_DIR)/c7280011.bin
+ROM_SHA256   = 19d694e2b527d00b5c81aa5d0a3ea71f2464354c5f91bb7be35c5e62d1e82d47
 
 .c.o:
 	$(CC) $(CFLAGS) $(DEFINES) $< -c -o $@
@@ -30,7 +23,7 @@ compile: $(ELF_OUT_FILE)
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
 		echo "ERROR: ROM not found at $(ORIGINAL_ROM)"; \
-		echo "Place 8631B0190A.bin (Pajero Sport diesel AT ECU) in $(ROM_DIR)/"; \
+		echo "Place $(notdir $(ORIGINAL_ROM)) $(if $(ROM_HINT),$(ROM_HINT) )in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
 	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \

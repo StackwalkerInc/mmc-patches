@@ -19,7 +19,7 @@ decays_x1_nlts_active = 0x8049e4;
 load1byte = 0x804e2c;
 
 INCLUDE description.ld
-INCLUDE ../math.ld
+INCLUDE ../../math.ld
 
 MEMORY {
 	UNUSED_MEMORY_FOR_MODS : ORIGIN = 0x56130, LENGTH =0x1000
@@ -54,8 +54,8 @@ SECTIONS {
 	}
 	"Post fuel cut spark limit [m32r-bl]" test_substitute_spark_advance_int_call_localtion : { LONG(new_test_substitute_spark_advance_int) }
 
-	INCLUDE ../knockcel_injection.ld
-	INCLUDE ../gpio_outputs_hijack.ld
+	INCLUDE ../../knockcel_injection.ld
+	INCLUDE ../../gpio_outputs_hijack.ld
 
 	"data_desc" 0x60000 : {
 		*(data_desc)

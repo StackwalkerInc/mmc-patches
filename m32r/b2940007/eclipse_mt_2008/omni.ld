@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../math.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 INCLUDE mut_table_variables.ld
 

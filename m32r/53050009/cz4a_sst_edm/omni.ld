@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 INCLUDE description.ld
-INCLUDE ../math.ld
+INCLUDE ../../math.ld
 
 MEMORY {
 	UNUSED_MEMORY_FOR_MODS : ORIGIN = 0xa4000, LENGTH = 0x4000

@@ -1,29 +1,15 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-include ../toolchain.mk
+include ../../toolchain.mk
 
-ROM_DIR ?= ../../../roms
-OUT_DIR ?= ../../../out
-
-DEFINES += \
-	-DSMALL_DATA_AREA_BASE=0x80c000 \
-	-DTEMP_AXIS_SRC_SDA=-14968 \
-	-DTEMP_AXIS_TARGET_X_SDA=-14962 \
-	-DTEMP_AXIS_TARGET_Y_SDA=-14960
-
-SOURCES = ../../src/boost_control_evox_sst_kiwamaru.c \
-	../../src/evox_sst_multimap.c \
-	../../src/evox_sst_mivec_multimap.c \
-	../../src/sst_spark_vs_gear_correction.c
+TOP := ../../..
+ROM_DIR ?= ../../../../roms
+OUT_DIR ?= ../../../../out
+ROM_HINT ?=
 
 OBJECTS = $(SOURCES:.c=.o)
 
-ORIGINAL_ROM    = $(ROM_DIR)/53050009.bin
-ROM_SHA256      = 5b4c22abb55822c6fc2fd1b03e130c4961dffb81e107f849437bb3f0e7504a74
-ELF_OUT_FILE    = 53050009.elf
-BIN_OUT_FILE    = $(OUT_DIR)/5305a009_patched.bin
-XML_PATCH_FILE  = $(OUT_DIR)/5305a009_patches.xml
-XML_HEADER_FILE = 53050009_header.xml
-XML_OUT_FILE    = $(OUT_DIR)/5305a009.xml
+ORIGINAL_ROM = $(ROM_DIR)/b2940007.bin
+ROM_SHA256   = d6d62ef0978e2ea8ca99eb506b87fc64690b55cdf5f31f356427e358e87953ec
 
 .c.o:
 	$(CC) $(CFLAGS) $(DEFINES) $< -c -o $@
@@ -37,7 +23,7 @@ compile: $(ELF_OUT_FILE)
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
 		echo "ERROR: ROM not found at $(ORIGINAL_ROM)"; \
-		echo "Place 53050009.bin in $(ROM_DIR)/ (the 1MB Evo X SST EDM stock image)"; \
+		echo "Place $(notdir $(ORIGINAL_ROM)) $(if $(ROM_HINT),$(ROM_HINT) )in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
 	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \

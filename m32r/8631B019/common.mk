@@ -1,36 +1,29 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-include ../toolchain.mk
+include ../../toolchain.mk
 
-ROM_DIR ?= ../../../roms
-OUT_DIR ?= ../../../out
-
-SOURCES = ../../src/templates/cvt_overboost_protection.c
+TOP := ../../..
+ROM_DIR ?= ../../../../roms
+OUT_DIR ?= ../../../../out
+ROM_HINT ?=
 
 OBJECTS = $(SOURCES:.c=.o)
 
-ORIGINAL_ROM    = $(ROM_DIR)/35740031.bin
-ROM_SHA256      = 42ec22e5ccb802bf498948dfee9679786f727b2f23c199568ec7ac8a5fe9c452
-ELF_OUT_FILE    = 35740031.elf
-BIN_OUT_FILE    = $(OUT_DIR)/35740031_patched.bin
-XML_PATCH_FILE  = $(OUT_DIR)/35740031_patches.xml
-XML_HEADER_FILE = 35740031_header.xml
-XML_OUT_FILE    = $(OUT_DIR)/35740031.xml
+ORIGINAL_ROM = $(ROM_DIR)/8631B0190A.bin
+ROM_SHA256   = 6b7b93db288f4b06fe04de1113447b2727738b2cb327f3085abe7ac8fe42c571
 
 .c.o:
 	$(CC) $(CFLAGS) $(DEFINES) $< -c -o $@
 
 .PHONY: all compile verify clean
 
-# all: compile + verify ROM + run codeinjector.
 all: verify $(BIN_OUT_FILE) $(XML_OUT_FILE)
 
-# compile: build the ELF only (no ROM required — used by CI).
 compile: $(ELF_OUT_FILE)
 
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
 		echo "ERROR: ROM not found at $(ORIGINAL_ROM)"; \
-		echo "Place 35740031.bin in $(ROM_DIR)/"; \
+		echo "Place $(notdir $(ORIGINAL_ROM)) $(if $(ROM_HINT),$(ROM_HINT) )in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
 	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \

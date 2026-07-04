@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../math.ld
+INCLUDE ../../math.ld
 INCLUDE description.ld
 /*
 nlts_rpm_error = 0x804572;
@@ -52,7 +52,7 @@ MEMORY {
 
 SECTIONS {
 	INCLUDE nlts_local.ld
-	INCLUDE ../gpio_outputs_hijack.ld
+	INCLUDE ../../gpio_outputs_hijack.ld
 
 	"Omni#1" : {
 		*(.text)
