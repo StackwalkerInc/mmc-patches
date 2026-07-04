@@ -26,7 +26,7 @@ compile: $(ELF_OUT_FILE)
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
 		echo "ERROR: ROM not found at $(ORIGINAL_ROM)"; \
-		echo "Place 47110032.bin $(ROM_HINT)in $(ROM_DIR)/"; \
+		echo "Place 47110032.bin $(if $(ROM_HINT),$(ROM_HINT) )in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
 	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \
