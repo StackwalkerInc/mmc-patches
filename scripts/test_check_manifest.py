@@ -33,6 +33,14 @@ DUPLICATE_OUTPUT_MANIFEST = GOOD_MANIFEST.replace(
     'output_bin = "1111a001_patched.bin"', 'output_bin = "1111a000_patched.bin"'
 )
 
+DUPLICATE_XML_MANIFEST = GOOD_MANIFEST.replace(
+    'output_xml = "1111a001.xml"', 'output_xml = "1111a000.xml"'
+)
+
+DUPLICATE_TARGET_DIR_MANIFEST = GOOD_MANIFEST.replace(
+    'target_dir = "m32r/11110000/variant_b"', 'target_dir = "m32r/11110000/variant_a"'
+)
+
 MISSING_DIR_MANIFEST = GOOD_MANIFEST.replace(
     'target_dir = "m32r/11110000/variant_b"',
     'target_dir = "m32r/11110000/does_not_exist"',
@@ -64,6 +72,18 @@ def test_duplicate_output_bin_fails(tmp_path):
     manifest_path = _write_manifest_and_dirs(tmp_path, DUPLICATE_OUTPUT_MANIFEST)
     violations = check_manifest.check(manifest_path)
     assert any("output_bin" in v and "1111a000_patched.bin" in v for v in violations)
+
+
+def test_duplicate_output_xml_fails(tmp_path):
+    manifest_path = _write_manifest_and_dirs(tmp_path, DUPLICATE_XML_MANIFEST)
+    violations = check_manifest.check(manifest_path)
+    assert any("output_xml" in v and "1111a000.xml" in v for v in violations)
+
+
+def test_duplicate_target_dir_fails(tmp_path):
+    manifest_path = _write_manifest_and_dirs(tmp_path, DUPLICATE_TARGET_DIR_MANIFEST)
+    violations = check_manifest.check(manifest_path)
+    assert any("target_dir" in v and "m32r/11110000/variant_a" in v for v in violations)
 
 
 def test_missing_target_dir_fails(tmp_path):

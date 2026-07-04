@@ -4,6 +4,7 @@ include ../../toolchain.mk
 TOP := ../../..
 ROM_DIR ?= ../../../../roms
 OUT_DIR ?= ../../../../out
+ROM_HINT ?=
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -22,7 +23,7 @@ compile: $(ELF_OUT_FILE)
 verify:
 	@if [ ! -f "$(ORIGINAL_ROM)" ]; then \
 		echo "ERROR: ROM not found at $(ORIGINAL_ROM)"; \
-		echo "Place 39670016.bin in $(ROM_DIR)/"; \
+		echo "Place $(notdir $(ORIGINAL_ROM)) $(if $(ROM_HINT),$(ROM_HINT) )in $(ROM_DIR)/"; \
 		exit 1; \
 	fi
 	@actual=$$(sha256sum "$(ORIGINAL_ROM)" 2>/dev/null || shasum -a 256 "$(ORIGINAL_ROM)"); \

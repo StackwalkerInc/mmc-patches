@@ -14,7 +14,7 @@
  *       zero the coil-dwell value -> spark cut
  *   Else pass through.
  */
-#include "../../include/maps_desc.h"
+#include <maps_desc.h>
 
 /*
  * Params block placed at 0x5fed0 in flash by the linker.  The struct

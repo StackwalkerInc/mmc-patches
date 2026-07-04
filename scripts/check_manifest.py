@@ -21,6 +21,7 @@ def check(manifest_path: pathlib.Path) -> list[str]:
     seen_patched_ids: dict[str, str] = {}
     seen_output_bins: dict[str, str] = {}
     seen_output_xmls: dict[str, str] = {}
+    seen_target_dirs: dict[str, str] = {}
 
     for rom in roms:
         rom_id = rom.get("id", "<missing id>")
@@ -53,6 +54,14 @@ def check(manifest_path: pathlib.Path) -> list[str]:
             seen_output_xmls[output_xml] = rom_id
 
         target_dir = rom.get("target_dir")
+        if target_dir in seen_target_dirs:
+            violations.append(
+                f"duplicate target_dir '{target_dir}': "
+                f"used by both '{seen_target_dirs[target_dir]}' and '{rom_id}'"
+            )
+        elif target_dir is not None:
+            seen_target_dirs[target_dir] = rom_id
+
         if target_dir is not None:
             target_path = repo_root / target_dir
             if not target_path.is_dir():

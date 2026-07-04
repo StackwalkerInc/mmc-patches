@@ -83,7 +83,7 @@ Then assemble the full EcuFlash XML:
 
 ```sh
 printf '<rom>\n' > out/3352a403.xml
-cat m32r/33520003_z27ag_mt_2006/3352a403_header.xml >> out/3352a403.xml
+cat m32r/33520003/z27ag_mt_2006/3352a403_header.xml >> out/3352a403.xml
 cat out/3352a403_patches.xml >> out/3352a403.xml
 printf '</rom>\n' >> out/3352a403.xml
 ```
@@ -105,19 +105,27 @@ src/              shared C patch modules
 m32r/
   toolchain.mk    compiler/linker settings
   *.ld            shared linker fragments (math library, load400, nlts, …)
-  33520003_z27ag_mt_2006/     Z27AG JDM 5MT full patch set
-  3352a3a3_z27ag_mt_2006/     Z27AG JDM 5MT slim variant
-  35740031_z27a_cvt_2005/     Z27A JDM CVT
-  39670016_z27a_mt_audm/      Z27A AUDM 5MT
-  47110032_z37a_mt_2005/      Colt CZT Z37A
-  53040110_cz4a_mt_edm_Tephra/  Evo X CZ4A 5MT (Tephra)
-  53050009_cz4a_sst_edm/      Evo X CZ4A SST (Kiwamaru)
-  8631B0190A_pajero_sport_at/ Pajero Sport Diesel AT
-  b2940007_eclipse_mt_2008/   Eclipse 4G USDM 5MT
-  c6660015_pajero_io_4g94gdi/ Pajero iO 4G94 GDI
-  c728001x_cu2w_outlander_turbo/  Outlander CU2W turbo
-  (each ROM dir contains Makefile, omni.ld, description.ld, per-ROM sources,
-   and a *_header.xml EcuFlash ROM definition header)
+  33520003/                   Colt Ralliart Z27AG JDM 5MT (stock ROM ID)
+    common.mk                 shared Make settings for this stock ROM
+    common.ld                 shared linker symbols for this stock ROM's variants
+    z27ag_mt_2006/            full patch set (3352a403)
+    slim/                     slim variant (3352a3a3)
+    rolling_spark_cut/        rolling spark-cut variant (3352a4a3)
+  35740031/z27a_cvt_2005/     Z27A JDM CVT
+  39670016/z27a_mt_audm/      Z27A AUDM 5MT
+  47110032/                   Colt CZT Z37A (stock ROM ID)
+    z37a_mt_2005/             full patch set
+    z37a_sparkcut/            spark-cut variant (4711a132)
+  53040110/cz4a_mt_edm_tephra/  Evo X CZ4A 5MT (Tephra)
+  53050009/cz4a_sst_edm/      Evo X CZ4A SST (Kiwamaru)
+  8631B019/pajero_sport_at/   Pajero Sport Diesel AT
+  b2940007/eclipse_mt_2008/   Eclipse 4G USDM 5MT
+  c6660015/pajero_io_4g94gdi/ Pajero iO 4G94 GDI
+  c7280011/cu2w_outlander_turbo/  Outlander CU2W turbo
+  (each stock-ROM directory has a common.mk — and, where multiple variants
+   share linker symbols, a common.ld — alongside its variant subdirectories;
+   each variant dir contains Makefile, omni.ld, description.ld, per-ROM
+   sources, and a *_header.xml EcuFlash ROM definition header)
 manifest.toml     ROM registry: SHA-256, filenames, output IDs
 roms/             (gitignored) place your stock ROM here
 out/              (gitignored) patched output
