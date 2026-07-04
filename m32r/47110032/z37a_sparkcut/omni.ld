@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-INCLUDE ../m32170.ld
+INCLUDE ../../m32170.ld
 INCLUDE description.ld
 
 MEMORY {
@@ -7,7 +7,7 @@ MEMORY {
 }
 
 SECTIONS {
-	"ReplaceROMID" 0x50022 : { LONG(0x4711a032) }
+	"ReplaceROMID" 0x50022 : { LONG(0x4711A132) }
 
 	"Spark Cut Params" 0x5fed0 : {
 		spark_cut.o(.spark_cut_params)

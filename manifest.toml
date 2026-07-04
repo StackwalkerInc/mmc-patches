@@ -490,7 +490,7 @@ stock_rom_id_hex   = "47110032"
 patched_rom_id_hex = "4711a032"
 filename    = "47110032.bin"
 sha256      = "c52e83d190528fc1bf63fb569d7b51b8b363688c5a708f10fb25f4432eff315b"
-target_dir  = "m32r/47110032_z37a_mt_2005"
+target_dir  = "m32r/47110032/z37a_mt_2005"
 output_bin  = "4711a032_patched.bin"
 output_xml  = "4711a032.xml"
 arch        = "m32r"
@@ -579,6 +579,27 @@ id          = "use_mode_idx_table"
 name        = "Mode Index Table Enable"
 category    = "multimap"
 description = "Sets the stock 'use mode index table' flag at 0x50012 and writes a default 0..7 lookup table at 0x5002a so the multi-map machinery picks up the mode selector output."
+
+
+[[rom]]
+id          = "colt_czt_z37a_5mt_2005_sparkcut"
+name        = "Mitsubishi Colt CZT Z37A 1.5T 5MT (2005) — standalone spark cut"
+stock_rom_id_hex   = "47110032"
+patched_rom_id_hex = "4711a132"
+filename    = "47110032.bin"
+sha256      = "c52e83d190528fc1bf63fb569d7b51b8b363688c5a708f10fb25f4432eff315b"
+target_dir  = "m32r/47110032/z37a_sparkcut"
+output_bin  = "4711a132_patched.bin"
+output_xml  = "4711a132.xml"
+arch        = "m32r"
+mcu         = "M32176F3"
+flash_kb    = 384
+
+[[rom.patches]]
+id          = "spark_cut"
+name        = "Standalone Spark Cut Rev Limiter"
+category    = "rev-limit"
+description = "Self-contained rev-limit implementation driven by a small params block (state threshold, preset cut period, rev-limit divisor/multiplier) with no dependency on the rest of the Z37A patch set."
 
 
 [[rom]]
