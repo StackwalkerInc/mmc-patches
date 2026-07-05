@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
+
+#include "stdint.h"
 
 #define CYLINDER_ROW_SIZE 16
 
@@ -10,21 +10,18 @@ typedef unsigned short uint16_t;
 #define LAUNCH_CONTROL_THRESHOLD_SUB375RPM (LAUNCH_CONTROL_THRESHOLD + 375)
 #define LAUNCH_CONTROL_THRESHOLD_SUB500RPM (LAUNCH_CONTROL_THRESHOLD + 500)
 
-const uint8_t spark_cut_table[3][CYLINDER_ROW_SIZE] = {
-    {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1},
-    {1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
+const uint16_t spark_cut_table[3] = {
+    0b1000010000100001,
+    0b1010010110100101,
+    0b1110110110110111,
 };
 
-const uint16_t spark_cut_thresholds[4] = {80, 60, 40, 20};
+const uint16_t spark_cut_thresholds[3] = {60, 40, 20};
 
 uint8_t cylinder_index;
 
 /*defined in revolution_limit.c*/
 uint16_t revolution_limit;
-
-/*from description.ld*/
-extern uint16_t shaft_period1_copy_dline0;
 
 const volatile uint16_t flash_launch_control_rpm_limit = 0x3da / 2;
 const volatile uint16_t flash_revolution_limit = 0x3da;
@@ -41,26 +38,27 @@ void update_revolution_limit(void)
 	}
 }
 
-bool do_spark_cut_in_interrupt(uint16_t revolution_period)
+unsigned do_spark_cut_in_interrupt(uint_fast16_t revolution_period)
 {
-	cylinder_index = (cylinder_index + 1) % CYLINDER_ROW_SIZE;
-	if (shaft_period1_copy_dline0 < revolution_limit) {
-		return true;
+	uint8_t idx = (cylinder_index + 1) % CYLINDER_ROW_SIZE;
+	cylinder_index = idx;
+	if (revolution_period < revolution_limit) {
+		return 1;
 	}
-	if (shaft_period1_copy_dline0 >= revolution_limit + spark_cut_thresholds[0]) {
-		return false;
+	const uint_fast16_t delta = revolution_period - revolution_limit;
+	if (delta > spark_cut_thresholds[0]) {
+		return 0;
 	}
-	const uint8_t *spark_cut_row;
-	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[1]) {
-		spark_cut_row = spark_cut_table[0];
+
+	uint16_t mask;
+	if (delta < 20) {
+		mask = spark_cut_table[2];
+	} else if (delta < 40) {
+		mask = spark_cut_table[1];
+	} else { // 40 <= delta < 60
+		mask = spark_cut_table[0];
 	}
-	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[2]) {
-		spark_cut_row = spark_cut_table[1];
-	}
-	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[3]) {
-		spark_cut_row = spark_cut_table[2];
-	}
-	return spark_cut_row[cylinder_index];
+	return (mask & (1 << idx));
 }
 
 extern uint16_t get_coil_dwell(uint16_t p0);

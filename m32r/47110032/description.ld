@@ -79,3 +79,6 @@ can_vehicle_speed = 0x805bfe;
 engine_rpm = 0x804cfc;
 
 alt_inputs3_processed = 0x804c58;
+
+map_engine_load = 0x804d30;
+update_mil = 0x215f0;
