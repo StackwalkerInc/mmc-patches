@@ -7,7 +7,6 @@
    only its addresses. */
 
 INCLUDE ../description.ld
-INCLUDE ../math.ld
 
 /* --- Gear indicator (gear_detector.c / gear_detector_data.c) --- */
 current_gear			= 0x804D38;
