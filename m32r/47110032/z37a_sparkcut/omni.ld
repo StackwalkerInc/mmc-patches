@@ -16,6 +16,14 @@ MEMORY {
 SECTIONS {
 	"ReplaceROMID" 0x50022 : { LONG(0x4711A132) }
 
+	"Gear Detector Code" : {
+		../../../src/gear_detector.o(.text)
+		../../../src/gear_detector_data.o(.text)
+		../../../src/gear_detector_data.o(.rodata)
+	} > IDLE_CHECK
+
+	/* TODO: confirm via rom-analyzer — call site for update_current_gear() */
+
 	"RAM" : {
 		*(COMMON)
 	} > UNUSED_RAM_FOR_MODS
