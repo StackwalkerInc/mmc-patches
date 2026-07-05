@@ -1,0 +1,6 @@
+- Map switching
+  - ETACS handler for position lights
+- Bigger maps
+- Launch control with spark cuts
+- Gear indicator
+- Knock CEL
