@@ -583,7 +583,7 @@ description = "Sets the stock 'use mode index table' flag at 0x50012 and writes 
 
 [[rom]]
 id          = "colt_czt_z37a_5mt_2005_sparkcut"
-name        = "Mitsubishi Colt CZT Z37A 1.5T 5MT (2005) — standalone spark cut"
+name        = "Mitsubishi Colt CZT Z37A 1.5T 5MT (2005) — modern suite PoC"
 stock_rom_id_hex   = "47110032"
 patched_rom_id_hex = "4711a132"
 filename    = "47110032.bin"
@@ -596,10 +596,46 @@ mcu         = "M32176F3"
 flash_kb    = 384
 
 [[rom.patches]]
-id          = "spark_cut"
-name        = "Standalone Spark Cut Rev Limiter"
+id          = "mode_selector"
+name        = "Multi-Map Mode Selector"
+category    = "multimap"
+description = "Toggles between main and alt tuning profiles via clutch + position-lights switch, built on the shared mode_selector_v2 module."
+
+[[rom.patches]]
+id          = "etacs_position_lights"
+name        = "ETACS Position Lights Handler"
+category    = "multimap"
+description = "Decodes the ETACS CAN position-lights signal via the confirmed Z37A CAN RX dispatch-table hook, feeding the mode selector's position_lights input."
+
+[[rom.patches]]
+id          = "load_extender"
+name        = "Extended Load Maps"
+category    = "engine"
+description = "Replaces stock fuel and MIVEC spark map load axes with a wider range (up to 320% load), reusing the shared load_extender/load_extender_alt modules."
+
+[[rom.patches]]
+id          = "revolution_limit"
+name        = "Configurable Rev Limit + Launch Control"
 category    = "rev-limit"
-description = "Self-contained rev-limit implementation driven by a small params block (state threshold, preset cut period, rev-limit divisor/multiplier) with no dependency on the rest of the Z37A patch set."
+description = "Shared revolution_limit module: per-mode rev limit, launch-control state machine, and spark-retard-based overrev protection."
+
+[[rom.patches]]
+id          = "rolling_spark_cut"
+name        = "Rolling Spark Cut (Coil-Dwell Based)"
+category    = "rev-limit"
+description = "Per-cylinder rolling coil-dwell cut for launch/2-step, replacing the previous single-threshold coil-dwell-store patch."
+
+[[rom.patches]]
+id          = "gear_detector"
+name        = "Gear Detection"
+category    = "qol"
+description = "Infers current gear from vehicle speed and RPM ratio; feeds the gear indicator and gear-aware limiting."
+
+[[rom.patches]]
+id          = "knock_mil"
+name        = "Knock MIL Indicator (Knock CEL)"
+category    = "knock"
+description = "Flashes the MIL in coded patterns indicating knock intensity, using the shared knock_mil_simple module."
 
 
 [[rom]]
