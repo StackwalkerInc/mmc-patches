@@ -5,6 +5,23 @@
    mmc-research patch scope: o2 rear-channel hijack + EDM APPS->TTP
    table descriptions. */
 
+/*math*/
+s_add16 = 0x7600;
+s_add32 = 0x7620;
+s_16to8 = 0x7694;
+s_32to16 = 0x76a8;
+mid16 = 0x76b8;
+s_sub16 = 0x7f80;
+s_sub32 = 0x7f98;
+s16_divu32_16 = 0x79e8;
+map8u16	 = 0x4e664;
+mapu16 = 0x4e734;
+calc_axis = 0x4e8cc;
+multimap8u16 = 0x4e7ec;
+multiu8 = 0x4e83c;
+multiu16 = 0x4e84c;
+aprxu16_255 = 0x7b54;
+
 /* idle/torque tables */
 flash_idle_coolant_axis = 0x4ee26;
 flash_target_idle_rpm_neutral_2dmap8 = 0x50220;
@@ -42,24 +59,6 @@ shaft_period1_copy_dline0	= 0x8052b2;	/* @(-11598,fp); current shaft period (∝
 flash_can_tx2_done_index = 0x9524;
 flash_can_tx2_done_mask = 0x952b;
 can_tx2_request = 0x41820;
-
-/*math*/
-s_add16 = 0x7600;
-s_add32 = 0x7620;
-s_16to8 = 0x7694;
-s_32to16 = 0x76a8;
-mid16 = 0x76b8;
-s_sub16 = 0x7f80;
-s_sub32 = 0x7f98;
-s16_divu32_16 = 0x79e8;
-map8u16	 = 0x4e664;
-mapu16 = 0x4e734;
-calc_axis = 0x4e8cc;
-multimap8u16 = 0x4e7ec;
-multiu8 = 0x4e83c;
-multiu16 = 0x4e84c;
-aprxu16_255 = 0x7b54;
-
 
 pushi = 0x3910;
 popi = 0x3928;
