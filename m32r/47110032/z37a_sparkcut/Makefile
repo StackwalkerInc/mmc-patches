@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 DEFINES += -DSMALL_DATA_AREA_BASE=0x808000 \
-	-DMACHINE_Z37AMT \
+	-DMACHINE_Z37A_MT \
 	-DCLUTCH_INPUT_INVERTED \
 	-DTEMP_AXIS_SRC_SDA=-13344 \
 	-DTEMP_AXIS_TARGET_X_SDA=-13338 \
@@ -10,8 +10,7 @@ DEFINES += -DSMALL_DATA_AREA_BASE=0x808000 \
 
 ROM_HINT = (Colt CZT Z37A 1.5T 5MT 2005 EDM)
 
-SOURCES = ../../../src/gear_detector.c \
-	../../../src/gear_detector_data.c
+SOURCES = ../../../src/rolling_spark_cut.c
 
 ELF_OUT_FILE    = 4711a132.elf
 BIN_OUT_FILE    = $(OUT_DIR)/4711a132_patched.bin

@@ -33,8 +33,8 @@ knock_sum			= 0x804FBE;
 gpio1				= 0x804C26;
 run_state_flags			= 0x804DB4;
 
-/* TODO: confirm via rom-analyzer — call site of update_mil() to hook with new_update_mil */
-update_mil_call_location	= 0x0; /* TODO: confirm via rom-analyzer */
+/* call site of update_mil() to hook with new_update_mil */
+update_mil_call_location	= 0x20164;
 
 /* --- Launch control + rev limit (revolution_limit.c / revolution_limit_data.c) --- */
 vehicle_movement_decay		= 0x804D8A;
@@ -50,5 +50,6 @@ tacho_reset_call_location	= 0x0; /* TODO: confirm via rom-analyzer */
 tacho_reset			= 0x0; /* TODO: confirm via rom-analyzer */
 
 /* --- Rolling spark cut (rolling_spark_cut.c) --- */
-/* Deferred per explicit direction: no address research this pass. */
-get_coil_dwell			= 0x0; /* TODO: bind real address — deferred, see spec */
+get_coil_dwell			= 0x24f64;
+get_coil_dwell_call_site1 = 0x2501c;
+get_coil_dwell_call_site2 = 0x23e54;
