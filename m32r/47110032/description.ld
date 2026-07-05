@@ -73,3 +73,9 @@ can0_update_tx_data = 0x2c2e0;
 /*etacs extension*/
 flash_can_rx_handlers_1 = 0x9598;
 can_rx_etacs_handler1 = 0x2cddc;
+
+/*for gear indicator*/
+can_vehicle_speed = 0x805bfe;
+engine_rpm = 0x804cfc;
+
+alt_inputs3_processed = 0x804c58;
