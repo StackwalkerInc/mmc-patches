@@ -48,10 +48,12 @@ const struct gear_threshold flash_gear_thresholds[6] = {
     GEAR_THRESHOLD_DEF(10262, 1000, 2000), GEAR_THRESHOLD_DEF(15035, 1000, 2000), GEAR_THRESHOLD_DEF(20304, 1000, 2000),
     GEAR_THRESHOLD_DEF(26750, 1000, 2000), GEAR_THRESHOLD_DEF(38526, 2000, 4000), GEAR_THRESHOLD_DEF(38526, 2000, 4000),
 };
-#elif MACHINE_Z37AMT
+#elif MACHINE_Z37A_MT
 /**
- * Z37A is a 5-speed manual (unlike Z27AG/EvoX's 6-speed), so this table
- * has 5 entries, not 6. Thresholds confirmed by
+ * Z37A is a 5-speed manual
+ * 1000 rpm = 256
+ * 10 kph = 40 discretes
+ *
  * m32r/47110032/z37a_mt_2005/gear_detector.c (same physical ROM).
  */
 const struct gear_threshold flash_gear_thresholds[5] = {
@@ -60,7 +62,7 @@ const struct gear_threshold flash_gear_thresholds[5] = {
 };
 #endif
 
-#if MACHINE_Z37AMT
+#if MACHINE_Z37A_MT
 DECLARE_ARRAY_DESC(flash_gear_thresholds, "NLTS", "Gear Detector Ratio Thresholds", "uint16",
                    "<table name=\"Y\" type=\"Static Y Axis\" elements=\"20\">"
                    "<data>1 Low Out</data>"

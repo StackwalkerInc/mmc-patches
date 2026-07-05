@@ -16,11 +16,19 @@ MEMORY {
 SECTIONS {
 	"ReplaceROMID" 0x50022 : { LONG(0x4711A132) }
 
-	"Gear Detector Code" : {
-		../../../src/gear_detector.o(.text)
-		../../../src/gear_detector_data.o(.text)
-		../../../src/gear_detector_data.o(.rodata)
+
+	"Nopout idle_check call to use IDLE_CHECK memory area" 0x33c80 : {
+		SHORT(0x7000)
+		SHORT(0x7000)
+	}
+
+	"Common Code/Data" : {
+		*(.text)
+		*(.rodata)
 	} > IDLE_CHECK
+
+	INCLUDE ../../knockcel_injection.ld
+	INCLUDE ../../rolling_spark_cut_injection.ld
 
 	/* TODO: confirm via rom-analyzer — call site for update_current_gear() */
 

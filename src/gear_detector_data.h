@@ -16,7 +16,7 @@ struct gear_threshold {
 	gear_ratio_t high_out;
 };
 
-#if MACHINE_Z37AMT
+#if MACHINE_Z37A_MT
 extern const struct gear_threshold flash_gear_thresholds[5];
 #else
 extern const struct gear_threshold flash_gear_thresholds[6];

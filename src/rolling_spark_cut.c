@@ -10,61 +10,57 @@ typedef unsigned short uint16_t;
 #define LAUNCH_CONTROL_THRESHOLD_SUB375RPM (LAUNCH_CONTROL_THRESHOLD + 375)
 #define LAUNCH_CONTROL_THRESHOLD_SUB500RPM (LAUNCH_CONTROL_THRESHOLD + 500)
 
-const uint8_t spark_cut_table[5][CYLINDER_ROW_SIZE] = {
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+const uint8_t spark_cut_table[3][CYLINDER_ROW_SIZE] = {
     {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-
     {1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1},
-
     {1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1},
-
 };
 
-volatile uint8_t cylinder_index;
-volatile uint8_t launch_control_active;
+const uint16_t spark_cut_thresholds[4] = {80, 60, 40, 20};
+
+uint8_t cylinder_index;
+
+/*defined in revolution_limit.c*/
+uint16_t revolution_limit;
+
+/*from description.ld*/
+extern uint16_t shaft_period1_copy_dline0;
+
+const volatile uint16_t flash_launch_control_rpm_limit = 0x3da / 2;
+const volatile uint16_t flash_revolution_limit = 0x3da;
+const volatile uint16_t flash_launch_control_speed_limit = 0x28;
+
+extern uint16_t vehicle_speed_hires;
+
+void update_revolution_limit(void)
+{
+	if (vehicle_speed_hires < flash_launch_control_speed_limit) {
+		revolution_limit = flash_launch_control_rpm_limit;
+	} else {
+		revolution_limit = flash_revolution_limit;
+	}
+}
 
 bool do_spark_cut_in_interrupt(uint16_t revolution_period)
 {
-	if (!launch_control_active) {
-		return false;
-	}
-	// uint8_t *spark_cut_row = spark_cut_table[0];
 	cylinder_index = (cylinder_index + 1) % CYLINDER_ROW_SIZE;
-	//	if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB250RPM) {
-	//		if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB125RPM) {
-	//			if (revolution_period < LAUNCH_CONTROL_THRESHOLD) {
-	//				return true;
-	//			}
-	//			return spark_cut_table[4][cylinder_index];
-	//		} else {
-	//			return spark_cut_table[3][cylinder_index];
-	//		}
-	//	} else {
-	//		if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB375RPM) {
-	//			return spark_cut_table[2][cylinder_index];
-	//		} else if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB500RPM) {
-	//			return spark_cut_table[1][cylinder_index];
-	//		} else {
-	//			return false;
-	//		}
-	//	}
-
-	if (revolution_period < LAUNCH_CONTROL_THRESHOLD) {
+	if (shaft_period1_copy_dline0 < revolution_limit) {
 		return true;
 	}
-	if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB125RPM) {
-		return spark_cut_table[4][cylinder_index];
+	if (shaft_period1_copy_dline0 >= revolution_limit + spark_cut_thresholds[0]) {
+		return false;
 	}
-	if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB250RPM) {
-		return spark_cut_table[3][cylinder_index];
+	const uint8_t *spark_cut_row;
+	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[1]) {
+		spark_cut_row = spark_cut_table[0];
 	}
-	if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB375RPM) {
-		return spark_cut_table[2][cylinder_index];
+	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[2]) {
+		spark_cut_row = spark_cut_table[1];
 	}
-	if (revolution_period < LAUNCH_CONTROL_THRESHOLD_SUB500RPM) {
-		return spark_cut_table[1][cylinder_index];
+	if (shaft_period1_copy_dline0 < revolution_limit + spark_cut_thresholds[3]) {
+		spark_cut_row = spark_cut_table[2];
 	}
-	return false;
+	return spark_cut_row[cylinder_index];
 }
 
 extern uint16_t get_coil_dwell(uint16_t p0);
