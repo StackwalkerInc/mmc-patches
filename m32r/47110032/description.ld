@@ -82,3 +82,6 @@ alt_inputs3_processed = 0x804c58;
 
 map_engine_load = 0x804d30;
 update_mil = 0x215f0;
+
+update_gpio_outputs_call_location = 0x4e1c0;
+update_gpio_outputs = 0xb324;
