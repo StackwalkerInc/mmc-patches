@@ -29,6 +29,7 @@ SECTIONS {
 
 	INCLUDE ../../knockcel_injection.ld
 	INCLUDE ../../rolling_spark_cut_injection.ld
+	INCLUDE ../../gpio_outputs_hijack.ld
 
 	/* TODO: confirm via rom-analyzer — call site for update_current_gear() */
 
