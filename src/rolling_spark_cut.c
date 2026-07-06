@@ -46,7 +46,7 @@ unsigned do_spark_cut_in_interrupt(uint_fast16_t revolution_period)
 		return 1;
 	}
 	const uint_fast16_t delta = revolution_period - revolution_limit;
-	if (delta > spark_cut_thresholds[0]) {
+	if (delta >= spark_cut_thresholds[0]) {
 		return 0;
 	}
 
