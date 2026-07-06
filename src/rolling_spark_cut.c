@@ -10,13 +10,11 @@
 #define LAUNCH_CONTROL_THRESHOLD_SUB375RPM (LAUNCH_CONTROL_THRESHOLD + 375)
 #define LAUNCH_CONTROL_THRESHOLD_SUB500RPM (LAUNCH_CONTROL_THRESHOLD + 500)
 
-const uint16_t spark_cut_table[3] = {
+const uint16_t spark_cut_masks[3] = {
     0b1000010000100001,
     0b1010010110100101,
     0b1110110110110111,
 };
-
-const uint16_t spark_cut_thresholds[3] = {60, 40, 20};
 
 uint8_t cylinder_index;
 
@@ -46,19 +44,14 @@ unsigned do_spark_cut_in_interrupt(uint_fast16_t revolution_period)
 		return 1;
 	}
 	const uint_fast16_t delta = revolution_period - revolution_limit;
-	if (delta >= spark_cut_thresholds[0]) {
+	if (delta >= 60) {
 		return 0;
 	}
 
-	uint16_t mask;
-	if (delta < 20) {
-		mask = spark_cut_table[2];
-	} else if (delta < 40) {
-		mask = spark_cut_table[1];
-	} else { // 40 <= delta < 60
-		mask = spark_cut_table[0];
-	}
-	return (mask & (1 << idx));
+	const unsigned mask_idx = (delta * 13) >> 8;
+	const unsigned mask = spark_cut_masks[mask_idx];
+
+	return (mask >> idx) & 1;
 }
 
 extern uint16_t get_coil_dwell(uint16_t p0);
