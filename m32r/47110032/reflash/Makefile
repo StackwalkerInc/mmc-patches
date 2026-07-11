@@ -20,7 +20,7 @@ BINS = $(SOURCES:.S=.bin)
 
 all: check
 
-compile: $(BINS)
+compile: $(BINS) check
 
 %.elf: %.S
 	$(AS) $< -o $@
