@@ -4,16 +4,18 @@ memfun_erase_page:
 	; The bootloader's erase-trigger always sweeps the full hardcoded
 	; [0x8000,0x60000) userspace range, regardless of what RequestDownload
 	; declared. Only redirect calls that fall in the declared carrier
-	; window [0x8000,0x28000); every other call must no-op instead of
+	; window [0x10000,0x30000); every other call must no-op instead of
 	; writing to a computed address that could land past physical flash.
-	seth r3,#0x2
-	or3 r3,r3,#0x8000	; r3 = 0x28000 (carrier window end)
+	seth r3,#0x1
 	cmpu r0,r3
-	bnc skip_page		; if (r0 >= 0x28000) skip
+	bc skip_page		; if (r0 < 0x10000) skip
+
+	seth r3,#0x3
+	cmpu r0,r3
+	bnc skip_page		; if (r0 >= 0x30000) skip
 
 	seth r2,#0x5
-	or3 r2,r2,#0x8000	; r2 = 0x58000
-	add r0,r2		; r0 += 0x58000 (redirect into 0x60000-0x80000)
+	add r0,r2		; r0 += 0x50000 (redirect into 0x60000-0x80000)
 
 	ldi r4,#0x2020
 	sth r4,@r0
@@ -52,7 +54,7 @@ filler:
 	ld24 r2,#0xffffff
 	ld24 r2,#0xffffff
 	ld24 r2,#0xffffff
-	ld24 r2,#0x000088
+	ld24 r2,#0x8888c9
 	nop
 	nop
 	nop
