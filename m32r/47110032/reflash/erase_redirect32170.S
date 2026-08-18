@@ -45,17 +45,6 @@ skip_page:
 	bra notbusy
 
 filler:
-	ld24 r2,#0xffffff
-	ld24 r2,#0xffffff
-	ld24 r2,#0xffffff
-	ld24 r2,#0xffffff
-	ld24 r2,#0xffffef
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
 	nop
 	nop
 	nop
