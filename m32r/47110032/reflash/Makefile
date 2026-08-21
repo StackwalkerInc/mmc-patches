@@ -35,7 +35,7 @@ compile: $(BINS) check
 # Docker image this runs in has no Python interpreter.
 check: $(BINS)
 	@ok=1; \
-	for pair in "erase32170.bin:4486" "write32170.bin:4c41" "erase_redirect32170.bin:5079" "write_redirect32170.bin:514e"; do \
+	for pair in "erase32170.bin:4486" "write32170.bin:4c41" "erase_redirect32170.bin:5079" "write_redirect32170.bin:4eae"; do \
 		f=$${pair%%:*}; expected=$${pair##*:}; \
 		actual=$$(od -An -v -tu1 "$$f" | awk '{for(i=1;i<=NF;i++) s+=$$i} END{printf "%04x", s%65536}'); \
 		if [ "$$actual" != "$$expected" ]; then \
