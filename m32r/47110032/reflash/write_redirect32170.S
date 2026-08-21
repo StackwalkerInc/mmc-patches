@@ -18,18 +18,16 @@ program_loop:
 
 	ld24 r5,0xffffff
 	ld24 r5,0xffffff
-
 	ld24 r5,0xffffff
 	ld24 r5,0xffffff
 	ld24 r5,0xffffff
 
 	ld24 r5,0xffffff
-
+	ld24 r5,0xff0034
 	ld24 r5,0xffffff
-	ld24 r5,0xffffff
 
-	ld24 r5,0x0000d1
-
+	nop
+	nop
 	nop
 	nop
 
