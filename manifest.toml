@@ -572,7 +572,7 @@ output_bin  = "4711a132_patched.bin"
 output_xml  = "4711a132.xml"
 arch        = "m32r"
 mcu         = "M32176F3"
-flash_kb    = 384
+flash_kb    = 512
 
 [[rom.patches]]
 id          = "load_extender"
@@ -583,7 +583,13 @@ Replaces the stock fuel, spark and MIVEC target load axes with wider ones and \
 adds a second complete map set, both stored in the top 128KB (0x60000-0x80000). \
 Map bodies are seeded from the stock ROM at build time, so a freshly built \
 image behaves exactly like stock until the alt set is tuned. Requires FastECU \
-to flash: EcuFlash's mitsubootloader method only writes 0x8000-0x60000.\
+to flash: EcuFlash's mitsubootloader method only writes 0x8000-0x60000. \
+Note on this ROM entry's flash_kb: it is a safe-write-boundary field, not a \
+capacity field (see mmc-definitions/roms/m32r/47110032/rom.toml) -- the stock \
+47110032 chip reads as 512KB, but stock tooling must not write past 0x60000, \
+which is why the sibling z37a_mt_2005 target correctly declares flash_kb=384. \
+This variant deliberately writes above that boundary (0x60010-0x620ff), so it \
+declares flash_kb=512 instead.\
 """
 
 [[rom.patches]]
