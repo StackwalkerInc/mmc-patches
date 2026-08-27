@@ -385,3 +385,37 @@ flash_spark_4fb5c_stock             = 0x536ee;
 flash_spark_4fb7c_stock             = 0x53cde;
 flash_spark_4fb9c_stock             = 0x539e6;
 flash_mivec_target_stock            = 0x54468;
+
+/* ------------------------------------------------------------------ */
+/* Top-region integrity guard (top_region_guard.c, Task 6)             */
+/* ------------------------------------------------------------------ */
+
+/* 0x4e130: push lr -> ldi r0,#7 (function prologue, confirmed by
+   objdump); stock's 0x8080 PLT slot is `bra 0x4e130`. */
+main_loop                  = 0x4e130;
+
+/* 0x4c98: push lr -> ldi r0,#7; five bl's, then sth r0,@(-122,fp) with
+   r0=1 (sets a flag, presumably integrity_fault), then bl 0x4cc0
+   (bootloader_main), pop lr -> jmp lr. Confirmed by objdump against
+   roms/47110032.bin. */
+integrity_fault_reinit_mcu = 0x4c98;   /* bootloader: integrity_fault = 1; bootloader_main() */
+
+/* Confirmed by objdump: every one of the 9 call sites in
+   roms/47110032.bin (0x3ed18, 0x3ed6c, 0x3ede4, 0x3ee6c, 0x3eeec,
+   0x4b174, 0x4b4a4, 0x5acf8, 0x5ad70) loads r0=0 immediately before the
+   bl -- p0 is always 0 in this ROM, and 0x5ed0c never reads r0 again
+   after the entry-critical-section call (bl 0x3910) clobbers it, so p0
+   is effectively write-only/reserved here. p1 varies (2, 3, 4, 16...)
+   and drives the branch at 0x5ed38/0x5ed4c. The call at 0x4b174 is
+   `ldi r1,#3 -> ldi r0,#0` immediately followed by `bl 0x5ed0c`, i.e.
+   exactly set_dtc(0, 3) as this file documents.
+   Cross-check against Task 5's alternate candidate at 0x34458: that
+   function is NOT this one -- it takes 3 args (r0/r1/r2, saved as
+   r8/r9/and3'd r2 against #1) and has different branch structure. It is
+   unrelated to the call guarded by GUARD_RAISE_P0606 here. */
+set_dtc                    = 0x5ed0c;  /* called as set_dtc(0, 3) on ROM CRC failure at 0x4b174 */
+
+/* Task 3's magic word at the base of TOP_EXT (omni.ld: "Top Region
+   Magic" 0x60000 : { LONG(0x5a37a001) }); reads 0xffffffff on a stock
+   or partially-flashed ROM, 0x5a37a001 once the top region is written. */
+flash_top_region_magic     = 0x60000;

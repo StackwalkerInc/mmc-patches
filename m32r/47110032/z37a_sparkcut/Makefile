@@ -8,6 +8,10 @@ DEFINES += -DSMALL_DATA_AREA_BASE=0x808000 \
 	-DMAP_ENGINE_LOAD_POINTER=-13008 \
 	-DOVERREV_FUEL_ENRICHMENT_DISABLED
 
+# Enable only after bench-confirming set_dtc(0,3) is safe pre-init; see
+# docs/superpowers/specs/2026-08-26-z37a-top128k-extended-maps-design.md
+# DEFINES += -DGUARD_RAISE_P0606
+
 ROM_HINT = (Colt CZT Z37A 1.5T 5MT 2005 EDM)
 
 SOURCES = ../../../src/rolling_spark_cut.c \
@@ -19,7 +23,8 @@ SOURCES = ../../../src/rolling_spark_cut.c \
 	../src/etacs_handler_extended.c \
 	extended_maps.c \
 	mode_bridge.c \
-	dash_mode_rpm.c
+	dash_mode_rpm.c \
+	top_region_guard.c
 
 ELF_OUT_FILE    = 4711a132.elf
 BIN_OUT_FILE    = $(OUT_DIR)/4711a132_patched.bin

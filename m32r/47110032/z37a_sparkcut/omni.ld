@@ -91,6 +91,11 @@ SECTIONS {
 		LONG(can_topcall_replacement_z37a)
 	}
 
+	/* Task 6: fail safe if the top 128KB was never flashed. Retargets
+	   the stock "bra main_loop" PLT slot reached from the bootloader's
+	   choose_main (bl 0x8080), entirely above 0x8000. */
+	"Top Region Guard [m32r-bra]" 0x8080 : { LONG(top_region_guard) }
+
 	"data_desc" 0 : { *(data_desc) }
 	/* codeinjector matches data_seed by section NAME only (main.rs pass 1/2
 	   `match section.name()`) and never injects its bytes at its ELF
