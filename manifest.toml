@@ -575,10 +575,28 @@ mcu         = "M32176F3"
 flash_kb    = 384
 
 [[rom.patches]]
+id          = "load_extender"
+name        = "Extended Load Maps + Alternate Map Set"
+category    = "engine"
+description = """\
+Replaces the stock fuel, spark and MIVEC target load axes with wider ones and \
+adds a second complete map set, both stored in the top 128KB (0x60000-0x80000). \
+Map bodies are seeded from the stock ROM at build time, so a freshly built \
+image behaves exactly like stock until the alt set is tuned. Requires FastECU \
+to flash: EcuFlash's mitsubootloader method only writes 0x8000-0x60000.\
+"""
+
+[[rom.patches]]
 id          = "mode_selector"
 name        = "Multi-Map Mode Selector"
 category    = "multimap"
-description = "Toggles between main and alt tuning profiles via clutch + position-lights switch, built on the shared mode_selector_v2 module."
+description = """\
+Toggles between the main and alt map sets by depressing the clutch and \
+switching the position lights on (rising edge). Mode resets to main on each \
+ignition cycle; a TPS blip above threshold within the first ~40 update cycles \
+also selects alt. Drives the stock mode index, which the ROM's own 8-way \
+multimap machinery already consumes.\
+"""
 
 [[rom.patches]]
 id          = "etacs_position_lights"
@@ -587,28 +605,22 @@ category    = "multimap"
 description = "Decodes the ETACS CAN position-lights signal via the confirmed Z37A CAN RX dispatch-table hook, feeding the mode selector's position_lights input."
 
 [[rom.patches]]
-id          = "load_extender"
-name        = "Extended Load Maps"
-category    = "engine"
-description = "Replaces stock fuel and MIVEC spark map load axes with a wider range (up to 320% load), reusing the shared load_extender/load_extender_alt modules."
+id          = "dash_mode_rpm_indication"
+name        = "Tachometer Mode Indication"
+category    = "dash"
+description = "Parks the tachometer at a configurable per-mode RPM (2500 main / 5000 alt) for a short window after each mode change, on the engine-to-dash CAN frame."
 
 [[rom.patches]]
-id          = "revolution_limit"
-name        = "Configurable Rev Limit + Launch Control"
-category    = "rev-limit"
-description = "Shared revolution_limit module: per-mode rev limit, launch-control state machine, and spark-retard-based overrev protection."
+id          = "top_region_guard"
+name        = "Top-Region Integrity Guard"
+category    = "infrastructure"
+description = "Checks a magic word at 0x60000 before any user code runs. If the top 128KB was never written, hands control to the bootloader's integrity-fault path instead of running on erased map data."
 
 [[rom.patches]]
 id          = "rolling_spark_cut"
 name        = "Rolling Spark Cut (Coil-Dwell Based)"
 category    = "rev-limit"
 description = "Per-cylinder rolling coil-dwell cut for launch/2-step, replacing the previous single-threshold coil-dwell-store patch."
-
-[[rom.patches]]
-id          = "gear_detector"
-name        = "Gear Detection"
-category    = "qol"
-description = "Infers current gear from vehicle speed and RPM ratio; feeds the gear indicator and gear-aware limiting."
 
 [[rom.patches]]
 id          = "knock_mil"
