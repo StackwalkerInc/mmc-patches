@@ -254,6 +254,74 @@ decays_x1_canrx1_etacts_long	= 0x8049C6;	/* reloaded at 0x2ce08; inside
 						   the 0x12acc sweep range */
 
 /* ------------------------------------------------------------------ */
+/* Dash: mode RPM indication (dash_mode_rpm.c, Task 5)                 */
+/* ------------------------------------------------------------------ */
+
+/* cantx_engine_rpm binds to engine_rpm_direct_bound, the RAM value read
+ * directly by can_tx2_id3_dash_update() (0x2c738) when it assembles the
+ * engine-to-dash CAN frame (sid 0x308, CAN_TX3_ENGINE_TO_DASH_RPM in
+ * z37a_mt_2005/can_ids.h):
+ *
+ *     2c7a8: lduh r0,@(-9906,fp)
+ *     2c7ac: srli r0,#0x8
+ *     2c7b0: and3 r0,r0,#0xff
+ *     2c7b4: stb r0,@(-6231,fp)   # can_tx2_id3_source[1] = (engine_rpm_direct_bound >> 8) & 0xff
+ *     2c7b8: ldub r1,@(-9905,fp)
+ *     2c7bc: and3 r2,r1,#0xff
+ *     2c7c0: stb r2,@(-6230,fp)   # can_tx2_id3_source[2] = engine_rpm_direct_bound & 0xff
+ *
+ * fp-9906 = 0x808000 - 9906 = 0x80594E.
+ *
+ * Two INDEPENDENT sources corroborate, per triangulating-tool-output:
+ *   1. Instruction decoding above (colt_commented.S, disassembly).
+ *   2. z37a_mt_2005/can_protocol.txt's hand-written frame layout notes,
+ *      which independently document
+ *          "sid 308 - engine to dash
+ *           data[1-2] - engine_rpm_direct_bound BE"
+ *      -- same variable name, same byte position, same big-endian order,
+ *      from a document that is not disassembly text.
+ * A third, structurally different source (z37a_mt_2005/frame_pointers.txt,
+ * a generated fp-offset table, not hand-written and not disassembly) lists
+ * "0x80594e  fp-9906  uint16_t fp9906_u16" -- confirming the address
+ * arithmetic independently of both.
+ *
+ * can0_update_tx_data() (0x2c2e0, bound above) does NOT touch engine speed
+ * at all -- it only computes cantx_target_idle_rpm, cantx_asc_active_lamp,
+ * cantx_coolant_temp and similar unrelated fields. This is exactly the kind
+ * of blind spot triangulating-tool-output warns about: the brief's
+ * presumed location for "the store that takes engine_rpm into the TX slot
+ * buffer" is not where that store actually lives. engine_rpm_direct_bound
+ * is instead written earlier in the SAME main-loop iteration, at 0x11f38
+ * (call_11598_11596_derived_calcs, called from base_engine_state_update at
+ * 0x4e178) -- eight instructions before this task's injection site at
+ * 0x4e1bc -- and read later, on its own ~800 Hz TIO3-interrupt-driven
+ * schedule, by can_tx2_id3_dash_update() via calc_fast_engine_model()
+ * (0x2d1f8, called from tio3_interrupt_handler_helper at 0xbd38/0xbd44).
+ * engine_rpm_direct_bound is the only write site to fp-9906 other than the
+ * cold-boot reset at 0x11e84 (zero references anywhere else in the ROM),
+ * so it is the true feed for the dash frame, not a transient copy: our
+ * override at 0x4e1bc lands after the stock recompute for that iteration
+ * and persists (re-asserted every main-loop iteration for the whole CEL
+ * flash window) until whatever ISR cadence next builds the CAN frame picks
+ * it up.
+ *
+ * SCALE (medium confidence, resolved -- see dash_mode_rpm.c and
+ * task-5-report.md for the full derivation): engine_rpm_direct_bound
+ * carries real, unscaled RPM, not RPM_TO_HIRESTICKS ticks. Evidence: (a)
+ * can_protocol.txt annotates scaling explicitly where it applies (e.g.
+ * "sid 412 data[0-1] - fuel level (100% / 65536)") and is silent for
+ * engine_rpm_direct_bound and for "sid 212 data[0-1] - target idle rpm",
+ * consistent with both being the unscaled default; (b) the constant used
+ * to derive engine_rpm_direct from the raw crank-period register
+ * (0x7270e0 = 7,517,920) is within 0.24% of the K = clock_Hz*60/teeth
+ * value a plain real-RPM formula would need for a plausible crank-capture
+ * clock/tooth-count combination. This is NOT bench-verified; dash_mode_rpm.c
+ * converts flash_mode_change_rpm_indication's hires-tick values back to
+ * plain RPM (x*125/256, the exact inverse of RPM_TO_HIRESTICKS's *2.048)
+ * rather than assigning them directly. */
+cantx_engine_rpm		= 0x80594E;
+
+/* ------------------------------------------------------------------ */
 /* Knock CEL (knock_mil_simple.c / knock_mil_data.c)                   */
 /* ------------------------------------------------------------------ */
 knock_mil_flags			= 0x80599A;

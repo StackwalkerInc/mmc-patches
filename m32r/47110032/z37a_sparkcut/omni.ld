@@ -82,6 +82,15 @@ SECTIONS {
 		LONG(can_rx_etacs_extended_handler)
 	}
 
+	/* Task 5: park the tach at a per-mode RPM over CAN for the length of
+	   the mode-change CEL flash window. Replaces the bl at 0x4e1bc
+	   (stock target 0x2ba70 = can0_update_bus_state_and_data, itself
+	   exactly "can0_update_bus_state(); can0_update_tx_data();" with no
+	   argument -- confirmed in description.ld). */
+	"Dash: mode RPM indication [m32r-bl]" 0x4e1bc : {
+		LONG(can_topcall_replacement_z37a)
+	}
+
 	"data_desc" 0 : { *(data_desc) }
 	/* codeinjector matches data_seed by section NAME only (main.rs pass 1/2
 	   `match section.name()`) and never injects its bytes at its ELF

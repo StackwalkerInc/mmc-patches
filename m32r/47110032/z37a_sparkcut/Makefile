@@ -18,7 +18,8 @@ SOURCES = ../../../src/rolling_spark_cut.c \
 	../../../src/mode_selector_v2_data.c \
 	../src/etacs_handler_extended.c \
 	extended_maps.c \
-	mode_bridge.c
+	mode_bridge.c \
+	dash_mode_rpm.c
 
 ELF_OUT_FILE    = 4711a132.elf
 BIN_OUT_FILE    = $(OUT_DIR)/4711a132_patched.bin
