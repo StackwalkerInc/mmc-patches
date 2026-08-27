@@ -184,6 +184,34 @@ position_lights_prev		= 0x8047EF;	/* u8 */
 /* 0x8047F0..0x8047FF (16 bytes) spare in the same block; 0x8047E4..0x8047E5
    (2 bytes) unused ahead of it for u16 alignment. */
 
+/* Task 4 (P11 write-before-read audit): all six fields above are read
+ * safely at cold boot ONLY because flash_reset_alt_mode_on_ignition_cycle
+ * ships as 1 (src/mode_selector_v2_data.c). With it nonzero,
+ * update_mode_selector()'s first-ever call takes the "age_x1_ignition < 20"
+ * branch unconditionally (age_x1_ignition is inside the boot memzero, so it
+ * starts at 0) and returns without reading persistent_alt_mode_index,
+ * position_lights_prev, or alt_mode_change_cel_flash_pattern; its
+ * unconditional trailing write then makes every later read safe.
+ *
+ * flash_reset_alt_mode_on_ignition_cycle is exposed to tuners as an
+ * EcuFlash field ("Reset Mode On Ignition Cycle"). If a downstream tune
+ * sets it to 0, that first-call reset branch never fires, and cold-boot
+ * garbage in persistent_alt_mode_index can reach
+ * alt_mode_change_cel_flash_pattern = l_old_mode_index*2 + GET_ALT_MODE_INDEX
+ * (up to ~511), indexing flash_mode_change_patterns[4][16] far out of
+ * bounds in alt_mode_change_cel(). Bounded impact: it's a flash read, so
+ * the result is a garbled CEL flash pattern that self-corrects within a
+ * tick once persistent_alt_mode_index self-heals via ok_alt_mode_index() --
+ * cosmetic, not a drivability or safety effect. The clean hardening (a
+ * bounds check at the read in alt_mode_change_cel(), or a clamp at the
+ * write in update_mode_selector()) is a one-line change to the shared
+ * src/mode_selector_v2.c, deliberately deferred here per Ruling P13 --
+ * that file is linked by the bench-qualified 33520003 target, and
+ * hardening a cosmetic cold-boot edge case does not justify reopening it.
+ * Whoever next touches src/mode_selector_v2.c for another reason should
+ * pick this up.
+ */
+
 /* fp-12892: no fp-relative instruction and no flash halfword anywhere in the
    image references this offset, and it sits between two stock variables
    (sensor_faults at fp-12894, used 81 times, and fp-12890).  Free. */
