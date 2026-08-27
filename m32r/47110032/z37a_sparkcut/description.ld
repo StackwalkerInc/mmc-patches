@@ -260,3 +260,32 @@ tacho_reset			= 0x0; /* TODO: confirm via rom-analyzer */
 get_coil_dwell			= 0x24f64;
 get_coil_dwell_call_site1	= 0x2501c;
 get_coil_dwell_call_site2	= 0x23e54;
+
+/* ------------------------------------------------------------------ */
+/* Extended load axes / alt map sets (extended_maps.c, Task 3)         */
+/* ------------------------------------------------------------------ */
+
+/* stock RPM axes — unchanged, but referenced by name from the map
+   descriptors, so codeinjector must be able to resolve them */
+flash_fuel_map_rpm_axis             = 0x4ebb0;
+flash_main_spark_maps_rpm_axis      = 0x4ebf8;
+flash_mivec_target_rpm_axis         = 0x4f01e;
+
+/* stock tables — seed sources */
+flash_fuel_load_axis_stock          = 0x4ebd2;
+flash_spark_load_axis_17_stock      = 0x4ec1e;
+flash_spark_load_axis_12_stock      = 0x4ec46;
+flash_mivec_load_axis_stock         = 0x4effa;
+
+flash_fuel_hi_octane_stock          = 0x53ebe;
+flash_fuel_lo_octane_stock          = 0x53fa6;
+flash_spark_4f9fc_stock             = 0x53806;
+flash_spark_4fa1c_stock             = 0x53df6;
+flash_spark_4fa3c_stock             = 0x53afe;
+flash_spark_4fafc_stock             = 0x535d6;
+flash_spark_4fb1c_stock             = 0x53bc6;
+flash_spark_4fb3c_stock             = 0x538ce;
+flash_spark_4fb5c_stock             = 0x536ee;
+flash_spark_4fb7c_stock             = 0x53cde;
+flash_spark_4fb9c_stock             = 0x539e6;
+flash_mivec_target_stock            = 0x54468;
