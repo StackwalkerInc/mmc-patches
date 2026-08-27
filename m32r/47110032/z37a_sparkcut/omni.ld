@@ -73,6 +73,15 @@ SECTIONS {
 	"Alt MIVEC Target [m32r-ld24-r0]"        0x4d744 : { LONG(flash_new_mivec_target_multimap) }
 	"Alt MIVEC Target multimap [m32r-bl]"    0x4d748 : { LONG(multimap8u16) }
 
+	/* Task 4: drive the stock mode_idx from the ETACS position-lights
+	   signal, so the alt map set (Task 3) is actually selectable. */
+	"Mode Selector: activate selection [m32r-bl]" 0x10aa0 : {
+		LONG(new_adc_convert_mode_input_z37a)
+	}
+	"Mode Selector: ETACS position lights handler" flash_can_rx_handlers_1 : {
+		LONG(can_rx_etacs_extended_handler)
+	}
+
 	"data_desc" 0 : { *(data_desc) }
 	/* codeinjector matches data_seed by section NAME only (main.rs pass 1/2
 	   `match section.name()`) and never injects its bytes at its ELF

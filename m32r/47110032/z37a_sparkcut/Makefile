@@ -14,7 +14,11 @@ SOURCES = ../../../src/rolling_spark_cut.c \
 	../../../src/knock_mil_simple.c \
 	../../../src/knock_mil_data.c \
 	../../../src/gpio_outputs_hijack.c \
-	extended_maps.c
+	../../../src/mode_selector_v2.c \
+	../../../src/mode_selector_v2_data.c \
+	../src/etacs_handler_extended.c \
+	extended_maps.c \
+	mode_bridge.c
 
 ELF_OUT_FILE    = 4711a132.elf
 BIN_OUT_FILE    = $(OUT_DIR)/4711a132_patched.bin
