@@ -85,35 +85,104 @@ decays_x1_alt_mode_change_cel_flash_timer = 0x804868;
 /* mod-owned RAM                                                       */
 /* ------------------------------------------------------------------ */
 
-/* Free RAM block 0x8054C8..0x8054E7 (fp-11064..fp-11033), 32 bytes.
-   Evidence it is genuinely untouched:
-     - no fp-relative ld/st/add3 instruction in the image references any
-       offset in [-11064, -11033] (scan of colt_commented.S AND an
-       independent raw-byte scan of roms/47110032.bin for the a?/8?ad
-       encodings);
-     - every raw halfword in flash equal to one of these offsets was checked
-       individually and is a bl/bra displacement, not a descriptor field;
-     - no map8u16/mapu16/calc_axis descriptor ramptr (392 descriptors
-       enumerated) points into the block;
-     - no ld24 anywhere builds an address in 0x8054xx;
-     - it lies outside both long-term-trims RAM checksum ranges computed by
-       some_ram_checksum_104e4 (0x804016..0x8047E3 and 0x8068A0..0x806CAB);
-     - it is below the interrupt stack base (SPI = 0x807ecc, set at 0x3854)
-       and well below the user stack above fp;
-     - it IS inside memzero(0x804800, 0x8062B8) at 0x103f8, so it is zeroed
-       at init.
-   The neighbours on both sides (fp-11078..-11074 written at 0x338c4..0x338cc,
-   fp-11014 at 0x5f964) are plain scalar stores with no indexing, so the block
-   is unallocated space between OBD-monitor scalars, not array padding. */
-persistent_alt_mode_index	= 0x8054C8;	/* u16, index | ~index<<8 */
-new_mode_idx			= 0x8054CA;	/* u16 */
-alt_mode_change_cel_flash_pattern = 0x8054CC;	/* u16 */
-mode_switch_delay		= 0x8054CE;	/* u16 */
-position_lights			= 0x8054D0;	/* u8; overrides the tentative
+/* Free RAM block 0x8047E6..0x8047FF (fp-14362..fp-14337), 26 bytes.
+ *
+ * ROUND-1 FIX. The previous block (0x8054C8..0x8054E7) was CRITICAL: proven
+ * live stock RAM. Two parallel OBD DTC-monitor descriptor structs at
+ * 0x856c/0x8758 store 32-bit ABSOLUTE POINTERS into it (19 word-aligned hits
+ * covering every halfword of the old block). That mechanism is invisible to
+ * any fp-relative or ld24 check because the pointers live in FLASH DATA, not
+ * in an instruction operand -- the five checks that passed the old block all
+ * shared that one blind spot and were not independent.
+ *
+ * This block was cleared under the three mechanisms Ruling P8 requires,
+ * each a genuinely different representation of the ROM:
+ *
+ *   (a) fp-relative instructions: grep -oE '@\(-?[0-9]+,fp\)' over
+ *       colt_commented.S, converted to absolute addresses via fp=0x808000.
+ *       Zero hits anywhere in [0x8047E6,0x804800).
+ *
+ *   (b) ld24 / absolute-immediate address construction: an INDEPENDENT
+ *       `m32r-elf-objdump -b binary -m m32r -EB -D roms/47110032.bin` run
+ *       (raw bytes, not colt_commented.S text), scanned for every
+ *       `ld24 rN,#imm24` and every `seth`+`add3`/`or3` pair whose value
+ *       lands in [0x804000,0x808000). 13 ld24 hits, 0 seth+add3/or3 hits in
+ *       that whole 16KB window, none near this block (nearest: the loop
+ *       bound 0x804000 and stack-area constants 0x806404/0x806438/
+ *       0x806f50/0x806f58/0x807ecc/0x807f6c).
+ *
+ *   (c) word-aligned 32-bit pointer scan: a Python scan of every 4-byte-
+ *       aligned offset in roms/47110032.bin, decoded big-endian, for values
+ *       landing in [0x804000,0x808000) -- the exact mechanism that finds the
+ *       OLD block's 19 descriptor-pointer hits, applied here to the new
+ *       candidate. 1290 hits across the whole ROM; zero in
+ *       [0x8047E6,0x804800).
+ *
+ * Two more checks were run because (a)-(c) alone reproduced this exact class
+ * of defect TWICE MORE while searching for a replacement block: a 23-entry
+ * DTC bitmask array at 0x8055C0 (`for (i=0;i<23;++i) fp10816_u16a[i] = ...`,
+ * 0x39914) and a 10-entry struct4 array at 0x8044BE
+ * (`for (ptr=fp15170_struct4a; ptr<fp15170_struct4a+10; ++ptr)`, 0x3bc88) --
+ * both addressed only through a runtime `add3 rN,fp,#imm` base register plus
+ * a loop increment, never through a literal @(disp,fp) form, so (a)-(c) read
+ * them as empty:
+ *
+ *   (d) every `add3`/`addv3`/`and3`/`srl3 rN,fp,#imm` in colt_commented.S
+ *       (754 distinct targets in [0x804000,0x808000)): these build the base
+ *       register for exactly the indexed/loop access above. Zero targets in
+ *       [0x8047E6,0x804800); the nearest is the boot memzero's own base
+ *       (add3 r0,fp,#-14336 at 0x10400 -> bl 0x762c = zero_u16a(0x804800,
+ *       0x806478)), one byte after this block's end.
+ *
+ *   (e) every begin/end-pointer-pair `bl` call (two add3-with-fp
+ *       instructions feeding a `bl` within a few slots -- the shape behind
+ *       zero_u16a/sat_dec_u16a_atomic/sat_array_add16/etc, confirmed as the
+ *       actual consumer of both arrays found via (d)): 75 such calls;
+ *       their swept ranges cover essentially all of [0x804800,0x806478)
+ *       (the bulk boot-memzero'd working RAM) plus every checksummed
+ *       sub-range below it. None cover [0x8047E6,0x804800).
+ *
+ * The block sits in the seam between two independently hand-decoded stock
+ * structures, which is why it is free:
+ *   - some_ram_checksum_104e4 (0x104e4) computes
+ *     sum8_to16(fp-14792, 14792-14364) = sum8_to16(0x804638, 428) --
+ *     confirmed from raw bytes at 0x104f8 (`add3 r2,fp,#-14364`) -- i.e. it
+ *     sums exactly [0x804638,0x8047E4) and stops there.
+ *   - the bulk boot memzero (0x10400: `add3 r0,fp,#-14336` -> `bl 0x762c`)
+ *     zeroes [0x804800,0x806478) and starts there, not before.
+ *   [0x8047E4,0x804800) -- 28 bytes -- is neither summed nor zeroed: pure
+ *   compiler alignment slack. This block uses [0x8047E6,0x804800), 2 bytes
+ *   in from the slack's start for clean u16 alignment.
+ *
+ * Fourth, tool-independent corroboration (Ruling P9): rom-analyzer's
+ * Ghidra-based RAM-ref-propagation pass
+ * (rom-analyzer analyze roms/47110032.bin --variant fp8000 --out ...)
+ * emits ram-free.toml with a block 0x8047e3..0x804800 (29 bytes) that FULLY
+ * CONTAINS this one. The same ram-free.toml correctly does NOT list the old
+ * 0x8054C8..0x8054E7 block as free at all -- confirming this layer would
+ * have caught the original defect had it been run. But its free-list is not
+ * sufficient on its own either: it also lists most of [0x8055c5,0x8055f2)
+ * as free, which hand-decoding proved is the middle of the live 23-entry DTC
+ * array above -- rom-analyzer's dataflow tracking does not fully follow that
+ * increment loop. Treated here as one corroborating source among several,
+ * not as ground truth.
+ *
+ * NOTE for Task 4-6: unlike the rejected block, this one is NOT inside the
+ * boot-time memzero, so it is NOT guaranteed zero on power-up. Code relying
+ * on a deterministic zero start (e.g. alt_mode_change_cel_flash_pattern
+ * indexing a bounds-unchecked array) must explicitly initialise these six
+ * fields itself.
+ */
+persistent_alt_mode_index	= 0x8047E6;	/* u16, index | ~index<<8 */
+new_mode_idx			= 0x8047E8;	/* u16 */
+alt_mode_change_cel_flash_pattern = 0x8047EA;	/* u16 */
+mode_switch_delay		= 0x8047EC;	/* u16 */
+position_lights			= 0x8047EE;	/* u8; overrides the tentative
 						   definition in
-						   src/etacs_handler_extension.c */
-position_lights_prev		= 0x8054D1;	/* u8 */
-/* 0x8054D2..0x8054E7 (22 bytes) spare in the same block. */
+						   src/etacs_handler_extended.c */
+position_lights_prev		= 0x8047EF;	/* u8 */
+/* 0x8047F0..0x8047FF (16 bytes) spare in the same block; 0x8047E4..0x8047E5
+   (2 bytes) unused ahead of it for u16 alignment. */
 
 /* fp-12892: no fp-relative instruction and no flash halfword anywhere in the
    image references this offset, and it sits between two stock variables
