@@ -74,9 +74,37 @@ SECTIONS {
 	"Alt MIVEC Target multimap [m32r-bl]"    0x4d748 : { LONG(multimap8u16) }
 
 	/* Task 4: drive the stock mode_idx from the ETACS position-lights
-	   signal, so the alt map set (Task 3) is actually selectable. */
+	   signal, so the alt map set (Task 3) is actually selectable.
+	   TWO injections, and both are needed -- see mode_bridge.c for the
+	   full derivation:
+
+	   1. 0x10aa0 replaces "bl adc_convert_mode_input" (0xb314), the first
+	      instruction of update_multimode_selection, with the selector's
+	      own new_adc_convert_mode_input(): stock ADC conversion, then
+	      update_mode_selector(), then new_mode_idx.  It must stay HERE
+	      because 0x10aa4 immediately consumes what the ADC conversion
+	      wrote, so the conversion cannot be moved or run twice.
+
+	   2. 0x109e0 wraps the CALL to update_multimode_selection so
+	      mode_idx is written AFTER that function's own unconditional
+	      "mode_idx = 0" store at 0x10ae8.  Writing it from inside the
+	      0x10aa0 hijack (as this file used to) was destroyed 18
+	      instructions later on every main-loop iteration.
+
+	   0x109e0 holds the 32-bit word "7e 2f f0 00" = a 16-BIT
+	   "bl 0x10a9c" packed with its parallel-slot "nop" filler:
+	     opcode 0x7e (bl, 8-bit word-scaled disp), disp8 = 0x2f = 47,
+	     target = (0x109e0 & ~3) + 47*4 = 0x109e0 + 0xBC = 0x10A9C.
+	   codeinjector's [m32r-bl] emits a 4-byte 32-bit bl (0xfe | disp24),
+	   which replaces the whole word.  That is exact here: the discarded
+	   half is only the nop, and the wrapper re-issues the call itself.
+	   No branch can target 0x109e2 (M32R branch targets are word-scaled
+	   from a word-aligned PC), so nothing lands mid-word. */
 	"Mode Selector: activate selection [m32r-bl]" 0x10aa0 : {
-		LONG(new_adc_convert_mode_input_z37a)
+		LONG(new_adc_convert_mode_input)
+	}
+	"Mode Selector: commit mode_idx after stock recompute [m32r-bl]" 0x109e0 : {
+		LONG(update_multimode_selection_z37a)
 	}
 	"Mode Selector: ETACS position lights handler" flash_can_rx_handlers_1 : {
 		LONG(can_rx_etacs_extended_handler)

@@ -103,6 +103,23 @@ SPARK17_FAMILY(flash_new_spark_4fb5c, "Spark 4fb5c", flash_spark_4fb5c_stock);
 SPARK17_FAMILY(flash_new_spark_4fb7c, "Spark 4fb7c", flash_spark_4fb7c_stock);
 SPARK17_FAMILY(flash_new_spark_4fb9c, "Spark 4fb9c", flash_spark_4fb9c_stock);
 
-DECLARE_FAMILY(flash_new_mivec_target, MIVEC_RPM_N, MIVEC_LOAD_N, "LoadExtendedMaps", "MIVEC Target", "Angle",
+/* Scaling name note.  The names used above and below ("AFR", "Load", "RPM",
+   "Timing", "ValveTiming") are resolved by EcuFlash from the base ROM XML
+   this fragment merges with via <include>47110032</include>, not defined
+   here.  "ValveTiming" replaces an earlier "Angle", which is defined by NO
+   XML anywhere in mmc-definitions/site/xml -- EcuFlash rendered both MIVEC
+   Target tables with no scaling at all.  "ValveTiming" is the corpus
+   convention for exactly this table shape: 33520003.xml and rcoltbase.xml
+   (the Colt bases) both define it as uint8 degrees
+   (toexpr="80-x*0.625") and both apply it to "MIVEC Inlet Cam Advance
+   Map", a 3D uint8 swapxy table -- which is what this family is.
+   Caveat, pre-existing and out of scope here: the 47110032.xml shipped in
+   mmc-definitions is a stub that defines only blobbits/Percent1024/
+   Percent255U8, so none of AFR/Load/RPM/Timing/ValveTiming resolve against
+   THAT file either; they resolve against a full Mitsubishi rommetadata
+   tree.  This change puts the MIVEC tables on the same footing as the
+   other 71 scaling references the fragment already emits instead of
+   leaving one that resolves nowhere at all. */
+DECLARE_FAMILY(flash_new_mivec_target, MIVEC_RPM_N, MIVEC_LOAD_N, "LoadExtendedMaps", "MIVEC Target", "ValveTiming",
                "DDflash_new_mivec_load_axis", "DXflash_mivec_target_rpm_axis", flash_mivec_target_stock,
                flash_mivec_load_axis_stock);

@@ -37,6 +37,20 @@ s_divu16			= 0x79c8;
    0x10aa0 + (-5603 * 4) = 0xb314.  Task 4 hijacks that call site. */
 adc_convert_mode_input		= 0xb314;
 
+/* update_multimode_selection(): entry at 0x10a9c ("push lr || nop",
+   2e 7f f0 00), ending "pop lr -> jmp lr" at 0x10c54 (2e ef 1f ce).  Three callers in
+   the image, found by scanning BOTH bl encodings over raw bytes:
+     - 0x1008c and 0x10414, 32-bit "bl" (fe 00 02 84 / fe 00 01 a2), both
+       on the init path reached from main_loop's pre-loop prologue
+       (0x4e13c -> 0x10064, 0x10188 -> 0x103f8), i.e. once per power-up;
+     - 0x109e0, the 16-BIT form "7e 2f" (|| nop) inside
+       base_engine_state_update (0x109dc), which main_loop calls at
+       0x4e178 inside its `bra 0x4e148` loop -- the per-iteration caller.
+   A 32-bit-bl-only scan sees only the two init callers, which is how the
+   per-iteration clobber of mode_idx at 0x10ae8 went unnoticed.  The
+   mode_bridge wrapper hijacks 0x109e0; see mode_bridge.c and omni.ld. */
+update_multimode_selection	= 0x10a9c;
+
 /* ------------------------------------------------------------------ */
 /* stock RAM — mode selector inputs                                    */
 /* ------------------------------------------------------------------ */
@@ -144,10 +158,19 @@ decays_x1_alt_mode_change_cel_flash_timer = 0x804868;
  *
  * The block sits in the seam between two independently hand-decoded stock
  * structures, which is why it is free:
- *   - some_ram_checksum_104e4 (0x104e4) computes
- *     sum8_to16(fp-14792, 14792-14364) = sum8_to16(0x804638, 428) --
- *     confirmed from raw bytes at 0x104f8 (`add3 r2,fp,#-14364`) -- i.e. it
- *     sums exactly [0x804638,0x8047E4) and stops there.
+ *   - some_ram_checksum_104e4 (0x104e4) makes FOUR sum8_to16 (0x4e5fc)
+ *     calls, each `add3 rN,fp,#-end` minus `add3 rM,fp,#-start` for the
+ *     length and `#-start` for the pointer.  Hand-decoded from the raw
+ *     bytes at 0x104ec-0x10540 (80adc58e 81adc016 / 82adc7e4 83adc638 /
+ *     81adecac 82ade8a0 / 81adc7d9 82adc7c4), fp = 0x808000:
+ *         sum8_to16(0x804016, 1400) -> [0x804016,0x80458E)
+ *         sum8_to16(0x804638,  428) -> [0x804638,0x8047E4)
+ *         sum8_to16(0x8068A0, 1036) -> [0x8068A0,0x806CAC)
+ *         sum8_to16(0x8047C4,   21) -> [0x8047C4,0x8047D9)
+ *     The endpoint this block's argument rests on is the second range's:
+ *     it stops at 0x8047E4 (from `add3 r2,fp,#-14364` at 0x104f8), and
+ *     the fourth range ends earlier still, at 0x8047D9.  Nothing summed
+ *     reaches [0x8047E6,0x804800).
  *   - the bulk boot memzero (0x10400: `add3 r0,fp,#-14336` -> `bl 0x762c`)
  *     zeroes [0x804800,0x806478) and starts there, not before.
  *   [0x8047E4,0x804800) -- 28 bytes -- is neither summed nor zeroed: pure
@@ -272,6 +295,27 @@ decays_x1_canrx1_etacts_long	= 0x8049C6;	/* reloaded at 0x2ce08; inside
  *
  * fp-9906 = 0x808000 - 9906 = 0x80594E.
  *
+ * DTC FAIL-SAFE (deliberately NOT overridden): the store above is the
+ * else-half of a branch on a fault flag, cropped out of every excerpt in
+ * the task reports and of the one in dash_mode_rpm.c:
+ *
+ *     2c78c: lduh r1,@(-15950,fp)      # fp15950_f16 @ 0x8041B2
+ *     2c790: slli r1,#0x11 -> addx r1,r1   # C = bit 0x4000
+ *     2c794: bnc 0x2c7a8               # clear -> take the store branch
+ *     2c798: ldi r2,#-1 ; srli r2,#0x18    # r2 = 0xFF
+ *     2c79c: stb r2,@(-6231,fp)        # can_tx2_id3_source[1] = 0xFF
+ *     2c7a0: stb r2,@(-6230,fp)        # can_tx2_id3_source[2] = 0xFF
+ *     2c7a4: bra 0x2c7c4
+ *     2c7a8: ... (the engine_rpm_direct_bound store quoted above)
+ *
+ * i.e. `if (fp15950_f16 & 0x4000) { send 0xFF,0xFF } else { store }`.
+ * With that DTC bit set the cluster is told "tach signal invalid" and
+ * engine_rpm_direct_bound is not transmitted at all.  This patch writes
+ * only the RAM variable and never touches 0x2c78c-0x2c7a4, so the
+ * fail-safe still wins: under that fault the mode indication simply does
+ * not appear.  That is intended -- suppressing a real tach-invalid
+ * indication to show a cosmetic mode confirmation would be a regression.
+ *
  * Two INDEPENDENT sources corroborate, per triangulating-tool-output:
  *   1. Instruction decoding above (colt_commented.S, disassembly).
  *   2. z37a_mt_2005/can_protocol.txt's hand-written frame layout notes,
@@ -343,8 +387,29 @@ vehicle_movement_decay		= 0x804D8A;
 temp_axis_src			= 0x804BE0;	/* calc_axis src slot, matches
 						   -DTEMP_AXIS_SRC_SDA=-13344 */
 
-/* TODO: confirm via rom-analyzer — not present anywhere in z37a_mt_2005 */
-sensor_faults			= 0x0; /* TODO: confirm via rom-analyzer */
+/* sensor_faults: fp-12894 = 0x808000 - 12894 = 0x804DA2.  Proven from
+   its bit-0x08 read-modify-write pair, decoded from raw bytes:
+     12040: 84 ad cd a2  add3 r4,fp,#-12894
+     12044: 20 b4 61 08  lduh r0,@r4 -> ldi r1,#8
+     12048: 00 e1 20 24  or   r0,r1  -> sth r0,@r4      ; |= 0x08
+     1205c: 85 ad cd a2  add3 r5,fp,#-12894
+     12060: 20 b5 61 f7  lduh r0,@r5 -> ldi r1,#-9
+     12064: 00 c1 20 25  and  r0,r1  -> sth r0,@r5      ; &= ~0x08
+   guarded by a sensor-plausibility test at 0x12034 whose else-branch
+   reloads the fault threshold from flash 0x52026.  A full scan of both
+   addressing forms (`@(0xcda2,fp)` load/store and `add3 rN,fp,#-12894`)
+   finds exactly 81 accesses across the image -- a heavily-used live
+   variable, not slack.  Semantics corroborated independently by
+   src/revolution_limit.c, which reads `sensor_faults & 0x08` to pick
+   flash_maf_fault_revolution_period_limit: the same bit this pair sets.
+   Consistent with mode_selector_flags below, whose own derivation already
+   names "sensor_faults at fp-12894, used 81 times" as its neighbour.
+
+   The remaining six TODO bindings below are a separate, pre-existing
+   cleanup and are deliberately left alone here.  NOTE: `= 0x0` makes a
+   future reference a silent write to address 0; prefer leaving a symbol
+   UNBOUND (as adc_byte_ac_pressure is, below) so the link fails loudly. */
+sensor_faults			= 0x804DA2;
 overrev_spark_limit		= 0x0; /* TODO: confirm via rom-analyzer */
 init_overrev_spark_limit	= 0x0; /* TODO: confirm via rom-analyzer */
 overrev_spark_limit_dec_step	= 0x0; /* TODO: confirm via rom-analyzer */
