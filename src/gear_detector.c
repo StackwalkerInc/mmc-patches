@@ -31,7 +31,8 @@ static void update_gear_flags()
 	uint16_t l_gear_ratio = s16_divu32_16(readu16(can_vehicle_speed) << 16, readu16(engine_rpm));
 #endif
 	uint16_t l_cgear = readu8(calculated_gear);
-	if ((l_cgear >= 1) && (l_cgear <= 6) && (l_gear_ratio > flash_gear_thresholds[l_cgear - 1].low_out)
+	if ((l_cgear >= 1) && (l_cgear <= itemsof(flash_gear_thresholds))
+	    && (l_gear_ratio > flash_gear_thresholds[l_cgear - 1].low_out)
 	    && (l_gear_ratio < flash_gear_thresholds[l_cgear - 1].high_out)) {
 		return;
 	}
