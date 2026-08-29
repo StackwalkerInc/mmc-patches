@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-DOCKER_IMAGE = ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
+DOCKER_IMAGE = ghcr.io/stackwalkerinc/m32r-injector-toolchain:latest
 
 export ROM_DIR ?= $(CURDIR)/roms
 export OUT_DIR ?= $(CURDIR)/out

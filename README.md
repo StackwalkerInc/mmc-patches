@@ -28,7 +28,7 @@ applies the patches and produces a ready-to-flash `.bin` and an EcuFlash `.xml` 
 ## Build environment
 
 The canonical build environment is
-[`ghcr.io/rcusstackwalker/m32r-injector-toolchain`](https://github.com/RcusStackwalker/m32r-injector-toolchain),
+[`ghcr.io/stackwalkerinc/m32r-injector-toolchain`](https://github.com/StackwalkerInc/m32r-injector-toolchain),
 which bundles `m32r-elf-gcc`, `m32r-elf-ld`, and `codeinjector`.
 
 No local toolchain installation required — Docker is the only prerequisite.
@@ -56,7 +56,7 @@ ROMs, substitute the filename and output IDs from `manifest.toml`.
 
    ```sh
    docker run --rm -v "$PWD:/work" -w /work \
-     ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest \
+     ghcr.io/stackwalkerinc/m32r-injector-toolchain:latest \
      make ROM_DIR=/work/roms OUT_DIR=/work/out
    ```
 
@@ -74,7 +74,7 @@ and stock ROM you can skip building from source and patch directly (example for 
 
 ```sh
 docker run --rm -v "$PWD:/work" -w /work \
-  ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest \
+  ghcr.io/stackwalkerinc/m32r-injector-toolchain:latest \
   sh -c 'codeinjector mmc-m32r roms/Z27AG_JDM_5MT_1860B104.bin \
          3352a403.elf out/3352a403_patched.bin > out/3352a403_patches.xml'
 ```
