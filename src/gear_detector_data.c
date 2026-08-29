@@ -48,20 +48,19 @@
    match. */
 
 #if MACHINE_Z27AGMT
-/* Colt Ralliart Version-R Z27AG, F5MGB.
+/* Colt Ralliart Version-R Z27AG, F5MGB -- same gearbox as Z37A, different
+   ROM scaling.
 
-   NOTE: these are literal thresholds, not derived, because they are wrong.
-   Gears 1-2 match F5MGB exactly (implied 3.538 / 1.913); gears 3-5 imply
-   1.434 / 1.100 / 0.868 against the published 1.344 / 1.027 / 0.833 -- note
-   1.434 vs 1.344, a transposition -- and entry 6 implies a 0.693 sixth gear
-   that a five-speed does not have. Its band starts 5711 counts above the
-   highest ratio any real gear produces, so it can never match.
-
-   Corrected in the following commit; kept verbatim here so this commit is
-   provably byte-identical on the two shipped 33520003 targets. */
+   Previously these were literal thresholds carrying three errors: gears 3-5
+   implied ratios of 1.434 / 1.100 / 0.868 against the published
+   1.344 / 1.027 / 0.833 (note 1.434 vs 1.344, a transposition), and a sixth
+   entry implied a 0.693 gear that a five-speed does not have. Gears 1-2 were
+   already exact, which is what identified the set as F5MGB. */
+#define GEARBOX_SCALE 33858.66
 const struct gear_threshold flash_gear_thresholds[6] = {
-    GEAR_THRESHOLD_DEF(9570, 1000, 1500),  GEAR_THRESHOLD_DEF(17699, 1500, 2000), GEAR_THRESHOLD_DEF(23611, 2000, 2500),
-    GEAR_THRESHOLD_DEF(30781, 2500, 3000), GEAR_THRESHOLD_DEF(39008, 2500, 3000), GEAR_THRESHOLD_DEF(48858, 2500, 3000),
+    GEAR_THRESHOLD_RATIO(F5MGB_G1, 1000, 1500), GEAR_THRESHOLD_RATIO(F5MGB_G2, 1500, 2000),
+    GEAR_THRESHOLD_RATIO(F5MGB_G3, 2000, 2500), GEAR_THRESHOLD_RATIO(F5MGB_G4, 2500, 3000),
+    GEAR_THRESHOLD_RATIO(F5MGB_G5, 2500, 3000), GEAR_THRESHOLD_RATIO(F5MGB_G5, 2500, 3000),
 };
 #elif MACHINE_Z37A_MT
 /* Colt CZT Z37A, F5MGB -- same gearbox as Z27AG, different ROM scaling. */
