@@ -8,7 +8,7 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/rcusstackwalker/m32r-injector-toolchain:latest
+      image: ghcr.io/stackwalkerinc/m32r-injector-toolchain:latest
 
     steps:
       - uses: actions/checkout@v4
