@@ -5,22 +5,13 @@
    mmc-research patch scope: o2 rear-channel hijack + EDM APPS->TTP
    table descriptions. */
 
-/*math*/
-s_add16 = 0x7600;
-s_add32 = 0x7620;
-s_16to8 = 0x7694;
-s_32to16 = 0x76a8;
-mid16 = 0x76b8;
-s_sub16 = 0x7f80;
-s_sub32 = 0x7f98;
-s16_divu32_16 = 0x79e8;
-map8u16	 = 0x4e664;
-mapu16 = 0x4e734;
-calc_axis = 0x4e8cc;
-multimap8u16 = 0x4e7ec;
-multiu8 = 0x4e83c;
-multiu16 = 0x4e84c;
-aprxu16_255 = 0x7b54;
+/* Stock math/map library: this ROM splits it, with the scalar helpers and
+   pushi/popi inside the bootloader region below 0x8000. */
+MATH_PUSHI_BASE = 0x3910;
+MATH_BASE       = 0x7600;
+MATH_MAP_BASE   = 0x4e664;
+
+INCLUDE ../../math-symbols.ld
 
 /* idle/torque tables */
 flash_idle_coolant_axis = 0x4ee26;
@@ -49,7 +40,6 @@ adc_byte_o2_front = 0x804c80;
 adc_byte_o2_rear = 0x804c84;
 adc_byte_o2_rear_replacement = 0x804c82;
 adc_full_o2_rear_replacement = 0x804c7e;
-ps_divu16 = 0x7a1c;
 
 
 vehicle_speed_hires		= 0x804d84;	/* @(-12924,fp); compared against state_threshold */
@@ -60,8 +50,6 @@ flash_can_tx2_done_index = 0x9524;
 flash_can_tx2_done_mask = 0x952b;
 can_tx2_request = 0x41820;
 
-pushi = 0x3910;
-popi = 0x3928;
 
 mut_table_start = 0x3f484;
 scale_can_vehicle_speed = 0x14420;
