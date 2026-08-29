@@ -72,4 +72,33 @@ DECLARE_3DMAP16(name, _xsize, _ysize)
 DECLARE_2DMAP16_DESC(name, category, username, scaling, xaxisname); \
 DECLARE_2DMAP16(name, _xsize)
 
+/* Build-time seeding: codeinjector fills the body (and every structural
+   field) from the stock ROM, so the C carries only names and dimensions.
+   Record layout must match codeinjector's src/seed.rs: 16 bytes,
+   { u32 kind; u32 dst; u32 src; u32 src_yaxis }. */
+#define SEED_KIND_AXIS    1
+#define SEED_KIND_MAP3D8  2
+
+struct seed_record {
+	unsigned long kind;
+	const void *dst;
+	const void *src;
+	const void *src_yaxis;
+};
+
+#define _DECLARE_SEED(name, kind, stock, stock_yaxis)                                                                  \
+	const struct seed_record __attribute__((section("data_seed"))) DS##name = {                                        \
+	    (kind), (const void *)&name, (const void *)(stock), (const void *)(stock_yaxis)}
+
+#define DECLARE_AXIS_SEEDED(name, _size, username, scaling, stock_axis)                                                \
+	DECLARE_AXIS_DESC(name, _size, username, scaling);                                                                 \
+	DECLARE_AXIS(name, _size) = {0};                                                                                   \
+	_DECLARE_SEED(name, SEED_KIND_AXIS, stock_axis, 0)
+
+#define DECLARE_3DMAP8_SEEDED(name, _xsize, _ysize, category, username, scaling, xaxisname, yaxisname, stock_map,       \
+                              stock_yaxis)                                                                             \
+	DECLARE_3DMAP8_DESC(name, category, username, scaling, xaxisname, yaxisname);                                      \
+	DECLARE_3DMAP8(name, _xsize, _ysize) = {0};                                                                        \
+	_DECLARE_SEED(name, SEED_KIND_MAP3D8, stock_map, stock_yaxis)
+
 #endif /*META_MAPS_DESC_H*/
