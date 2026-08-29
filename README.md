@@ -110,7 +110,6 @@ m32r/
     common.ld                 shared linker symbols for this stock ROM's variants
     z27ag_mt_2006/            full patch set (3352a403)
     slim/                     slim variant (3352a3a3)
-    rolling_spark_cut/        rolling spark-cut variant (3352a4a3)
   35740031/z27a_cvt_2005/     Z27A JDM CVT
   39670016/z27a_mt_audm/      Z27A AUDM 5MT
   47110032/                   Colt CZT Z37A (stock ROM ID)

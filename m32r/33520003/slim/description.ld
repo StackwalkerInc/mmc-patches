@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 INCLUDE ../common.ld
 
-/* Symbols unique to the slim variant (not needed by z27ag_mt_2006 or
-   rolling_spark_cut). */
+/* Symbols unique to the slim variant (not needed by z27ag_mt_2006). */
 post_fuel_cut_enrichment = 0x805012;
 decays_x1_gear_unstable = 0x804966;
 calculated_gear = 0x805088;
