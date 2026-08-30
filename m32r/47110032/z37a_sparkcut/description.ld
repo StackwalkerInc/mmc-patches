@@ -62,6 +62,11 @@ update_multimode_selection	= 0x10a9c;
    at 0x10aa4 — a different variable that used to carry this name here.) */
 mode_idx			= 0x804DA0;
 
+/* stock ADC mode input, consumed by 0x10aa4 as (adc_byte_mode >> 5) & 7;
+   0x808000 - 13112 = 0x804CC8.  Written by the 0xb314 stub, which the
+   0x10aa0 hijack replaces. */
+adc_byte_mode			= 0x804CC8;
+
 /* incremented by the 1-per-tick age sweep at 0x12abc,
    sat_array_add16(0x804808, 0x804828, tick_delta); zeroed at 0x11454
    when ignition_decay lapses.  0x808000 - 14324 = 0x80480C. */
