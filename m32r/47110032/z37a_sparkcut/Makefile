@@ -1,9 +1,30 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-DEFINES += -DSMALL_DATA_AREA_BASE=0x808000
+DEFINES += -DSMALL_DATA_AREA_BASE=0x808000 \
+	-DMACHINE_Z37A_MT \
+	-DCLUTCH_INPUT_INVERTED \
+	-DTEMP_AXIS_SRC_SDA=-13344 \
+	-DTEMP_AXIS_TARGET_X_SDA=-13338 \
+	-DTEMP_AXIS_TARGET_Y_SDA=-13336 \
+	-DMAP_ENGINE_LOAD_POINTER=-13008 \
+	-DOVERREV_FUEL_ENRICHMENT_DISABLED
+
+# Enable only after bench-confirming set_dtc(0,3) is safe pre-init; see
+# docs/superpowers/specs/2026-08-26-z37a-top128k-extended-maps-design.md
+# DEFINES += -DGUARD_RAISE_P0606
 
 ROM_HINT = (Colt CZT Z37A 1.5T 5MT 2005 EDM)
 
-SOURCES = spark_cut.c
+SOURCES = ../../../src/rolling_spark_cut.c \
+	../../../src/knock_mil_simple.c \
+	../../../src/knock_mil_data.c \
+	../../../src/gpio_outputs_hijack.c \
+	../../../src/mode_selector_v2.c \
+	../../../src/mode_selector_v2_data.c \
+	../src/etacs_handler_extended.c \
+	extended_maps.c \
+	mode_bridge.c \
+	dash_mode_rpm.c \
+	top_region_guard.c
 
 ELF_OUT_FILE    = 4711a132.elf
 BIN_OUT_FILE    = $(OUT_DIR)/4711a132_patched.bin
